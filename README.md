@@ -1,0 +1,2 @@
+# StudentManagement
+Java講座で作成する生徒管理システム
