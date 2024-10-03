@@ -17,7 +17,6 @@ StudentManagementApplication {
 
 	@GetMapping("/hello")
 	public String hello(){
-		StringUtils.isAllBlank("は　は");
 		return "Hello,World!";
 	}
 
