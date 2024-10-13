@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @SpringBootApplication
 @RestController
-public class
-StudentManagementApplication {
+public class StudentManagementApplication {
 
 	private String name = "Narita Kensuke";
 	private String age = "24";
@@ -59,5 +58,6 @@ StudentManagementApplication {
 		this.students.remove(beforename);
 		this.students.put(aftername,studentname);
 	}
+
 
 }
