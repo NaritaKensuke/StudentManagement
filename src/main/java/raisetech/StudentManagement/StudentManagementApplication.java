@@ -1,5 +1,8 @@
 package raisetech.StudentManagement;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class StudentManagementApplication {
 
+	private List<String> names = new ArrayList<>();
+
 	@Autowired
 	private StudentRepository repository;
 
@@ -22,9 +27,14 @@ public class StudentManagementApplication {
 	}
 
 	@GetMapping("/student")
-	public String getStudent(@RequestParam String name){
+	public Student getStudent(@RequestParam String name) {
 		Student student = repository.searchByName(name);
-		return student.getName() + " " + student.getAge() + "歳";
+		return student;
+	}
+
+	@GetMapping("/students")
+	public List<Student> getStudents() throws SQLException {
+		return repository.selectAll();
 	}
 
 	@PostMapping("/student")
