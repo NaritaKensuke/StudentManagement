@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymleaf.org">
+<html xmlns:th="http://www.thymleaf.org", lang="jp">
 <head>
   <title>受講生一覧</title>
 </head>
@@ -21,7 +21,7 @@
   </thead>
   <tbody>
   <tr th:each="studentDetail : ${studentList}">
-    <td th:text="${studentDetail.student.id}">1</td>
+    <td th:text="${studentDetail.student.studentId}">1</td>
     <td th:text="${studentDetail.student.name}">林正人</td>
     <td th:text="${studentDetail.student.nameReading}">はやしまさと</td>
     <td th:text="${studentDetail.student.nickname}">まさー</td>
