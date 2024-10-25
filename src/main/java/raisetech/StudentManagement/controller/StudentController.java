@@ -50,7 +50,7 @@ public class StudentController {
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
     if(result.hasErrors()){
-      return "registerStudent";
+      return "typeError";
     }
     //新規受講生情報を登録する
     service.registerStudentDetail(studentDetail);
