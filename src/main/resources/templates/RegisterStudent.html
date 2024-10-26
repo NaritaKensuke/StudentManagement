@@ -52,6 +52,25 @@
   </div>
   <p></p>
   <div>
+    <label for="courseName">コースID:</label>
+    <input type="text" id="courseId" th:field="*{studentCourse.courseId}" required>
+  </div>
+  <p></p>
+  <div>
+    <label for="courseName">コース名:</label>
+    <input type="text" id="courseName" th:field="*{studentCourse.courseName}" required>
+  </div>
+  <p></p>
+  <div>
+    <label for="courseName">受講開始日:</label>
+    <input type="text" id="statedDate" th:field="*{studentCourse.startedDate}" required>
+  </div>
+  <p></p>
+  <div>
+    <label for="courseName">受講終了予定日:</label>
+    <input type="text" id="finishDate" th:field="*{studentCourse.finishDate}" required>
+  </div>
+  <div>
     <button type="submit">登録</button>
   </div>
 </form>

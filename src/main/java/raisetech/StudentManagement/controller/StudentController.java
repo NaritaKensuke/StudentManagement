@@ -36,9 +36,16 @@ public class StudentController {
     return "studentList";
   }
 
-  @GetMapping("/studentsCoursesList")
-  public List<StudentCourse> getStudentsCourseList(){
-    return service.searchStudentsCoursesList();
+  @GetMapping("/studentCourseList")
+  public String getStudentsCourseList(Model model){
+    List<Student> students = service.searchStudentList();
+    List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
+
+    List<StudentCourse> studentCourseList = converter.convertStudentCourse(
+        converter.convertStudentDetails(students, studentsCourses));
+
+    model.addAttribute("studentCourseList", studentCourseList);
+    return "studentCourseList";
   }
 
   @GetMapping("/newStudent")
@@ -54,6 +61,8 @@ public class StudentController {
     }
     //新規受講生情報を登録する
     service.registerStudentDetail(studentDetail);
+    //受講生コース情報を登録する
+    service.registerStudentCourseDetail(studentDetail);
     return "redirect:/studentList";
   }
 }

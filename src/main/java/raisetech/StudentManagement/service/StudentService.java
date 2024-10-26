@@ -30,4 +30,11 @@ public class StudentService {
     Student studentInfo = studentDetail.getStudent();
     repository.insertStudent(studentInfo);
   }
+
+  public void registerStudentCourseDetail(StudentDetail studentDetail) {
+    StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
+    studentCourseDetail.setStudentId(studentDetail.getStudent().getStudentId());
+
+    repository.insertStudentCourse(studentCourseDetail);
+  }
 }

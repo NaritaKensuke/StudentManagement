@@ -19,4 +19,8 @@ public interface StudentRepository {
   @Insert("INSERT students values(#{studentId},#{name},#{nameReading},#{nickname},"
       + "#{mailAddress},#{city},#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
+
+  @Insert("INSERT students_courses values(#{studentId},#{courseId},#{courseName},#{startedDate},"
+      + "#{finishDate})")
+  void insertStudentCourse(StudentCourse studentCourse);
 }

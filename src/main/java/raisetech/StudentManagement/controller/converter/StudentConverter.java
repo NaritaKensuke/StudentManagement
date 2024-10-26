@@ -21,9 +21,16 @@ public class StudentConverter {
           .filter(studentCourse -> student.getStudentId().equals(studentCourse.getStudentId()))
           .collect(Collectors.toList());
 
-      studentDetail.setStudentCourse(convertStudentsCourses);
+      studentDetail.setStudentCourseList(convertStudentsCourses);
       studentDetails.add(studentDetail);
     });
     return studentDetails;
+  }
+
+  public List<StudentCourse> convertStudentCourse(List<StudentDetail> studentDetails){
+    List<StudentCourse> studentCourseList = new ArrayList<>();
+    studentDetails.forEach(
+        studentDetail -> studentDetail.getStudentCourseList().forEach(studentCourseList::add));
+    return studentCourseList;
   }
 }
