@@ -40,11 +40,10 @@ public class StudentController {
   //コース情報表示
   @GetMapping("/studentCourseList")
   public String getStudentsCourseList(Model model){
-    List<Student> students = service.searchStudentList();
     List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
 
-    List<StudentCourse> studentCourseList = converter.convertStudentCourse(
-        converter.convertStudentDetails(students, studentsCourses));
+    List<StudentCourse> studentCourseList =
+        converter.sortStudentCourseCourseId(studentsCourses);
 
     model.addAttribute("studentCourseList", studentCourseList);
     return "studentCourseList";
