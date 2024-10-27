@@ -10,6 +10,7 @@ import raisetech.StudentManagement.domain.StudentDetail;
 
 @Component
 public class StudentConverter {
+  //受講生情報とコース情報が受講生ID順に並ぶように並び替え
   public List<StudentDetail> convertStudentDetails(List<Student> students,
       List<StudentCourse> studentsCourses) {
     List<StudentDetail> studentDetails = new ArrayList<>();
@@ -27,6 +28,7 @@ public class StudentConverter {
     return studentDetails;
   }
 
+  //StudentDetailリストからStudentCourseのみ取り出してリスト化
   public List<StudentCourse> convertStudentCourse(List<StudentDetail> studentDetails){
     List<StudentCourse> studentCourseList = new ArrayList<>();
     studentDetails.forEach(

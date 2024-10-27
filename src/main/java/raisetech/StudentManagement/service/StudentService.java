@@ -18,19 +18,23 @@ public class StudentService {
     this.repository = repository;
   }
 
+  //リポジトリから受講生情報を受け取りコントローラーに渡す
   public List<Student> searchStudentList() {
     return repository.searchStudent();
   }
 
+  //リポジトリからコース情報を受け取りコントローラーに渡す
   public List<StudentCourse> searchStudentsCoursesList(){
     return repository.searchStudentsCourses();
   }
 
+  //受講生情報をリポジトリに渡す
   public void registerStudentDetail(StudentDetail studentDetail){
     Student studentInfo = studentDetail.getStudent();
     repository.insertStudent(studentInfo);
   }
 
+  //コース情報をリポジトリに渡す
   public void registerStudentCourseDetail(StudentDetail studentDetail) {
     StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
     studentCourseDetail.setStudentId(studentDetail.getStudent().getStudentId());

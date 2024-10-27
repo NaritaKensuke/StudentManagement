@@ -26,6 +26,7 @@ public class StudentController {
     this.converter = converter;
   }
 
+  //受講生情報表示
   @GetMapping("/studentList")
   public String getStudentList(Model model) {
     List<Student> students = service.searchStudentList();
@@ -36,6 +37,7 @@ public class StudentController {
     return "studentList";
   }
 
+  //コース情報表示
   @GetMapping("/studentCourseList")
   public String getStudentsCourseList(Model model){
     List<Student> students = service.searchStudentList();
@@ -48,12 +50,14 @@ public class StudentController {
     return "studentCourseList";
   }
 
+  //受講生情報登録画面
   @GetMapping("/newStudent")
   public String newStudent(Model model){
     model.addAttribute("studentDetail", new StudentDetail());
     return "registerStudent";
   }
 
+  //受講生情報、コース情報登録
   @PostMapping("/registerStudent")
   public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
     if(result.hasErrors()){
