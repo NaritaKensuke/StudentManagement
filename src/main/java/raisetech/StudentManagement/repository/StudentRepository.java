@@ -20,7 +20,7 @@ public interface StudentRepository {
       + "#{mailAddress},#{city},#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
 
-  @Insert("INSERT students_courses values(#{studentId},#{courseId},#{courseName},#{startedDate},"
+  @Insert("INSERT students_courses values(#{uniqueId}, #{studentId},#{courseId},#{courseName},#{startedDate},"
       + "#{finishDate})")
   void insertStudentCourse(StudentCourse studentCourse);
 }
