@@ -1,6 +1,7 @@
 package raisetech.StudentManagement.controller.converter;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import raisetech.StudentManagement.domain.StudentDetail;
 
 @Component
 public class StudentConverter {
+  //受講生情報とコース情報が受講生ID順に並ぶようにソート
   public List<StudentDetail> convertStudentDetails(List<Student> students,
       List<StudentCourse> studentsCourses) {
     List<StudentDetail> studentDetails = new ArrayList<>();
@@ -21,9 +23,32 @@ public class StudentConverter {
           .filter(studentCourse -> student.getStudentId().equals(studentCourse.getStudentId()))
           .collect(Collectors.toList());
 
-      studentDetail.setStudentCourse(convertStudentsCourses);
+      studentDetail.setStudentCourseList(convertStudentsCourses);
       studentDetails.add(studentDetail);
     });
     return studentDetails;
   }
+
+  //StudentDetailリストからStudentCourseのみ取り出してリスト化
+  public List<StudentCourse> convertStudentCourse(List<StudentDetail> studentDetails){
+    List<StudentCourse> studentCourseList = new ArrayList<>();
+    studentDetails.forEach(
+        studentDetail -> studentCourseList.addAll(studentDetail.getStudentCourseList()));
+
+    return studentCourseList;
+  }
+
+  //コース情報をコースIDでソート
+  public List<StudentCourse> sortStudentCourseCourseId(List<StudentCourse> studentsCourses){
+    List<String> courseIdList =
+        new ArrayList<>(Arrays.asList("C1", "C2", "C3", "C4", "C5"));
+
+    List<StudentCourse> sortStudentsCourses = new ArrayList<>();
+    courseIdList.forEach(courseId -> {
+      studentsCourses.stream().filter(studentCourse ->
+          studentCourse.getCourseId().equals(courseId)).forEach(sortStudentsCourses::add);
+    });
+    return sortStudentsCourses;
+  }
+
 }
