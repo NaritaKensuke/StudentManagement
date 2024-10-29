@@ -42,6 +42,14 @@ public class StudentService {
   public void registerStudentCourseDetail(StudentDetail studentDetail) {
     StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
 
+    switch (studentCourseDetail.getCourseName()) {
+      case "Java" -> studentCourseDetail.setCourseId("C1");
+      case "英会話" -> studentCourseDetail.setCourseId("C2");
+      case "デザイン" -> studentCourseDetail.setCourseId("C3");
+      case "Phython" -> studentCourseDetail.setCourseId("C4");
+      case "AWS" -> studentCourseDetail.setCourseId("C5");
+      case "マーケティング" -> studentCourseDetail.setCourseId("C6");
+    }
     studentCourseDetail.setStudentId(repository.searchStudent().getLast().getStudentId());
     studentCourseDetail.setStartedDate(LocalDate.now());
     studentCourseDetail.setFinishDate(LocalDate.now().plusMonths(6));

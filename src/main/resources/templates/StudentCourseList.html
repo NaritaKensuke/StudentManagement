@@ -9,8 +9,8 @@
     <thead>
     <tr>
       <th>コースID</th>
-      <th>受講生ID</th>
       <th>コース名</th>
+      <th>受講生ID</th>
       <th>受講開始日</th>
       <th>受講終了日</th>
     </tr>
@@ -18,8 +18,8 @@
     <tbody>
     <tr th:each="studentCourse : ${studentCourseList}">
       <td th:text="${studentCourse.courseId}">C1</td>
-      <td th:text="${studentCourse.studentId}">1</td>
       <td th:text="${studentCourse.courseName}">Java</td>
+      <td th:text="${studentCourse.studentId}">1</td>
       <td th:text="${studentCourse.startedDate}">2023-01-01</td>
       <td th:text="${studentCourse.finishDate}">2024-01-02</td>
     </tr>

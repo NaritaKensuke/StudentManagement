@@ -47,13 +47,15 @@
   </div>
   <p></p>
   <div>
-    <label for="courseId">コースID:</label>
-    <input type="text" id="courseId" th:field="*{studentCourse.courseId}" required>
-  </div>
-  <p></p>
-  <div>
     <label for="courseName">コース名:</label>
-    <input type="text" id="courseName" th:field="*{studentCourse.courseName}" required>
+    <select id="courseName" th:field="*{studentCourse.courseName}" required>
+      <option value="Java">Java</option>
+      <option value="英語">英会話</option>
+      <option value="デザイン">デザイン</option>
+      <option value="Phython">Phython</option>
+      <option value="AWS">AWS</option>
+      <option value="マーケティング">マーケティング</option>
+    </select>
   </div>
   <div>
     <button type="submit">登録</button>
