@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org", lang="jp">
+<head>
+  <title>受講生情報更新</title>
+</head>
+<body>
+<h1>受講生情報更新</h1>
+<p th:text="'受講生ID:' + ${studentDetail.student.studentId}">2</p>
+<form th:action="@{/updateStudent(studentId=${studentDetail.student.studentId})}"
+      th:object="${studentDetail}" method="post">
+  <div>
+    <label for="name">名前:</label>
+    <input type="text" id="name" th:field="*{student.name}">
+  </div>
+  <div>
+    <label for="nameReading">ふりがな:</label>
+    <input type="text" id="nameReading" th:field="*{student.nameReading}">
+  </div>
+  <p></p>
+  <div>
+    <label for="nickname">ニックネーム:</label>
+    <input type="text" id="nickname" th:field="*{student.nickname}">
+  </div>
+  <p></p>
+  <div>
+    <label for="mailAddress">メールアドレス:</label>
+    <input type="text" id="mailAddress" th:field="*{student.mailAddress}">
+  </div>
+  <p></p>
+  <div>
+    <label for="city">居住地:</label>
+    <input type="text" id="city" th:field="*{student.city}">
+  </div>
+  <p></p>
+  <div>
+    <label for="age">年齢:</label>
+    <input type="text" id="age" th:field="*{student.age}">
+  </div>
+  <p>※年齢は数字のみ記入</p>
+  <div>
+    <label for="gender">性別:</label>
+    <input type="text" id="gender" th:field="*{student.gender}">
+  </div>
+  <p></p>
+  <div>
+    <label for="remark">備考:</label>
+    <input type="text" id="remark" th:field="*{student.remark}">
+  </div>
+  <p></p>
+  <div>
+    <label for="courseName">コース名:</label>
+    <select id="courseName" th:field="*{studentCourse.courseName}">
+      <option value=""></option>
+      <option value="Java">Java</option>
+      <option value="英語">英会話</option>
+      <option value="デザイン">デザイン</option>
+      <option value="Phython">Phython</option>
+      <option value="AWS">AWS</option>
+      <option value="マーケティング">マーケティング</option>
+    </select>
+  </div>
+  <div>
+    <button type="submit">更新</button>
+  </div>
+</form>
+</body>
+</html>

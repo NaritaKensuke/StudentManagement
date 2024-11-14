@@ -56,4 +56,30 @@ public class StudentService {
 
     repository.insertStudentCourse(studentCourseDetail);
   }
+
+  @Transactional
+  public void updateStudent(StudentDetail studentDetail){
+    if (!(studentDetail.getStudent().getName().isEmpty())){
+      repository.updateStudentName(studentDetail.getStudent());
+    }
+    if (!(studentDetail.getStudent().getNameReading().isEmpty())){
+      repository.updateStudentNameReading(studentDetail.getStudent());
+    }
+    if (!(studentDetail.getStudent().getNickname().isEmpty())){
+      repository.updateStudentNickName(studentDetail.getStudent());
+    }
+    if (!(studentDetail.getStudent().getMailAddress().isEmpty())){
+      repository.updateStudentMailAddress(studentDetail.getStudent());
+    }
+    if (!(studentDetail.getStudent().getCity().isEmpty())){
+      repository.updateStudentCity(studentDetail.getStudent());
+    }
+    if (!(studentDetail.getStudent().getAge() == 0)){
+      repository.updateStudentAge(studentDetail.getStudent());
+    }
+    if (!(studentDetail.getStudent().getGender().isEmpty())){
+      repository.updateStudentGender(studentDetail.getStudent());
+    }
+    repository.updateStudentRemark(studentDetail.getStudent());
+  }
 }
