@@ -80,7 +80,7 @@ public class StudentService {
     if (!(studentDetail.getStudent().getGender().isEmpty())){
       repository.updateStudentGender(studentDetail.getStudent());
     }
-    if (!(studentDetail.getStudent().getGender().isEmpty())) {
+    if (!(studentDetail.getStudent().getRemark().isEmpty())) {
       repository.updateStudentRemark(studentDetail.getStudent());
     }
   }
