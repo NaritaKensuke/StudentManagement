@@ -21,7 +21,10 @@
   </thead>
   <tbody>
   <tr th:each="studentDetail : ${studentList}">
-    <td th:text="${studentDetail.student.studentId}">1</td>
+    <td>
+      <a th:href="@{/renewalStudent(studentId=${studentDetail.student.studentId})}"
+         th:text="${studentDetail.student.studentId}">1</a>
+    </td>
     <td th:text="${studentDetail.student.name}">林正人</td>
     <td th:text="${studentDetail.student.nameReading}">はやしまさと</td>
     <td th:text="${studentDetail.student.nickname}">まさー</td>
@@ -32,6 +35,7 @@
     <td th:text="${studentDetail.student.remark}">特になし</td>
   </tr>
   </tbody>
+
 </table>
   <button onclick="location.href='/studentCourseList'">コース情報一覧へ</button>
 </body>
