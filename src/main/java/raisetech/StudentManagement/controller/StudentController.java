@@ -71,7 +71,7 @@ public class StudentController {
     return "redirect:/studentList";
   }
 
-  //TODO 受講生情報更新
+  //受講生情報更新
   @GetMapping("/renewalStudent")
   public String updateStudent(@RequestParam("studentId") String studentId, Model model){
     StudentDetail studentDetail = new StudentDetail();

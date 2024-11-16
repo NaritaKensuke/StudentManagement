@@ -57,6 +57,7 @@ public class StudentService {
     repository.insertStudentCourse(studentCourseDetail);
   }
 
+  //入力されている受講生情報のみリポジトリに渡す
   @Transactional
   public void updateStudent(StudentDetail studentDetail){
     if (!(studentDetail.getStudent().getName().isEmpty())){
