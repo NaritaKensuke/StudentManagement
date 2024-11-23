@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymleaf.org", lang="jp">
 <head>
-  <title>コース情報一覧</title>
+  <title>全コース情報一覧</title>
 </head>
 <body>
-<h1>コース情報一覧</h1>
-  <p th:text="'受講生ID:' + ${studentCourseList.get(0).studentId}">2</p>
+<h1>全コース情報一覧</h1>
   <table border="1">
     <thead>
     <tr>
@@ -17,13 +16,10 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="studentCourse : ${studentCourseList}">
-      <td>
-        <a th:href="@{/renewalStudentCourse(
-        uniqueId=${studentCourse.uniqueId},studentId=${studentCourse.studentId})}"
-           th:text="${studentCourse.courseId}">C1</a>
-      </td>
+    <tr th:each="studentCourse : ${allStudentCourseList}">
+      <td th:text="${studentCourse.courseId}">C1</td>
       <td th:text="${studentCourse.courseName}">Java</td>
+      <td th:text="${studentCourse.studentId}">1</td>
       <td th:text="${studentCourse.startedDate}">2023-01-01</td>
       <td th:text="${studentCourse.finishDate}">2024-01-02</td>
     </tr>

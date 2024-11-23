@@ -12,7 +12,7 @@ import raisetech.StudentManagement.domain.StudentDetail;
 @Component
 public class StudentConverter {
   //受講生情報とコース情報が受講生ID順に並ぶようにソート
-  public List<StudentDetail> convertStudentDetails(List<Student> students,
+  public List<StudentDetail> convertStudentsDetails(List<Student> students,
       List<StudentCourse> studentsCourses) {
     List<StudentDetail> studentDetails = new ArrayList<>();
     students.forEach(student -> {
@@ -30,7 +30,7 @@ public class StudentConverter {
   }
 
   //StudentDetailリストからStudentCourseのみ取り出してリスト化
-  public List<StudentCourse> convertStudentCourse(List<StudentDetail> studentDetails){
+  public List<StudentCourse> convertStudentsCourses(List<StudentDetail> studentDetails){
     List<StudentCourse> studentCourseList = new ArrayList<>();
     studentDetails.forEach(
         studentDetail -> studentCourseList.addAll(studentDetail.getStudentCourseList()));
@@ -39,7 +39,7 @@ public class StudentConverter {
   }
 
   //コース情報をコースIDでソート
-  public List<StudentCourse> sortStudentCourseCourseId(List<StudentCourse> studentsCourses){
+  public List<StudentCourse> sortStudentsCoursesCourseId(List<StudentCourse> studentsCourses){
     List<String> courseIdList =
         new ArrayList<>(Arrays.asList("C1", "C2", "C3", "C4", "C5"));
 
@@ -51,4 +51,12 @@ public class StudentConverter {
     return sortStudentsCourses;
   }
 
+  public List<StudentCourse> getStudentCourseList(List<StudentDetail> studentDetails,
+      String studentId){
+    List<List<StudentCourse>> studentsCourseList = new ArrayList<>();
+    for (StudentDetail studentDetail : studentDetails) {
+      studentsCourseList.add(studentDetail.getStudentCourseList());
+    }
+    return studentsCourseList.get(Integer.parseInt(studentId)-1);
+  }
 }

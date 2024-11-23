@@ -85,4 +85,33 @@ public class StudentService {
       repository.updateStudentRemark(studentDetail.getStudent());
     }
   }
+
+  //TODO コース1つだけ更新できるようにしたい、日付を入力しなくても更新できるようにしたい
+  @Transactional
+  public void updateStudentCourse(StudentDetail studentDetail){
+    if (!(studentDetail.getStudentCourse().getCourseName().isEmpty())){
+      switch (studentDetail.getStudentCourse().getCourseName()) {
+        case "Java" -> studentDetail.getStudentCourse().setCourseId("C1");
+        case "英会話" -> studentDetail.getStudentCourse().setCourseId("C2");
+        case "デザイン" -> studentDetail.getStudentCourse().setCourseId("C3");
+        case "Phython" -> studentDetail.getStudentCourse().setCourseId("C4");
+        case "AWS" -> studentDetail.getStudentCourse().setCourseId("C5");
+        case "マーケティング" -> studentDetail.getStudentCourse().setCourseId("C6");
+      }
+      repository.updateStudentCourse(studentDetail.getStudentCourse());
+    }
+    if ((studentDetail.getStudentCourse().getFinishDate() == null) &
+        (studentDetail.getStudentCourse().getStartedDate() == null)){
+      //何もしない
+    }else if (studentDetail.getStudentCourse().getFinishDate() == null){
+      studentDetail.getStudentCourse().setFinishDate(
+          studentDetail.getStudentCourse().getStartedDate().plusMonths(6));
+      repository.updateStudentCourseDate(studentDetail.getStudentCourse());
+    }else if (studentDetail.getStudentCourse().getStartedDate() == null){
+      studentDetail.getStudentCourse().setFinishDate(
+          studentDetail.getStudentCourse().getFinishDate());
+      repository.updateStudentCourseFinishDate(studentDetail.getStudentCourse());
+    }
+  }
+
 }

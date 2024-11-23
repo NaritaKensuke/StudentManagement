@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org", lang="jp">
+<head>
+  <title>受講生情報更新</title>
+</head>
+<body>
+<h1>受講生情報更新</h1>
+<form th:action="@{/updateStudentCourse(uniqueId=${studentDetail.studentCourse.uniqueId},
+studentId=${studentDetail.studentCourse.studentId})}"
+      th:object="${studentDetail}" method="post">
+  <div>
+    <label for="courseName">コース名:</label>
+    <select id="courseName" th:field="*{studentCourse.courseName}">
+      <option value=""></option>
+      <option value="Java">Java</option>
+      <option value="英語">英会話</option>
+      <option value="デザイン">デザイン</option>
+      <option value="Phython">Phython</option>
+      <option value="AWS">AWS</option>
+      <option value="マーケティング">マーケティング</option>
+    </select>
+  </div>
+  <div>
+    <label for="courseStartedDate">コース名:</label>
+    <input type="date" id="courseStartedDate" th:field="*{studentCourse.startedDate}">
+  </div>
+  <div>
+    <label for="courseFinishDate">コース名:</label>
+    <input type="date" id="courseFinishDate" th:field="*{studentCourse.finishDate}">
+  </div>
+  <div>
+    <button type="submit">更新</button>
+  </div>
+</form>
+</body>
+</html>

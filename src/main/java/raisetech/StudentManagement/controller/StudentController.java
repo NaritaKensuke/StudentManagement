@@ -34,18 +34,33 @@ public class StudentController {
     List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
 
     model.addAttribute("studentList",
-        converter.convertStudentDetails(students,studentsCourses));
+        converter.convertStudentsDetails(students,studentsCourses));
     return "studentList";
   }
 
-
   //コース情報表示
-  @GetMapping("/studentCourseList")
-  public String getStudentsCourseList(Model model){
+  @GetMapping("/allStudentCourseList")
+  public String getAllStudentsCourseList(Model model){
     List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
 
+    List<StudentCourse> allStudentCourseList =
+        converter.sortStudentsCoursesCourseId(studentsCourses);
+
+    model.addAttribute("allStudentCourseList", allStudentCourseList);
+    return "allStudentCourseList";
+  }
+
+  //選択した受講生のコース情報表示
+  @GetMapping("/studentCourseList")
+  public String getStudentCourseList(
+      @RequestParam("studentId") String studentId, Model model){
+    List<Student> students = service.searchStudentList();
+    List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
+
+    List<StudentDetail> studentDetails =
+        converter.convertStudentsDetails(students, studentsCourses);
     List<StudentCourse> studentCourseList =
-        converter.sortStudentCourseCourseId(studentsCourses);
+        converter.getStudentCourseList(studentDetails, studentId);
 
     model.addAttribute("studentCourseList", studentCourseList);
     return "studentCourseList";
@@ -60,7 +75,8 @@ public class StudentController {
 
   //受講生情報、コース情報登録
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail, BindingResult result){
+  public String registerStudent(@ModelAttribute StudentDetail studentDetail,
+      BindingResult result){
     if(result.hasErrors()){
       return "typeError";
     }
@@ -73,7 +89,7 @@ public class StudentController {
 
   //受講生情報更新
   @GetMapping("/renewalStudent")
-  public String updateStudent(@RequestParam("studentId") String studentId, Model model){
+  public String showStudentUpdateView(@RequestParam("studentId") String studentId, Model model){
     StudentDetail studentDetail = new StudentDetail();
     Student student = new Student();
     studentDetail.setStudent(student);
@@ -83,6 +99,7 @@ public class StudentController {
     return "updateStudent";
   }
 
+  //受講生情報更新
   @PostMapping("/updateStudent")
   public String updateStudent(@ModelAttribute StudentDetail studentDetail,
       @RequestParam("studentId") String studentId){
@@ -91,4 +108,27 @@ public class StudentController {
     return "redirect:/studentList";
   }
 
+  //コース情報更新
+  @GetMapping("/renewalStudentCourse")
+  public String showStudentCourseUpdateView(@RequestParam("studentId") String studentId,
+      @RequestParam("uniqueId") int uniqueId, Model model){
+    StudentDetail studentDetail = new StudentDetail();
+    StudentCourse studentCourse = new StudentCourse();
+    studentDetail.setStudentCourse(studentCourse);
+    studentDetail.getStudentCourse().setStudentId(studentId);
+    studentDetail.getStudentCourse().setUniqueId(uniqueId);
+
+    model.addAttribute("studentDetail", studentDetail);
+    return "updateStudentCourse";
+  }
+
+  @PostMapping("/updateStudentCourse")
+  public String updateStudentCourse(@ModelAttribute StudentDetail studentDetail,
+      @RequestParam("studentId") String studentId, @RequestParam("uniqueId") int uniqueId){
+    studentDetail.getStudentCourse().setStudentId(studentId);
+    studentDetail.getStudentCourse().setUniqueId(uniqueId);
+
+    service.updateStudentCourse(studentDetail);
+    return "redirect:/studentList";
+  }
 }

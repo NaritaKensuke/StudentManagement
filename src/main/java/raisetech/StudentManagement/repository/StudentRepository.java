@@ -21,8 +21,8 @@ public interface StudentRepository {
       + "#{mailAddress},#{city},#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
 
-  @Insert("INSERT students_courses values(#{uniqueId}, #{studentId},#{courseId},#{courseName},#{startedDate},"
-      + "#{finishDate})")
+  @Insert("INSERT students_courses values(#{uniqueId}, #{studentId}, #{courseId},"
+      + " #{courseName}, #{startedDate}, #{finishDate})")
   void insertStudentCourse(StudentCourse studentCourse);
 
   @Update("UPDATE students SET name=#{name} WHERE student_id=#{studentId}")
@@ -49,4 +49,18 @@ public interface StudentRepository {
   @Update("UPDATE students SET remark=#{remark} WHERE student_id=#{studentId}")
   void updateStudentRemark(Student student);
 
+  @Update("UPDATE students_courses SET (student_id=#{studentId})"
+      + " WHERE student_id=#{studentId}")
+  void updateStudentCourseStudentId(StudentCourse studentCourse);
+
+  @Update("UPDATE students_courses SET (course_id=#{courseId}, course_name=#{courseName})"
+      + " WHERE unique_id=#{uniqueId}")
+  void updateStudentCourse(StudentCourse studentCourse);
+
+  @Update("UPDATE students_courses SET started_date=#{startedDate}, "
+      + "finish_date=#{finishDate} WHERE unique_id=#{uniqueId}")
+  void updateStudentCourseDate(StudentCourse studentCourse);
+
+  @Update("UPDATE students_courses SET finish_date=#{finishDate} WHERE unique_id=#{uniqueId}")
+  void updateStudentCourseFinishDate(StudentCourse studentCourse);
 }
