@@ -54,13 +54,14 @@ public interface StudentRepository {
   void updateStudentCourseStudentId(StudentCourse studentCourse);
 
   @Update("UPDATE students_courses SET (course_id=#{courseId}, course_name=#{courseName})"
-      + " WHERE unique_id=#{uniqueId}")
+      + " WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourse(StudentCourse studentCourse);
 
   @Update("UPDATE students_courses SET started_date=#{startedDate}, "
-      + "finish_date=#{finishDate} WHERE unique_id=#{uniqueId}")
+      + "finish_date=#{finishDate} WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourseDate(StudentCourse studentCourse);
 
-  @Update("UPDATE students_courses SET finish_date=#{finishDate} WHERE unique_id=#{uniqueId}")
+  @Update("UPDATE students_courses SET finish_date=#{finishDate} "
+      + "WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourseFinishDate(StudentCourse studentCourse);
 }

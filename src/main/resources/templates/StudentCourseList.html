@@ -20,7 +20,8 @@
     <tr th:each="studentCourse : ${studentCourseList}">
       <td>
         <a th:href="@{/renewalStudentCourse(
-        uniqueId=${studentCourse.uniqueId},studentId=${studentCourse.studentId})}"
+        studentCourseDetailId=${studentCourse.courseDetailId},
+        studentId=${studentCourse.studentId})}"
            th:text="${studentCourse.courseId}">C1</a>
       </td>
       <td th:text="${studentCourse.courseName}">Java</td>

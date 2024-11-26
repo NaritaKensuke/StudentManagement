@@ -5,7 +5,8 @@
 </head>
 <body>
 <h1>受講生情報更新</h1>
-<form th:action="@{/updateStudentCourse(uniqueId=${studentDetail.studentCourse.uniqueId},
+<form th:action="@{/updateStudentCourse(
+courseDetailId=${studentDetail.studentCourse.courseDetailId},
 studentId=${studentDetail.studentCourse.studentId})}"
       th:object="${studentDetail}" method="post">
   <div>

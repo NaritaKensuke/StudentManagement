@@ -111,12 +111,12 @@ public class StudentController {
   //コース情報更新
   @GetMapping("/renewalStudentCourse")
   public String showStudentCourseUpdateView(@RequestParam("studentId") String studentId,
-      @RequestParam("uniqueId") int uniqueId, Model model){
+      @RequestParam("courseDetailId") int courseDetailId, Model model){
     StudentDetail studentDetail = new StudentDetail();
     StudentCourse studentCourse = new StudentCourse();
     studentDetail.setStudentCourse(studentCourse);
     studentDetail.getStudentCourse().setStudentId(studentId);
-    studentDetail.getStudentCourse().setUniqueId(uniqueId);
+    studentDetail.getStudentCourse().setCourseDetailId(courseDetailId);
 
     model.addAttribute("studentDetail", studentDetail);
     return "updateStudentCourse";
@@ -124,9 +124,10 @@ public class StudentController {
 
   @PostMapping("/updateStudentCourse")
   public String updateStudentCourse(@ModelAttribute StudentDetail studentDetail,
-      @RequestParam("studentId") String studentId, @RequestParam("uniqueId") int uniqueId){
+      @RequestParam("studentId") String studentId,
+      @RequestParam("courseDetailId") int courseDetailId){
     studentDetail.getStudentCourse().setStudentId(studentId);
-    studentDetail.getStudentCourse().setUniqueId(uniqueId);
+    studentDetail.getStudentCourse().setCourseDetailId(courseDetailId);
 
     service.updateStudentCourse(studentDetail);
     return "redirect:/studentList";
