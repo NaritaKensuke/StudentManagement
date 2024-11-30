@@ -60,30 +60,39 @@ public class StudentService {
   //入力されている受講生情報のみリポジトリに渡す
   @Transactional
   public void updateStudent(StudentDetail studentDetail){
+     List<Student> studentList = repository.searchStudent();
+     Student beforeStudent = new Student();
+
+    for(Student student : studentList){
+      if (student.getStudentId().equals(studentDetail.getStudent().getStudentId())){
+        beforeStudent = student;
+      }
+    }
     if (!(studentDetail.getStudent().getName().isEmpty())){
-      repository.updateStudentName(studentDetail.getStudent());
+      beforeStudent.setName(studentDetail.getStudent().getName());
     }
     if (!(studentDetail.getStudent().getNameReading().isEmpty())){
-      repository.updateStudentNameReading(studentDetail.getStudent());
+      beforeStudent.setNameReading(studentDetail.getStudent().getNameReading());
     }
     if (!(studentDetail.getStudent().getNickname().isEmpty())){
-      repository.updateStudentNickName(studentDetail.getStudent());
+      beforeStudent.setNickname(studentDetail.getStudent().getNickname());
     }
     if (!(studentDetail.getStudent().getMailAddress().isEmpty())){
-      repository.updateStudentMailAddress(studentDetail.getStudent());
+      beforeStudent.setMailAddress(studentDetail.getStudent().getMailAddress());
     }
     if (!(studentDetail.getStudent().getCity().isEmpty())){
-      repository.updateStudentCity(studentDetail.getStudent());
+      beforeStudent.setCity(studentDetail.getStudent().getCity());
     }
     if (!(studentDetail.getStudent().getAge() == 0)){
-      repository.updateStudentAge(studentDetail.getStudent());
+      beforeStudent.setAge(studentDetail.getStudent().getAge());
     }
     if (!(studentDetail.getStudent().getGender().isEmpty())){
-      repository.updateStudentGender(studentDetail.getStudent());
+      beforeStudent.setGender(studentDetail.getStudent().getGender());
     }
     if (!(studentDetail.getStudent().getRemark().isEmpty())) {
-      repository.updateStudentRemark(studentDetail.getStudent());
+      beforeStudent.setRemark(studentDetail.getStudent().getRemark());
     }
+    repository.updateStudent(beforeStudent);
   }
 
   //TODO コース1つだけ更新できるようにしたい、日付を入力しなくても更新できるようにしたい
