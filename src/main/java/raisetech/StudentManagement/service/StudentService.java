@@ -42,15 +42,11 @@ public class StudentService {
   public void registerStudentCourseDetail(StudentDetail studentDetail) {
     StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
 
-    switch (studentCourseDetail.getCourseName()) {
-      case "Java" -> studentCourseDetail.setCourseId("C1");
-      case "英会話" -> studentCourseDetail.setCourseId("C2");
-      case "デザイン" -> studentCourseDetail.setCourseId("C3");
-      case "Phython" -> studentCourseDetail.setCourseId("C4");
-      case "AWS" -> studentCourseDetail.setCourseId("C5");
-      case "マーケティング" -> studentCourseDetail.setCourseId("C6");
+    for (StudentCourse studentCourse : repository.searchCoursesName()){
+      if (studentCourse.getCourseName().equals(studentCourseDetail.getCourseName())){
+        studentCourseDetail.setCourseId(studentCourse.getCourseId());
+      }
     }
-    studentCourseDetail.setStudentId(repository.searchStudent().getLast().getStudentId());
     studentCourseDetail.setStartedDate(LocalDate.now());
     studentCourseDetail.setFinishDate(LocalDate.now().plusMonths(6));
 
@@ -95,19 +91,16 @@ public class StudentService {
     repository.updateStudent(beforeStudent);
   }
 
-  //TODO コース1つだけ更新できるようにしたい、日付を入力しなくても更新できるようにしたい
   @Transactional
   public void updateStudentCourse(StudentDetail studentDetail){
-    if (!(studentDetail.getStudentCourse().getCourseName().isEmpty())){
-      switch (studentDetail.getStudentCourse().getCourseName()) {
-        case "Java" -> studentDetail.getStudentCourse().setCourseId("C1");
-        case "英会話" -> studentDetail.getStudentCourse().setCourseId("C2");
-        case "デザイン" -> studentDetail.getStudentCourse().setCourseId("C3");
-        case "Phython" -> studentDetail.getStudentCourse().setCourseId("C4");
-        case "AWS" -> studentDetail.getStudentCourse().setCourseId("C5");
-        case "マーケティング" -> studentDetail.getStudentCourse().setCourseId("C6");
+    StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
+
+    for (StudentCourse studentCourse : repository.searchCoursesName()){
+      if (studentCourse.getCourseName().equals(
+          studentDetail.getStudentCourse().getCourseName())){
+        studentCourseDetail.setCourseId(studentCourse.getCourseId());
+        repository.updateStudentCourse(studentCourseDetail);
       }
-      repository.updateStudentCourse(studentDetail.getStudentCourse());
     }
     if ((studentDetail.getStudentCourse().getFinishDate() == null) &
         (studentDetail.getStudentCourse().getStartedDate() == null)){
@@ -115,12 +108,13 @@ public class StudentService {
     }else if (studentDetail.getStudentCourse().getFinishDate() == null){
       studentDetail.getStudentCourse().setFinishDate(
           studentDetail.getStudentCourse().getStartedDate().plusMonths(6));
-      repository.updateStudentCourseDate(studentDetail.getStudentCourse());
+
+      repository.updateStudentCourseDate(studentCourseDetail);
     }else if (studentDetail.getStudentCourse().getStartedDate() == null){
       studentDetail.getStudentCourse().setFinishDate(
           studentDetail.getStudentCourse().getFinishDate());
-      repository.updateStudentCourseFinishDate(studentDetail.getStudentCourse());
+
+      repository.updateStudentCourseFinishDate(studentCourseDetail);
     }
   }
-
 }

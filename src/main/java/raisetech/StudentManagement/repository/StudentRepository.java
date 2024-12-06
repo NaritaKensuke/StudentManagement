@@ -17,6 +17,9 @@ public interface StudentRepository {
   @Select("SELECT * FROM students_courses")
   List<StudentCourse> searchStudentsCourses();
 
+  @Select("SELECT * FROM course_id_name")
+  List<StudentCourse> searchCoursesName();
+
   @Insert("INSERT students values(#{studentId},#{name},#{nameReading},#{nickname},"
       + "#{mailAddress}, city=#{city},age=#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
@@ -34,7 +37,7 @@ public interface StudentRepository {
       + " WHERE student_id=#{studentId}")
   void updateStudentCourseStudentId(StudentCourse studentCourse);
 
-  @Update("UPDATE students_courses SET (course_id=#{courseId}, course_name=#{courseName})"
+  @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName}"
       + " WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourse(StudentCourse studentCourse);
 
