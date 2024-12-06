@@ -57,6 +57,12 @@ public class StudentConverter {
     for (StudentDetail studentDetail : studentDetails) {
       studentsCourseList.add(studentDetail.getStudentCourseList());
     }
-    return studentsCourseList.get(Integer.parseInt(studentId)-1);
+    List<StudentCourse> studentsCourses = new ArrayList<>();
+    for (List<StudentCourse> studentCourseList : studentsCourseList){
+      if (studentCourseList.getFirst().getStudentId().equals(studentId)){
+        studentsCourses = studentCourseList;
+      }
+    }
+    return studentsCourses;
   }
 }
