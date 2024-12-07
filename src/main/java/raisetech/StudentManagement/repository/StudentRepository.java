@@ -33,19 +33,9 @@ public interface StudentRepository {
       + "remark=#{remark} WHERE student_id=#{studentId}")
   void updateStudent(Student student);
 
-  @Update("UPDATE students_courses SET (student_id=#{studentId})"
-      + " WHERE student_id=#{studentId}")
-  void updateStudentCourseStudentId(StudentCourse studentCourse);
-
-  @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName}"
+  @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName},"
+      + " started_date=#{startedDate}, finish_date=#{finishDate}"
       + " WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourse(StudentCourse studentCourse);
 
-  @Update("UPDATE students_courses SET started_date=#{startedDate}, "
-      + "finish_date=#{finishDate} WHERE course_detail_id=#{courseDetailId}")
-  void updateStudentCourseDate(StudentCourse studentCourse);
-
-  @Update("UPDATE students_courses SET finish_date=#{finishDate} "
-      + "WHERE course_detail_id=#{courseDetailId}")
-  void updateStudentCourseFinishDate(StudentCourse studentCourse);
 }

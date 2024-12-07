@@ -57,64 +57,71 @@ public class StudentService {
   @Transactional
   public void updateStudent(StudentDetail studentDetail){
      List<Student> studentList = repository.searchStudent();
-     Student beforeStudent = new Student();
+     Student studentContainer = new Student();
 
     for(Student student : studentList){
       if (student.getStudentId().equals(studentDetail.getStudent().getStudentId())){
-        beforeStudent = student;
+        studentContainer = student;
       }
     }
     if (!(studentDetail.getStudent().getName().isEmpty())){
-      beforeStudent.setName(studentDetail.getStudent().getName());
+      studentContainer.setName(studentDetail.getStudent().getName());
     }
     if (!(studentDetail.getStudent().getNameReading().isEmpty())){
-      beforeStudent.setNameReading(studentDetail.getStudent().getNameReading());
+      studentContainer.setNameReading(studentDetail.getStudent().getNameReading());
     }
     if (!(studentDetail.getStudent().getNickname().isEmpty())){
-      beforeStudent.setNickname(studentDetail.getStudent().getNickname());
+      studentContainer.setNickname(studentDetail.getStudent().getNickname());
     }
     if (!(studentDetail.getStudent().getMailAddress().isEmpty())){
-      beforeStudent.setMailAddress(studentDetail.getStudent().getMailAddress());
+      studentContainer.setMailAddress(studentDetail.getStudent().getMailAddress());
     }
     if (!(studentDetail.getStudent().getCity().isEmpty())){
-      beforeStudent.setCity(studentDetail.getStudent().getCity());
+      studentContainer.setCity(studentDetail.getStudent().getCity());
     }
     if (!(studentDetail.getStudent().getAge() == 0)){
-      beforeStudent.setAge(studentDetail.getStudent().getAge());
+      studentContainer.setAge(studentDetail.getStudent().getAge());
     }
     if (!(studentDetail.getStudent().getGender().isEmpty())){
-      beforeStudent.setGender(studentDetail.getStudent().getGender());
+      studentContainer.setGender(studentDetail.getStudent().getGender());
     }
     if (!(studentDetail.getStudent().getRemark().isEmpty())) {
-      beforeStudent.setRemark(studentDetail.getStudent().getRemark());
+      studentContainer.setRemark(studentDetail.getStudent().getRemark());
     }
-    repository.updateStudent(beforeStudent);
+    repository.updateStudent(studentContainer);
   }
 
   @Transactional
   public void updateStudentCourse(StudentDetail studentDetail){
     StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
+    StudentCourse studentCourseContainer = new StudentCourse();
 
-    for (StudentCourse studentCourse : repository.searchCoursesName()){
-      if (studentCourse.getCourseName().equals(
-          studentDetail.getStudentCourse().getCourseName())){
-        studentCourseDetail.setCourseId(studentCourse.getCourseId());
-        repository.updateStudentCourse(studentCourseDetail);
+    for (StudentCourse studentCourse : repository.searchStudentsCourses()){
+      if (studentCourse.getCourseDetailId() == studentCourseDetail.getCourseDetailId()){
+        studentCourseContainer = studentCourse;
       }
     }
-    if ((studentDetail.getStudentCourse().getFinishDate() == null) &
-        (studentDetail.getStudentCourse().getStartedDate() == null)){
-      //何もしない
-    }else if (studentDetail.getStudentCourse().getFinishDate() == null){
-      studentDetail.getStudentCourse().setFinishDate(
-          studentDetail.getStudentCourse().getStartedDate().plusMonths(6));
-
-      repository.updateStudentCourseDate(studentCourseDetail);
-    }else if (studentDetail.getStudentCourse().getStartedDate() == null){
-      studentDetail.getStudentCourse().setFinishDate(
-          studentDetail.getStudentCourse().getFinishDate());
-
-      repository.updateStudentCourseFinishDate(studentCourseDetail);
+    if (!(studentCourseDetail.getCourseName().isEmpty())){
+      studentCourseContainer.setCourseName(studentCourseDetail.getCourseName());
+      for (StudentCourse studentCourse : repository.searchCoursesName()){
+        if (studentCourse.getCourseName().equals(studentCourseDetail.getCourseName())){
+          studentCourseContainer.setCourseId(studentCourse.getCourseName());
+        }
+      }
     }
+    if ((studentCourseDetail.getFinishDate() == null) &
+        (studentCourseDetail.getStartedDate() == null)){
+      //何もしない
+    }else if (studentCourseDetail.getFinishDate() == null){
+      studentCourseContainer.setStartedDate(studentCourseDetail.getStartedDate());
+      studentCourseContainer.setFinishDate(
+          studentCourseDetail.getStartedDate().plusMonths(6));
+    }else if (studentCourseDetail.getStartedDate() == null){
+      studentCourseContainer.setFinishDate(studentCourseDetail.getFinishDate());
+    }else {
+      studentCourseContainer.setStartedDate(studentCourseDetail.getStartedDate());
+      studentCourseContainer.setFinishDate(studentCourseDetail.getFinishDate());
+    }
+    repository.updateStudentCourse(studentCourseContainer);
   }
 }
