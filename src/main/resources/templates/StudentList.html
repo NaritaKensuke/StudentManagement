@@ -4,7 +4,7 @@
   <title>受講生一覧</title>
 </head>
 <body>
-<h1>受講生一覧<h1>
+<h1>受講生一覧</h1>
 <table border="1">
   <thead>
   <tr>
@@ -22,10 +22,13 @@
   <tbody>
   <tr th:each="studentDetail : ${studentList}">
     <td>
-      <a th:href="@{/renewalStudent(studentId=${studentDetail.student.studentId})}"
+      <a th:href="@{/studentCourseList(studentId=${studentDetail.student.studentId})}"
          th:text="${studentDetail.student.studentId}">1</a>
     </td>
-    <td th:text="${studentDetail.student.name}">林正人</td>
+    <td>
+      <a  th:href="@{/renewalStudent(studentId=${studentDetail.student.studentId})}"
+          th:text="${studentDetail.student.name}">林正人</a>
+    </td>
     <td th:text="${studentDetail.student.nameReading}">はやしまさと</td>
     <td th:text="${studentDetail.student.nickname}">まさー</td>
     <td th:text="${studentDetail.student.mailAddress}">masa1234@ezweb.ne.jp</td>
@@ -35,8 +38,8 @@
     <td th:text="${studentDetail.student.remark}">特になし</td>
   </tr>
   </tbody>
-
 </table>
-  <button onclick="location.href='/studentCourseList'">コース情報一覧へ</button>
+<p></p>
+  <button onclick="location.href='/allStudentCourseList'">全コース情報一覧へ</button>
 </body>
 </html>

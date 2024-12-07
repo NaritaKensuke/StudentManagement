@@ -14,39 +14,28 @@ public interface StudentRepository {
   @Select("SELECT * FROM students")
   List<Student> searchStudent();
 
-  @Select("SELECT * FROM students_courses")
+  @Select("SELECT * FROM students_courses ORDER BY course_id")
   List<StudentCourse> searchStudentsCourses();
 
+  @Select("SELECT * FROM course_id_name")
+  List<StudentCourse> searchCoursesName();
+
   @Insert("INSERT students values(#{studentId},#{name},#{nameReading},#{nickname},"
-      + "#{mailAddress},#{city},#{age},#{gender},#{remark},false)")
+      + "#{mailAddress}, city=#{city},age=#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
 
-  @Insert("INSERT students_courses values(#{uniqueId}, #{studentId},#{courseId},#{courseName},#{startedDate},"
-      + "#{finishDate})")
+  @Insert("INSERT students_courses values(#{studentDetailCourseId}, #{studentId}, #{courseId},"
+      + " #{courseName}, #{startedDate}, #{finishDate})")
   void insertStudentCourse(StudentCourse studentCourse);
 
-  @Update("UPDATE students SET name=#{name} WHERE student_id=#{studentId}")
-  void updateStudentName(Student student);
+  @Update("Update students SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname},"
+      + "mail_address=#{mailAddress}, city=#{city}, age=#{age},gender=#{gender},"
+      + "remark=#{remark} WHERE student_id=#{studentId}")
+  void updateStudent(Student student);
 
-  @Update("UPDATE students SET name_reading=#{nameReading} WHERE student_id=#{studentId}")
-  void updateStudentNameReading(Student student);
-
-  @Update("UPDATE students SET nickname=#{nickname} WHERE student_id=#{studentId}")
-  void updateStudentNickName(Student student);
-
-  @Update("UPDATE students SET mail_address=#{mailAddress} WHERE student_id=#{studentId}")
-  void updateStudentMailAddress(Student student);
-
-  @Update("UPDATE students SET city=#{city} WHERE student_id=#{studentId}")
-  void updateStudentCity(Student student);
-
-  @Update("UPDATE students SET age=#{age} WHERE student_id=#{studentId}")
-  void updateStudentAge(Student student);
-
-  @Update("UPDATE students SET gender=#{gender} WHERE student_id=#{studentId}")
-  void updateStudentGender(Student student);
-
-  @Update("UPDATE students SET remark=#{remark} WHERE student_id=#{studentId}")
-  void updateStudentRemark(Student student);
+  @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName},"
+      + " started_date=#{startedDate}, finish_date=#{finishDate}"
+      + " WHERE course_detail_id=#{courseDetailId}")
+  void updateStudentCourse(StudentCourse studentCourse);
 
 }

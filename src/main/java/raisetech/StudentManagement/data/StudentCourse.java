@@ -13,6 +13,6 @@ public class StudentCourse {
   private String courseName;
   private LocalDate startedDate;
   private LocalDate finishDate;
-  private int uniqueId;
+  private int courseDetailId;
 
 }
