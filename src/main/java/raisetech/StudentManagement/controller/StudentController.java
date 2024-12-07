@@ -42,11 +42,7 @@ public class StudentController {
   @GetMapping("/allStudentCourseList")
   public String getAllStudentsCourseList(Model model){
     List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
-
-    List<StudentCourse> allStudentCourseList =
-        converter.sortStudentsCoursesCourseId(studentsCourses);
-
-    model.addAttribute("allStudentCourseList", allStudentCourseList);
+    model.addAttribute("allStudentCourseList", studentsCourses);
     return "allStudentCourseList";
   }
 

@@ -14,7 +14,7 @@ public interface StudentRepository {
   @Select("SELECT * FROM students")
   List<Student> searchStudent();
 
-  @Select("SELECT * FROM students_courses")
+  @Select("SELECT * FROM students_courses ORDER BY course_id")
   List<StudentCourse> searchStudentsCourses();
 
   @Select("SELECT * FROM course_id_name")

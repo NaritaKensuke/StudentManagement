@@ -1,7 +1,6 @@
 package raisetech.StudentManagement.controller.converter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
@@ -36,19 +35,6 @@ public class StudentConverter {
         studentDetail -> studentCourseList.addAll(studentDetail.getStudentCourseList()));
 
     return studentCourseList;
-  }
-
-  //コース情報をコースIDでソート
-  public List<StudentCourse> sortStudentsCoursesCourseId(List<StudentCourse> studentsCourses){
-    List<String> courseIdList =
-        new ArrayList<>(Arrays.asList("C1", "C2", "C3", "C4", "C5"));
-
-    List<StudentCourse> sortStudentsCourses = new ArrayList<>();
-    courseIdList.forEach(courseId -> {
-      studentsCourses.stream().filter(studentCourse ->
-          studentCourse.getCourseId().equals(courseId)).forEach(sortStudentsCourses::add);
-    });
-    return sortStudentsCourses;
   }
 
   public List<StudentCourse> getStudentCourseList(List<StudentDetail> studentDetails,
