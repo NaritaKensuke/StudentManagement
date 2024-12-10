@@ -36,7 +36,7 @@ public class StudentConverter {
 
     return studentCourseList;
   }
-
+  // 受講生IDでそのIDを持つ受講生のコース情報を抽出
   public List<StudentCourse> getStudentCourseList(List<StudentDetail> studentDetails,
       String studentId){
     List<List<StudentCourse>> studentsCourseList = new ArrayList<>();
