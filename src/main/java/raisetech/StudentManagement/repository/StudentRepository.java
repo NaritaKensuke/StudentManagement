@@ -12,13 +12,22 @@ import raisetech.StudentManagement.data.StudentCourse;
 public interface StudentRepository {
 
   @Select("SELECT * FROM students")
-  List<Student> searchStudent();
+  List<Student> searchStudents();
+
+  @Select("SELECT * FROM students WHERE student_id=#{studentId}")
+  Student searchStudent(Student student);
 
   @Select("SELECT * FROM students_courses ORDER BY course_id")
   List<StudentCourse> searchStudentsCourses();
 
-  @Select("SELECT * FROM course_id_name")
-  List<StudentCourse> searchCoursesName();
+  @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
+  List<StudentCourse> searchStudentCourses(StudentCourse studentCourse);
+
+  @Select("SELECT * FROM students_courses WHERE course_detail_id=#{courseDetailId}")
+  StudentCourse searchStudentCourse(StudentCourse studentCourse);
+
+  @Select("SELECT * FROM course_id_name WHERE course_name=#{courseName}")
+  StudentCourse searchCoursesName(StudentCourse studentCourse);
 
   @Insert("INSERT students values(#{studentId},#{name},#{nameReading},#{nickname},"
       + "#{mailAddress}, city=#{city},age=#{age},#{gender},#{remark},false)")

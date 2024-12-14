@@ -36,19 +36,4 @@ public class StudentConverter {
 
     return studentCourseList;
   }
-  // 受講生IDでそのIDを持つ受講生のコース情報を抽出
-  public List<StudentCourse> getStudentCourseList(List<StudentDetail> studentDetails,
-      String studentId){
-    List<List<StudentCourse>> studentsCourseList = new ArrayList<>();
-    for (StudentDetail studentDetail : studentDetails) {
-      studentsCourseList.add(studentDetail.getStudentCourseList());
-    }
-    List<StudentCourse> studentsCourses = new ArrayList<>();
-    for (List<StudentCourse> studentCourseList : studentsCourseList){
-      if (studentCourseList.getFirst().getStudentId().equals(studentId)){
-        studentsCourses = studentCourseList;
-      }
-    }
-    return studentsCourses;
-  }
 }
