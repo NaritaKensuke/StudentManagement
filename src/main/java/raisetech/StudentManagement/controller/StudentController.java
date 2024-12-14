@@ -50,13 +50,9 @@ public class StudentController {
   @GetMapping("/studentCourseList")
   public String getStudentCourseList(
       @RequestParam("studentId") String studentId, Model model){
-    List<Student> students = service.searchStudentList();
-    List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
-
-    List<StudentDetail> studentDetails =
-        converter.convertStudentsDetails(students, studentsCourses);
-    List<StudentCourse> studentCourseList =
-        converter.getStudentCourseList(studentDetails, studentId);
+    StudentCourse studentCourse = new StudentCourse();
+    studentCourse.setStudentId(studentId);
+    List<StudentCourse> studentCourseList =service.searchStudentCourses(studentCourse);
 
     model.addAttribute("studentCourseList", studentCourseList);
     return "studentCourseList";
