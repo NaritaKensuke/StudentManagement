@@ -26,32 +26,28 @@ public class StudentService {
   }
 
   //リポジトリから受講生情報を受け取りコントローラーに渡す
-  public Student searchStudent(String studentId) {
-    Student student = new Student();
-    student.setStudentId(studentId);
+  public Student searchStudent(Student student) {
     return repository.searchStudent(student);
   }
 
   //リポジトリからコース情報を受け取りコントローラーに渡す
-  public List<StudentCourse> searchStudentsCoursesList() {
+  public List<StudentCourse> searchStudentsCoursesList(){
     return repository.searchStudentsCourses();
   }
 
   // 受講生のコース情報を取得
-  public List<StudentCourse> searchStudentCourses(StudentCourse studentCourse) {
+  public List<StudentCourse> searchStudentCourses(StudentCourse studentCourse){
     return repository.searchStudentCourses(studentCourse);
   }
 
   // 単一コース情報を取得
-  public StudentCourse searchStudentCourse(int courseDetailId) {
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setCourseDetailId(courseDetailId);
+  public StudentCourse searchStudentCourse(StudentCourse studentCourse){
     return repository.searchStudentCourse(studentCourse);
   }
 
   //受講生情報をリポジトリに渡す
   @Transactional
-  public void registerStudentDetail(StudentDetail studentDetail) {
+  public void registerStudentDetail(StudentDetail studentDetail){
     Student studentInfo = studentDetail.getStudent();
     repository.insertStudent(studentInfo);
   }
@@ -71,28 +67,57 @@ public class StudentService {
 
   //入力されている受講生情報のみリポジトリに渡す
   @Transactional
-  public void updateStudent(StudentDetail studentDetail) {
-    repository.updateStudent(studentDetail.getStudent());
+  public void updateStudent(StudentDetail studentDetail){
+     Student student = repository.searchStudent(studentDetail.getStudent());
+
+    if (!(studentDetail.getStudent().getName().isEmpty())){
+      student.setName(studentDetail.getStudent().getName());
+    }
+    if (!(studentDetail.getStudent().getNameReading().isEmpty())){
+      student.setNameReading(studentDetail.getStudent().getNameReading());
+    }
+    if (!(studentDetail.getStudent().getNickname().isEmpty())){
+      student.setNickname(studentDetail.getStudent().getNickname());
+    }
+    if (!(studentDetail.getStudent().getMailAddress().isEmpty())){
+      student.setMailAddress(studentDetail.getStudent().getMailAddress());
+    }
+    if (!(studentDetail.getStudent().getCity().isEmpty())){
+      student.setCity(studentDetail.getStudent().getCity());
+    }
+    if (!(studentDetail.getStudent().getAge() == 0)){
+      student.setAge(studentDetail.getStudent().getAge());
+    }
+    if (!(studentDetail.getStudent().getGender().isEmpty())){
+      student.setGender(studentDetail.getStudent().getGender());
+    }
+    if (!(studentDetail.getStudent().getRemark().isEmpty())) {
+      student.setRemark(studentDetail.getStudent().getRemark());
+    }
+    repository.updateStudent(student);
   }
 
   @Transactional
-  public void updateStudentCourse(StudentDetail studentDetail) {
-    StudentCourse studentCourse = studentDetail.getStudentCourse();
-    studentCourse.setCourseId(repository.searchCoursesName(studentCourse).getCourseId());
+  public void updateStudentCourse(StudentDetail studentDetail){
+    StudentCourse studentCourse1 = studentDetail.getStudentCourse();
+    StudentCourse studentCourse =
+        repository.searchStudentCourse(studentDetail.getStudentCourse());
 
-    if ((studentCourse.getStartedDate() == null) && (studentCourse.getFinishDate() == null)) {
-      studentCourse.setStartedDate(
-          repository.searchStudentCourse(studentCourse).getStartedDate());
-      studentCourse.setFinishDate(
-          repository.searchStudentCourse(studentCourse).getStartedDate());
-    } else if (studentCourse.getFinishDate() == null) {
-      studentCourse.setStartedDate(studentCourse.getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getStartedDate().plusMonths(6));
-    } else if (studentCourse.getStartedDate() == null) {
-      studentCourse.setFinishDate(studentCourse.getFinishDate());
-    } else {
-      studentCourse.setStartedDate(studentCourse.getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getFinishDate());
+    if (!(studentCourse1.getCourseName().isEmpty())){
+      studentCourse.setCourseName(studentCourse1.getCourseName());
+      studentCourse.setCourseId(
+          repository.searchCoursesName(studentCourse1).getCourseId());
+      }
+    if ((studentCourse1.getStartedDate() == null) && (studentCourse1.getFinishDate() == null)){
+      // 何もしない
+    }else if (studentCourse1.getFinishDate() == null){
+      studentCourse.setStartedDate(studentCourse1.getStartedDate());
+      studentCourse.setFinishDate(studentCourse1.getStartedDate().plusMonths(6));
+    }else if (studentCourse1.getStartedDate() == null){
+      studentCourse.setFinishDate(studentCourse1.getFinishDate());
+    }else {
+      studentCourse.setStartedDate(studentCourse1.getStartedDate());
+      studentCourse.setFinishDate(studentCourse1.getFinishDate());
     }
     repository.updateStudentCourse(studentCourse);
   }

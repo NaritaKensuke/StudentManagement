@@ -83,7 +83,8 @@ public class StudentController {
   @GetMapping("/renewalStudent")
   public String showStudentUpdateView(@RequestParam("studentId") String studentId, Model model){
     StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(service.searchStudent(studentId));
+    Student student = new Student();
+    studentDetail.setStudent(student);
     studentDetail.getStudent().setStudentId(studentId);
 
     model.addAttribute("studentDetail", studentDetail);
@@ -104,7 +105,10 @@ public class StudentController {
   public String showStudentCourseUpdateView(@RequestParam("studentId") String studentId,
       @RequestParam("courseDetailId") int courseDetailId, Model model){
     StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudentCourse(service.searchStudentCourse(courseDetailId));
+    StudentCourse studentCourse = new StudentCourse();
+    studentDetail.setStudentCourse(studentCourse);
+    studentDetail.getStudentCourse().setStudentId(studentId);
+    studentDetail.getStudentCourse().setCourseDetailId(courseDetailId);
 
     model.addAttribute("studentDetail", studentDetail);
     return "updateStudentCourse";
