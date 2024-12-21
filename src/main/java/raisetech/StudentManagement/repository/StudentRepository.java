@@ -38,8 +38,8 @@ public interface StudentRepository {
   void insertStudentCourse(StudentCourse studentCourse);
 
   @Update("Update students SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname},"
-      + "mail_address=#{mailAddress}, city=#{city}, age=#{age},gender=#{gender},"
-      + "remark=#{remark} WHERE student_id=#{studentId}")
+      + "mail_address=#{mailAddress}, city=#{city}, age=#{age}, gender=#{gender},"
+      + "remark=#{remark}, is_delete=#{isDelete} WHERE student_id=#{studentId}")
   void updateStudent(Student student);
 
   @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName},"
