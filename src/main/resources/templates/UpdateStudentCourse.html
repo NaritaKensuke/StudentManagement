@@ -22,11 +22,13 @@ studentId=${studentDetail.studentCourse.studentId})}"
     </select>
   </div>
   <div>
-    <label for="courseStartedDate">コース名:</label>
+    <label for="courseStartedDate">コース開始日:</label>
+    <p th:text="*{studentCourse.startedDate}"></p>
     <input type="date" id="courseStartedDate" th:field="*{studentCourse.startedDate}">
   </div>
   <div>
-    <label for="courseFinishDate">コース名:</label>
+    <label for="courseFinishDate">コース終了日:</label>
+    <p th:text="*{studentCourse.finishDate}"></p>
     <input type="date" id="courseFinishDate" th:field="*{studentCourse.finishDate}">
   </div>
   <div>
