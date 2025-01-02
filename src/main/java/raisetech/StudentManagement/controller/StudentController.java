@@ -38,6 +38,14 @@ public class StudentController {
     return "studentList";
   }
 
+  @GetMapping("/deletedStudentList")
+  public String getDeletedStudentList(Model model){
+    List<Student> students = service.searchDeletedStudentList();
+
+    model.addAttribute("deletedStudentList", students);
+    return "deletedStudentList";
+  }
+
   //コース情報表示
   @GetMapping("/allStudentCourseList")
   public String getAllStudentsCourseList(Model model){
@@ -52,7 +60,7 @@ public class StudentController {
       @RequestParam("studentId") String studentId, Model model){
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setStudentId(studentId);
-    List<StudentCourse> studentCourseList =service.searchStudentCourses(studentCourse);
+    List<StudentCourse> studentCourseList = service.searchStudentCourses(studentCourse);
 
     model.addAttribute("studentCourseList", studentCourseList);
     return "studentCourseList";

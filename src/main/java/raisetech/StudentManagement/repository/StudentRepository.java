@@ -11,13 +11,16 @@ import raisetech.StudentManagement.data.StudentCourse;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM students")
+  @Select("SELECT * FROM students WHERE is_delete=0")
   List<Student> searchStudents();
+
+  @Select("SELECT * FROM students WHERE is_delete=1")
+  List<Student> searchDeletedStudents();
 
   @Select("SELECT * FROM students WHERE student_id=#{studentId}")
   Student searchStudent(Student student);
 
-  @Select("SELECT * FROM students_courses ORDER BY course_id")
+  @Select("SELECT * FROM students_courses WHERE is_delete=0 ORDER BY course_id")
   List<StudentCourse> searchStudentsCourses();
 
   @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
@@ -39,11 +42,11 @@ public interface StudentRepository {
 
   @Update("Update students SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname},"
       + "mail_address=#{mailAddress}, city=#{city}, age=#{age}, gender=#{gender},"
-      + "remark=#{remark}, is_delete=#{isDelete} WHERE student_id=#{studentId}")
+      + "remark=#{remark}, is_delete=#{delete} WHERE student_id=#{studentId}")
   void updateStudent(Student student);
 
   @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName},"
-      + " started_date=#{startedDate}, finish_date=#{finishDate}"
+      + " started_date=#{startedDate}, finish_date=#{finishDate}, is_delete=#{delete}"
       + " WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourse(StudentCourse studentCourse);
 

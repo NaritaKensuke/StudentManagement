@@ -46,6 +46,10 @@
     <label for="remark">備考:</label>
     <input type="text" id="remark" th:field="*{student.remark}" required>
   </div>
+  <div>
+    <input type="checkbox" id="delete" th:field="*{student.delete}"/>
+    <label for="delete">削除</label>
+  </div>
   <p></p>
   <div>
     <button type="submit">更新</button>

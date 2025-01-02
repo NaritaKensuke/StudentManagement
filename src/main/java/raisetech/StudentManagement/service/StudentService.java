@@ -25,6 +25,10 @@ public class StudentService {
     return repository.searchStudents();
   }
 
+  public List<Student> searchDeletedStudentList() {
+    return repository.searchDeletedStudents();
+  }
+
   //リポジトリから受講生情報を受け取りコントローラーに渡す
   public Student searchStudent(String studentId) {
     Student student = new Student();
@@ -69,9 +73,19 @@ public class StudentService {
     repository.insertStudentCourse(studentCourseDetail);
   }
 
-  //入力されている受講生情報のみリポジトリに渡す
+  //受講生情報をリポジトリに渡す
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
+    if (studentDetail.getStudent().isDelete()){
+      List<StudentCourse> studentCourseList;
+      StudentCourse nullStudentCourse = new StudentCourse();
+      nullStudentCourse.setStudentId(studentDetail.getStudent().getStudentId());
+      studentCourseList = repository.searchStudentCourses(nullStudentCourse);
+      for (StudentCourse studentCourse : studentCourseList){
+        studentCourse.setDelete(true);
+        repository.updateStudentCourse(studentCourse);
+      }
+    }
     repository.updateStudent(studentDetail.getStudent());
   }
 
