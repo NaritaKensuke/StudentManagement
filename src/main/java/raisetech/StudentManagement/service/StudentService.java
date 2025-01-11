@@ -78,9 +78,9 @@ public class StudentService {
   public void updateStudent(StudentDetail studentDetail) {
     if (studentDetail.getStudent().isDelete()){
       List<StudentCourse> studentCourseList;
-      StudentCourse nullStudentCourse = new StudentCourse();
-      nullStudentCourse.setStudentId(studentDetail.getStudent().getStudentId());
-      studentCourseList = repository.searchStudentCourses(nullStudentCourse);
+      StudentCourse studentCourseContainer = new StudentCourse();
+      studentCourseContainer.setStudentId(studentDetail.getStudent().getStudentId());
+      studentCourseList = repository.searchStudentCourses(studentCourseContainer);
       for (StudentCourse studentCourse : studentCourseList){
         studentCourse.setDelete(true);
         repository.updateStudentCourse(studentCourse);
