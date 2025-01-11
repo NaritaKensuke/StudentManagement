@@ -11,16 +11,16 @@ import raisetech.StudentManagement.data.StudentCourse;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM students WHERE is_delete=0")
+  @Select("SELECT * FROM students WHERE is_delete=false")
   List<Student> searchStudents();
 
-  @Select("SELECT * FROM students WHERE is_delete=1")
+  @Select("SELECT * FROM students WHERE is_delete=true")
   List<Student> searchDeletedStudents();
 
   @Select("SELECT * FROM students WHERE student_id=#{studentId}")
   Student searchStudent(Student student);
 
-  @Select("SELECT * FROM students_courses WHERE is_delete=0 ORDER BY course_id")
+  @Select("SELECT * FROM students_courses WHERE is_delete=false ORDER BY course_id")
   List<StudentCourse> searchStudentsCourses();
 
   @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
