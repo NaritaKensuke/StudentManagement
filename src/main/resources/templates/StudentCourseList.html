@@ -1,36 +1,35 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymleaf.org", lang="jp">
+<html xmlns:th="http://www.thymleaf.org" , lang="jp">
 <head>
   <title>コース情報一覧</title>
 </head>
 <body>
 <h1>コース情報一覧</h1>
-  <p th:text="'受講生ID:' + ${studentCourseList.get(0).studentId}">2</p>
-  <table border="1">
-    <thead>
-    <tr>
-      <th>コースID</th>
-      <th>コース名</th>
-      <th>受講開始日</th>
-      <th>受講終了日</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="studentCourse : ${studentCourseList}">
-      <td>
-        <a th:href="@{/renewalStudentCourse(
+<p th:text="'受講生ID:' + ${studentCourseList.get(0).studentId}">2</p>
+<table border="1">
+  <thead>
+  <tr>
+    <th>コースID</th>
+    <th>コース名</th>
+    <th>受講開始日</th>
+    <th>受講終了日</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="studentCourse : ${studentCourseList}">
+    <td>
+      <a th:href="@{/renewalStudentCourse(
         courseDetailId=${studentCourse.courseDetailId},
         studentId=${studentCourse.studentId})}"
-           th:text="${studentCourse.courseId}">C1</a>
-      </td>
-      <td th:text="${studentCourse.courseName}">Java</td>
-      <td th:text="${studentCourse.startedDate}">2023-01-01</td>
-      <td th:text="${studentCourse.finishDate}">2024-01-02</td>
-    </tr>
-    </tr>
-    </tbody>
-  </table>
-  <p></p>
-  <button onclick="location.href='/studentList'">受講生情報一覧へ</button>
+         th:text="${studentCourse.courseId}">C1</a>
+    </td>
+    <td th:text="${studentCourse.courseName}">Java</td>
+    <td th:text="${studentCourse.startedDate}">2023-01-01</td>
+    <td th:text="${studentCourse.finishDate}">2024-01-02</td>
+  </tr>
+  </tbody>
+</table>
+<p></p>
+<button onclick="location.href='/studentList?delete=falseaa'">受講生情報一覧へ</button>
 </body>
 </html>

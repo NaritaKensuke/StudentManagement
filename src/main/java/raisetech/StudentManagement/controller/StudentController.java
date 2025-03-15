@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -29,8 +30,8 @@ public class StudentController {
 
   //受講生情報表示
   @GetMapping("/studentList")
-  public String getStudentList(Model model) {
-    List<Student> students = service.searchStudentList();
+  public String getStudentList(@RequestParam("delete") boolean delete, Model model) {
+    List<Student> students = service.searchStudentList(delete);
     List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
 
     model.addAttribute("studentList",
@@ -52,7 +53,7 @@ public class StudentController {
       @RequestParam("studentId") String studentId, Model model){
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setStudentId(studentId);
-    List<StudentCourse> studentCourseList =service.searchStudentCourses(studentCourse);
+    List<StudentCourse> studentCourseList = service.searchStudentCourses(studentCourse);
 
     model.addAttribute("studentCourseList", studentCourseList);
     return "studentCourseList";
@@ -93,9 +94,11 @@ public class StudentController {
   //受講生情報更新
   @PostMapping("/updateStudent")
   public String updateStudent(@ModelAttribute StudentDetail studentDetail,
-      @RequestParam("studentId") String studentId){
+      @RequestParam("studentId") String studentId,
+      RedirectAttributes redirectAttributes){
     studentDetail.getStudent().setStudentId(studentId);
     service.updateStudent(studentDetail);
+    redirectAttributes.addAttribute("delete","false");
     return "redirect:/studentList";
   }
 
@@ -113,11 +116,13 @@ public class StudentController {
   @PostMapping("/updateStudentCourse")
   public String updateStudentCourse(@ModelAttribute StudentDetail studentDetail,
       @RequestParam("studentId") String studentId,
-      @RequestParam("courseDetailId") int courseDetailId){
+      @RequestParam("courseDetailId") int courseDetailId,
+      RedirectAttributes redirectAttributes){
     studentDetail.getStudentCourse().setStudentId(studentId);
     studentDetail.getStudentCourse().setCourseDetailId(courseDetailId);
 
     service.updateStudentCourse(studentDetail);
+    redirectAttributes.addAttribute("delete","false");
     return "redirect:/studentList";
   }
 }

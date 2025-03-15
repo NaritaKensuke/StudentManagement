@@ -21,8 +21,12 @@ public class StudentService {
   }
 
   //リポジトリから受講生情報を受け取りコントローラーに渡す
-  public List<Student> searchStudentList() {
-    return repository.searchStudents();
+  public List<Student> searchStudentList(boolean delete) {
+    return repository.searchStudents(delete);
+  }
+
+  public List<Student> searchDeletedStudentList() {
+    return repository.searchDeletedStudents();
   }
 
   //リポジトリから受講生情報を受け取りコントローラーに渡す
@@ -69,9 +73,19 @@ public class StudentService {
     repository.insertStudentCourse(studentCourseDetail);
   }
 
-  //入力されている受講生情報のみリポジトリに渡す
+  //受講生情報をリポジトリに渡す
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
+    if (studentDetail.getStudent().isDelete()){
+      List<StudentCourse> studentCourseList;
+      StudentCourse studentCourseContainer = new StudentCourse();
+      studentCourseContainer.setStudentId(studentDetail.getStudent().getStudentId());
+      studentCourseList = repository.searchStudentCourses(studentCourseContainer);
+      for (StudentCourse studentCourse : studentCourseList){
+        studentCourse.setDelete(true);
+        repository.updateStudentCourse(studentCourse);
+      }
+    }
     repository.updateStudent(studentDetail.getStudent());
   }
 
@@ -84,7 +98,7 @@ public class StudentService {
       studentCourse.setStartedDate(
           repository.searchStudentCourse(studentCourse).getStartedDate());
       studentCourse.setFinishDate(
-          repository.searchStudentCourse(studentCourse).getStartedDate());
+          repository.searchStudentCourse(studentCourse).getFinishDate());
     } else if (studentCourse.getFinishDate() == null) {
       studentCourse.setStartedDate(studentCourse.getStartedDate());
       studentCourse.setFinishDate(studentCourse.getStartedDate().plusMonths(6));
