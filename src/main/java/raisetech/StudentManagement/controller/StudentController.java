@@ -113,6 +113,7 @@ public class StudentController {
     return "updateStudentCourse";
   }
 
+  //コース情報更新
   @PostMapping("/updateStudentCourse")
   public String updateStudentCourse(@ModelAttribute StudentDetail studentDetail,
       @RequestParam("studentId") String studentId,
