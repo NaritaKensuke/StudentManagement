@@ -25,10 +25,6 @@ public class StudentService {
     return repository.searchStudents(delete);
   }
 
-  public List<Student> searchDeletedStudentList() {
-    return repository.searchDeletedStudents();
-  }
-
   //リポジトリから受講生情報を受け取りコントローラーに渡す
   public Student searchStudent(String studentId) {
     Student student = new Student();
