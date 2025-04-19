@@ -21,8 +21,8 @@ public class StudentService {
   }
 
   //リポジトリから受講生情報を受け取りコントローラーに渡す
-  public List<Student> searchStudentList(boolean delete) {
-    return repository.searchStudents(delete);
+  public List<Student> searchStudentList(boolean deleted) {
+    return repository.searchStudents(deleted);
   }
 
   //リポジトリから受講生情報を受け取りコントローラーに渡す
@@ -72,13 +72,13 @@ public class StudentService {
   //受講生情報をリポジトリに渡す
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
-    if (studentDetail.getStudent().isDelete()){
+    if (studentDetail.getStudent().isDeleted()){
       List<StudentCourse> studentCourseList;
       StudentCourse studentCourseContainer = new StudentCourse();
       studentCourseContainer.setStudentId(studentDetail.getStudent().getStudentId());
       studentCourseList = repository.searchStudentCourses(studentCourseContainer);
       for (StudentCourse studentCourse : studentCourseList){
-        studentCourse.setDelete(true);
+        studentCourse.setDeleted(true);
         repository.updateStudentCourse(studentCourse);
       }
     }

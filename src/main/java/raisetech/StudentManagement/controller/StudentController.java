@@ -31,8 +31,8 @@ public class StudentController {
 
   //受講生情報表示
   @GetMapping("/studentList")
-  public List<Student> getStudentList(@RequestParam("delete") boolean delete) {
-    return service.searchStudentList(delete);
+  public List<Student> getStudentList(@RequestParam("deleted") boolean deleted) {
+    return service.searchStudentList(deleted);
   }
 
   //コース情報表示

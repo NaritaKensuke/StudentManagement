@@ -11,8 +11,8 @@ import raisetech.StudentManagement.data.StudentCourse;
 @Mapper
 public interface StudentRepository {
 
-  @Select("SELECT * FROM students WHERE is_delete=#{delete}")
-  List<Student> searchStudents(boolean delete);
+  @Select("SELECT * FROM students WHERE is_delete=#{deleted}")
+  List<Student> searchStudents(boolean deleted);
 
   @Select("SELECT * FROM students WHERE student_id=#{studentId}")
   Student searchStudent(Student student);
@@ -39,11 +39,11 @@ public interface StudentRepository {
 
   @Update("Update students SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname},"
       + "mail_address=#{mailAddress}, city=#{city}, age=#{age}, gender=#{gender},"
-      + "remark=#{remark}, is_delete=#{delete} WHERE student_id=#{studentId}")
+      + "remark=#{remark}, is_delete=#{deleted} WHERE student_id=#{studentId}")
   void updateStudent(Student student);
 
   @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName},"
-      + " started_date=#{startedDate}, finish_date=#{finishDate}, is_delete=#{delete}"
+      + " started_date=#{startedDate}, finish_date=#{finishDate}, is_delete=#{deleted}"
       + " WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourse(StudentCourse studentCourse);
 

@@ -14,6 +14,6 @@ public class StudentCourse {
   private LocalDate startedDate;
   private LocalDate finishDate;
   private int courseDetailId;
-  private boolean delete;
+  private boolean deleted;
 
 }
