@@ -85,10 +85,11 @@ public class StudentController {
 
   //受講生情報更新
   @PostMapping("/updateStudent")
-  public ResponseEntity<String> updateStudent(@RequestBody StudentDetail studentDetail){
+  public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
     service.updateStudent(studentDetail);
-    return ResponseEntity.ok("受講生情報の更新処理が完了しました。");
+    return ResponseEntity.ok(studentDetail.getStudent());
   }
+  
 
   //コース情報更新
   @GetMapping("/renewalStudentCourse")
@@ -103,8 +104,9 @@ public class StudentController {
 
   //コース情報更新
   @PostMapping("/updateStudentCourse")
-  public String updateStudentCourse(@RequestBody StudentDetail studentDetail){
+  public StudentCourse updateStudentCourse(@RequestBody StudentDetail studentDetail){
     service.updateStudentCourse(studentDetail);
-    return "コース情報の更新が完了しました。";
+    return service.searchStudentCourse(
+        studentDetail.getStudentCourse().getCourseDetailId());
   }
 }
