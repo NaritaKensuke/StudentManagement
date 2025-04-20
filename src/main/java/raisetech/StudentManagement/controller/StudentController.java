@@ -2,21 +2,22 @@ package raisetech.StudentManagement.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.service.StudentService;
 
-@Controller
+@RestController
 public class StudentController {
 
   private StudentService service;
@@ -30,33 +31,24 @@ public class StudentController {
 
   //受講生情報表示
   @GetMapping("/studentList")
-  public String getStudentList(@RequestParam("delete") boolean delete, Model model) {
-    List<Student> students = service.searchStudentList(delete);
-    List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
-
-    model.addAttribute("studentList",
-        converter.convertStudentsDetails(students,studentsCourses));
-    return "studentList";
+  public List<Student> getStudentList(@RequestParam("deleted") boolean deleted) {
+    return service.searchStudentList(deleted);
   }
 
   //コース情報表示
   @GetMapping("/allStudentCourseList")
-  public String getAllStudentsCourseList(Model model){
-    List<StudentCourse> studentsCourses = service.searchStudentsCoursesList();
-    model.addAttribute("allStudentCourseList", studentsCourses);
-    return "allStudentCourseList";
+  public List<StudentCourse> getAllStudentsCourseList(Model model){
+    return service.searchStudentsCoursesList();
   }
 
   //選択した受講生のコース情報表示
   @GetMapping("/studentCourseList")
-  public String getStudentCourseList(
-      @RequestParam("studentId") String studentId, Model model){
+  public List<StudentCourse> getStudentCourseList(
+      @RequestParam("studentId") String studentId){
     StudentCourse studentCourse = new StudentCourse();
     studentCourse.setStudentId(studentId);
-    List<StudentCourse> studentCourseList = service.searchStudentCourses(studentCourse);
 
-    model.addAttribute("studentCourseList", studentCourseList);
-    return "studentCourseList";
+    return service.searchStudentCourses(studentCourse);
   }
 
   //受講生情報登録画面
@@ -93,14 +85,11 @@ public class StudentController {
 
   //受講生情報更新
   @PostMapping("/updateStudent")
-  public String updateStudent(@ModelAttribute StudentDetail studentDetail,
-      @RequestParam("studentId") String studentId,
-      RedirectAttributes redirectAttributes){
-    studentDetail.getStudent().setStudentId(studentId);
+  public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
     service.updateStudent(studentDetail);
-    redirectAttributes.addAttribute("delete","false");
-    return "redirect:/studentList";
+    return ResponseEntity.ok(studentDetail.getStudent());
   }
+  
 
   //コース情報更新
   @GetMapping("/renewalStudentCourse")
@@ -115,15 +104,9 @@ public class StudentController {
 
   //コース情報更新
   @PostMapping("/updateStudentCourse")
-  public String updateStudentCourse(@ModelAttribute StudentDetail studentDetail,
-      @RequestParam("studentId") String studentId,
-      @RequestParam("courseDetailId") int courseDetailId,
-      RedirectAttributes redirectAttributes){
-    studentDetail.getStudentCourse().setStudentId(studentId);
-    studentDetail.getStudentCourse().setCourseDetailId(courseDetailId);
-
+  public StudentCourse updateStudentCourse(@RequestBody StudentDetail studentDetail){
     service.updateStudentCourse(studentDetail);
-    redirectAttributes.addAttribute("delete","false");
-    return "redirect:/studentList";
+    return service.searchStudentCourse(
+        studentDetail.getStudentCourse().getCourseDetailId());
   }
 }
