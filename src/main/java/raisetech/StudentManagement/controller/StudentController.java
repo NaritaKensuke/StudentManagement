@@ -3,10 +3,7 @@ package raisetech.StudentManagement.controller;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +34,9 @@ public class StudentController {
 
   //コース情報表示
   @GetMapping("/allStudentCourseList")
-  public List<StudentCourse> getAllStudentsCourseList(Model model){
-    return service.searchStudentsCoursesList();
+  public List<StudentCourse> getAllStudentsCourseList(
+      @RequestParam("deleted") boolean deleted){
+    return service.searchStudentsCoursesList(deleted);
   }
 
   //選択した受講生のコース情報表示
@@ -51,36 +49,15 @@ public class StudentController {
     return service.searchStudentCourses(studentCourse);
   }
 
-  //受講生情報登録画面
-  @GetMapping("/newStudent")
-  public String newStudent(Model model){
-    model.addAttribute("studentDetail", new StudentDetail());
-    return "registerStudent";
-  }
-
   //受講生情報、コース情報登録
   @PostMapping("/registerStudent")
-  public String registerStudent(@ModelAttribute StudentDetail studentDetail,
-      BindingResult result){
-    if(result.hasErrors()){
-      return "typeError";
-    }
+  public ResponseEntity<List> registerStudent(
+      @RequestBody StudentDetail studentDetail){
     //新規受講生情報を登録する
     service.registerStudentDetail(studentDetail);
     //受講生コース情報を登録する
     service.registerStudentCourseDetail(studentDetail);
-    return "redirect:/studentList";
-  }
-
-  //受講生情報更新
-  @GetMapping("/renewalStudent")
-  public String showStudentUpdateView(@RequestParam("studentId") String studentId, Model model){
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudent(service.searchStudent(studentId));
-    studentDetail.getStudent().setStudentId(studentId);
-
-    model.addAttribute("studentDetail", studentDetail);
-    return "updateStudent";
+    return ResponseEntity.ok(service.searchStudentList(false));
   }
 
   //受講生情報更新
@@ -88,18 +65,6 @@ public class StudentController {
   public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
     service.updateStudent(studentDetail);
     return ResponseEntity.ok(studentDetail.getStudent());
-  }
-  
-
-  //コース情報更新
-  @GetMapping("/renewalStudentCourse")
-  public String showStudentCourseUpdateView(@RequestParam("studentId") String studentId,
-      @RequestParam("courseDetailId") int courseDetailId, Model model){
-    StudentDetail studentDetail = new StudentDetail();
-    studentDetail.setStudentCourse(service.searchStudentCourse(courseDetailId));
-
-    model.addAttribute("studentDetail", studentDetail);
-    return "updateStudentCourse";
   }
 
   //コース情報更新
