@@ -17,8 +17,8 @@ public interface StudentRepository {
   @Select("SELECT * FROM students WHERE student_id=#{studentId}")
   Student searchStudent(Student student);
 
-  @Select("SELECT * FROM students_courses WHERE is_delete=false ORDER BY course_id")
-  List<StudentCourse> searchStudentsCourses();
+  @Select("SELECT * FROM students_courses WHERE is_delete=#{deleted} ORDER BY course_id")
+  List<StudentCourse> searchStudentsCourses(boolean deleted);
 
   @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
   List<StudentCourse> searchStudentCourses(StudentCourse studentCourse);
@@ -30,11 +30,11 @@ public interface StudentRepository {
   StudentCourse searchCoursesName(StudentCourse studentCourse);
 
   @Insert("INSERT students values(#{studentId},#{name},#{nameReading},#{nickname},"
-      + "#{mailAddress}, city=#{city},age=#{age},#{gender},#{remark},false)")
+      + "#{mailAddress},#{city},#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
 
-  @Insert("INSERT students_courses values(#{studentDetailCourseId}, #{studentId}, #{courseId},"
-      + " #{courseName}, #{startedDate}, #{finishDate})")
+  @Insert("INSERT students_courses values(#{courseDetailId}, #{studentId}, #{courseId},"
+      + " #{courseName}, #{startedDate}, #{finishDate}, false)")
   void insertStudentCourse(StudentCourse studentCourse);
 
   @Update("Update students SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname},"

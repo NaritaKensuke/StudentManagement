@@ -16,6 +16,7 @@ public class StudentService {
   private StudentRepository repository;
 
   @Autowired
+
   public StudentService(StudentRepository repository) {
     this.repository = repository;
   }
@@ -33,8 +34,8 @@ public class StudentService {
   }
 
   //リポジトリからコース情報を受け取りコントローラーに渡す
-  public List<StudentCourse> searchStudentsCoursesList() {
-    return repository.searchStudentsCourses();
+  public List<StudentCourse> searchStudentsCoursesList(boolean deleted) {
+    return repository.searchStudentsCourses(deleted);
   }
 
   // 受講生のコース情報を取得
@@ -61,6 +62,8 @@ public class StudentService {
   public void registerStudentCourseDetail(StudentDetail studentDetail) {
     StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
 
+    studentCourseDetail.setStudentId(
+        repository.searchStudents(false).getLast().getStudentId());
     studentCourseDetail.setCourseId(
         repository.searchCoursesName(studentCourseDetail).getCourseId());
     studentCourseDetail.setStartedDate(LocalDate.now());
