@@ -36,18 +36,6 @@ public class StudentService {
   }
 
   /**
-   * 指定の受講生の基本情報を検索する
-   *
-   * @param studentId 受講生IDの情報を受け取る
-   * @return 受け取った受講生IDを持つ受講生の基本情報を検索する
-   */
-  public Student searchStudent(String studentId) {
-    Student student = new Student();
-    student.setStudentId(studentId);
-    return repository.searchStudent(student);
-  }
-
-  /**
    * すべての受講生のコース情報一覧を検索する
    *
    * @param deleted 論理削除の情報を受け取る
@@ -60,48 +48,37 @@ public class StudentService {
   /**
    * 指定の受講生のコース情報一覧を検索する
    *
-   * @param studentCourse 検索する受講生のコース情報を受け取る
+   * @param studentId 検索する受講生の受講生IDを受け取る
    * @return 受け取ったコース情報で検索したコース情報を返す
    */
-  public List<StudentCourse> searchStudentCourses(StudentCourse studentCourse) {
-    return repository.searchStudentCourses(studentCourse);
+  public List<StudentCourse> searchStudentCoursesList(String studentId) {
+    return repository.searchStudentCourses(studentId);
   }
 
   /**
    * 単一の受講生コース情報を検索する
    *
-   * @param courseDetailId 検索する受講生コース情報の固有IDを受け取る
+   * @param studentDetail 検索する受講生コース情報の固有IDを受け取る
    * @return 検索した受講生コース情報を返す
    */
-  public StudentCourse searchStudentCourse(int courseDetailId) {
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setCourseDetailId(courseDetailId);
-    return repository.searchStudentCourse(studentCourse);
+  public StudentCourse searchStudentCourse(StudentDetail studentDetail) {
+    return repository.searchStudentCourse(studentDetail.getStudentCourse());
   }
 
   /**
-   * 受講生の基本情報を登録する
-   *
-   * @param studentDetail 登録する受講生情報を受け取る
-   */
-  @Transactional
-  public void registerStudentDetail(StudentDetail studentDetail) {
-    Student studentInfo = studentDetail.getStudent();
-    repository.insertStudent(studentInfo);
-  }
-
-  /**
-   * 受講生のコース情報を登録する
+   * 受講生の基本情報とコース情報を登録する
    *
    * 受講生一覧を検索し、最後に登録した受講生の受講生IDを登録するコース情報に登録する
    * 登録するコースのコースIDを検索し登録する
    * コース開始日をコース情報を登録する日付で登録する
    * コース終了日をコース情報を登録する日付の6か月後で登録する
    *
-   * @param studentDetail 登録するコース情報を受け取る
+   * @param studentDetail 登録する受講生情報を受け取る
    */
   @Transactional
-  public void registerStudentCourseDetail(StudentDetail studentDetail) {
+  public void registerStudent(StudentDetail studentDetail) {
+    repository.insertStudent(studentDetail.getStudent());
+
     StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
 
     studentCourseDetail.setStudentId(
@@ -117,7 +94,8 @@ public class StudentService {
   /**
    * 受講生の基本情報を更新する
    *
-   * 更新する受講生情報の論理削除がtureだった場合、該当の受講生の受講生IDをもつコース情報の論理削除をtrueに更新する
+   * 更新する受講生情報の論理削除がtureだった場合、
+   * 該当の受講生の受講生IDをもつコース情報の論理削除をtrueに更新する
    *
    * @param studentDetail 更新する基本情報を受け取る
    */
@@ -125,9 +103,8 @@ public class StudentService {
   public void updateStudent(StudentDetail studentDetail) {
     if (studentDetail.getStudent().isDeleted()){
       List<StudentCourse> studentCourseList;
-      StudentCourse studentCourseContainer = new StudentCourse();
-      studentCourseContainer.setStudentId(studentDetail.getStudent().getStudentId());
-      studentCourseList = repository.searchStudentCourses(studentCourseContainer);
+      studentCourseList = repository.searchStudentCourses(
+          studentDetail.getStudent().getStudentId());
       for (StudentCourse studentCourse : studentCourseList){
         studentCourse.setDeleted(true);
         repository.updateStudentCourse(studentCourse);

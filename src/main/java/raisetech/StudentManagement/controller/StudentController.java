@@ -61,10 +61,7 @@ public class StudentController {
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList(
       @RequestParam("studentId") String studentId){
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setStudentId(studentId);
-
-    return service.searchStudentCourses(studentCourse);
+    return service.searchStudentCoursesList(studentId);
   }
 
   /**
@@ -76,10 +73,7 @@ public class StudentController {
   @PostMapping("/registerStudent")
   public ResponseEntity<List> registerStudent(
       @RequestBody StudentDetail studentDetail){
-    //新規受講生情報を登録する
-    service.registerStudentDetail(studentDetail);
-    //受講生コース情報を登録する
-    service.registerStudentCourseDetail(studentDetail);
+    service.registerStudent(studentDetail);
     return ResponseEntity.ok(service.searchStudentList(false));
   }
 
@@ -104,7 +98,6 @@ public class StudentController {
   @PostMapping("/updateStudentCourse")
   public StudentCourse updateStudentCourse(@RequestBody StudentDetail studentDetail){
     service.updateStudentCourse(studentDetail);
-    return service.searchStudentCourse(
-        studentDetail.getStudentCourse().getCourseDetailId());
+    return service.searchStudentCourse(studentDetail);
   }
 }
