@@ -22,7 +22,7 @@ public interface StudentRepository {
    * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
    */
   @Select("SELECT * FROM students WHERE is_delete=#{deleted}")
-  List<Student> searchStudents(boolean deleted);
+  List<Student> searchStudentList(boolean deleted);
 
   /**
    * すべての受講生のコース情報一覧を検索する
@@ -31,7 +31,7 @@ public interface StudentRepository {
    * @return 論理削除がtrueの受講生コースリストもしくはfalseの受講生コースリストを返す
    */
   @Select("SELECT * FROM students_courses WHERE is_delete=#{deleted} ORDER BY course_id")
-  List<StudentCourse> searchStudentsCourses(boolean deleted);
+  List<StudentCourse> searchAllStudentCourseList(boolean deleted);
 
   /**
    * 指定の受講生のコース情報一覧を検索する
@@ -40,7 +40,7 @@ public interface StudentRepository {
    * @return 受け取ったコース情報で検索したコース情報を返す
    */
   @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
-  List<StudentCourse> searchStudentCourses(String studentId);
+  List<StudentCourse> searchStudentCourseList(String studentId);
 
   /**
    * 単一の受講生コース情報を検索する
@@ -58,7 +58,7 @@ public interface StudentRepository {
    * @return 検索したコース情報を返す
    */
   @Select("SELECT * FROM course_id_name WHERE course_name=#{courseName}")
-  StudentCourse searchCoursesName(StudentCourse studentCourse);
+  StudentCourse searchCourseName(StudentCourse studentCourse);
 
   /**
    * 受講生の基本情報を登録する

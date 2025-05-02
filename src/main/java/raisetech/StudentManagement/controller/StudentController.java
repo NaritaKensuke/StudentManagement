@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,7 +50,7 @@ public class StudentController {
   @GetMapping("/allStudentCourseList")
   public List<StudentCourse> getAllStudentsCourseList(
       @RequestParam("deleted") boolean deleted){
-    return service.searchStudentsCoursesList(deleted);
+    return service.searchAllStudentCourseList(deleted);
   }
 
   /**
@@ -61,7 +62,7 @@ public class StudentController {
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList(
       @RequestParam("studentId") String studentId){
-    return service.searchStudentCoursesList(studentId);
+    return service.searchStudentCourseList(studentId);
   }
 
   /**
@@ -70,7 +71,7 @@ public class StudentController {
    * @param studentDetail 登録する受講生情報を受け取る
    * @return 正常に処理された場合、論理削除がfalseの受講生情報リストを返す
    */
-  @PostMapping("/registerStudent")
+  @PutMapping("/registerStudent")
   public ResponseEntity<List> registerStudent(
       @RequestBody StudentDetail studentDetail){
     service.registerStudent(studentDetail);
