@@ -71,7 +71,7 @@ public class StudentController {
    * @param studentDetail 登録する受講生情報を受け取る
    * @return 正常に処理された場合、論理削除がfalseの受講生情報リストを返す
    */
-  @PutMapping("/registerStudent")
+  @PostMapping("/registerStudent")
   public ResponseEntity<List> registerStudent(
       @RequestBody StudentDetail studentDetail){
     service.registerStudent(studentDetail);
@@ -84,7 +84,7 @@ public class StudentController {
    * @param studentDetail 更新する受講生の基本情報を受け取る
    * @return 正常に処理された場合、更新した受講生の基本情報を返す
    */
-  @PostMapping("/updateStudent")
+  @PutMapping("/updateStudent")
   public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
     service.updateStudent(studentDetail);
     return ResponseEntity.ok(studentDetail.getStudent());
@@ -96,7 +96,7 @@ public class StudentController {
    * @param studentDetail 更新する受講生のコース情報を受け取る
    * @return 正常に処理された場合、更新した受講生のコース情報を受け取る
    */
-  @PostMapping("/updateStudentCourse")
+  @PutMapping("/updateStudentCourse")
   public StudentCourse updateStudentCourse(@RequestBody StudentDetail studentDetail){
     service.updateStudentCourse(studentDetail);
     return service.searchStudentCourse(studentDetail);
