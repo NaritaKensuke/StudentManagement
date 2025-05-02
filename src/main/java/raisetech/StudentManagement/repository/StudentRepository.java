@@ -25,16 +25,6 @@ public interface StudentRepository {
   List<Student> searchStudents(boolean deleted);
 
   /**
-   * 指定の受講生の基本情報を検索する
-   * 検索条件として受講生IDを使用する
-   *
-   * @param student 受講生の基本情報を受け取る
-   * @return 受け取った受講生IDを持つ受講生の基本情報を検索する
-   */
-  @Select("SELECT * FROM students WHERE student_id=#{studentId}")
-  Student searchStudent(Student student);
-
-  /**
    * すべての受講生のコース情報一覧を検索する
    *
    * @param deleted 論理削除の情報を受け取る
@@ -46,11 +36,11 @@ public interface StudentRepository {
   /**
    * 指定の受講生のコース情報一覧を検索する
    *
-   * @param studentCourse 検索する受講生のコース情報を受け取る
+   * @param studentId 検索する受講生のコース情報を受け取る
    * @return 受け取ったコース情報で検索したコース情報を返す
    */
   @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
-  List<StudentCourse> searchStudentCourses(StudentCourse studentCourse);
+  List<StudentCourse> searchStudentCourses(String studentId);
 
   /**
    * 単一の受講生コース情報を検索する
