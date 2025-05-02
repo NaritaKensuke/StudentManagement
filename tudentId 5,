@@ -1,0 +1,425 @@
+[33mcommit 5c37c6c682a94f7a48c276fab984cea657810afd[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mwork[m[33m, [m[1;31morigin/work[m[33m, [m[1;32mmain[m[33m)[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu May 1 10:56:16 2025 +0900
+
+    リファクタリング
+
+[33mcommit 0f6c88c267d4a34c817880cd4046ef695a3c3112[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu May 1 09:45:49 2025 +0900
+
+    各メソッドにコメント
+
+[33mcommit 53fc599659f4137b435f4e4792d1c772cfde3123[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Apr 24 21:21:59 2025 +0900
+
+    受講生情報登録をREST化
+
+[33mcommit c2b101cf22660ff4a3f3224d88643877527db374[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Apr 19 20:03:36 2025 +0900
+
+    「delete」を「deleted」に修正
+
+[33mcommit bdabb09878487646abec8d254f46a171222bcc53[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Apr 19 15:22:23 2025 +0900
+
+    JSOLを返すよう修正
+
+[33mcommit a3eadb1eaab02a62494a74bf93c1bda14f2a4fd7[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Apr 13 10:41:13 2025 +0900
+
+    postman処理実装
+
+[33mcommit 1a2235584f95951043bd138fc725592f59f33524[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Mar 29 16:36:52 2025 +0900
+
+    微修正
+
+[33mcommit 45d02b4f8b7a08c2a445dd9a4a5a830eb3211477[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Feb 13 22:17:24 2025 +0900
+
+    クエリパラメータで受講生情報ページを指定するように修正
+
+[33mcommit 25292176269532956e7d4a3f8d512616b9533457[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Jan 11 15:44:34 2025 +0900
+
+    is_deleteの検索を"true" or "false"で指定するように修正
+
+[33mcommit f9f1052b09dbab22335a29108dc30c365bc03279[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Jan 11 15:40:48 2025 +0900
+
+    nullStudentCourseをstudentCourseContainerに変更
+
+[33mcommit a564f7b361b54d045be012a535d08c75aed5ecad[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Jan 2 10:06:45 2025 +0900
+
+    受講生の削除機能を追加
+
+[33mcommit 1ed32a7f0383952928c4b9f44ca6dcb482392180[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Dec 21 09:18:58 2024 +0900
+
+    htmlのコード整理
+
+[33mcommit b5fc1f6d369caa4a9de79e6e061bb5e2000e19df[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Dec 21 09:15:14 2024 +0900
+
+    コース開始日と終了日を表示
+
+[33mcommit be38d13d6fde41915a66b0e72e1f00d69fe821de[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Mon Dec 16 21:18:41 2024 +0900
+
+    更新画面で情報を表示させる修正
+
+[33mcommit b9cd468a1ce4733295c75ae6101d3a726d4f9bde[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Dec 14 10:37:59 2024 +0900
+
+    情報検索をSQLで行う変更
+
+[33mcommit 6e4df87d089aac4e3a11ae690c6fea595f4fe5a1[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Tue Dec 10 21:34:31 2024 +0900
+
+    更新
+
+[33mcommit 820e42b66962f2795d4389ea54b60d1f2178987b[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Dec 7 09:59:31 2024 +0900
+
+    コース情報のソートをクエリで行うよう変更
+
+[33mcommit 1c30ba1dd640d56ed8c683c13dea90640c29bb9f[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Dec 7 09:23:55 2024 +0900
+
+    コース情報を１つのクエリで更新できるよう修正
+
+[33mcommit 586dfa316d449b0389158d641f876f49fba47124[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Dec 6 21:51:03 2024 +0900
+
+    受講生ごとのコース情報取得方法変更
+
+[33mcommit 1ec522405b4b8e627983aba324bd03dab52ca4bc[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Dec 6 20:52:28 2024 +0900
+
+    コースIDとコース名の紐づけをデータベースで保持する変更
+
+[33mcommit a0cbfee5f4b035243bb280e954ce35e8a0753b0c[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Nov 30 16:39:53 2024 +0900
+
+    受講生情報の更新を１回のクエリで行うよう変更
+
+[33mcommit bae0205e9802c81ccc567094e8018dd6a2d59fef[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Tue Nov 26 21:36:01 2024 +0900
+
+    uniqueIdをcourseDetailIdに変更
+
+[33mcommit 7579d7340e3eec8f0b23a93f032efdd24d23eddc[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Nov 24 02:16:08 2024 +0900
+
+    受講生コース情報を更新する機能の追加
+
+[33mcommit f4bd6195c5aea62735afa4466a69ca9fb46d1b1b[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Nov 16 11:10:39 2024 +0900
+
+    細かい修正
+
+[33mcommit ceeeb235eb22c476eae5ffb16d05a21e60181791[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Nov 15 23:10:42 2024 +0900
+
+    修正
+
+[33mcommit 8df0f46c685c3c656a0b72c56ccc8a38ac7ef3ad[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Nov 15 23:06:22 2024 +0900
+
+    備考が空白更新されないよう修正
+
+[33mcommit fd5e4719fa6998e7eac141733787a1fab3895248[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Nov 14 22:48:06 2024 +0900
+
+    受講生情報更新機能の追加
+
+[33mcommit 0956f7846736fe46472999efaf8abafc7c75e0d3[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Tue Oct 29 20:39:21 2024 +0900
+
+    入力情報変更
+
+[33mcommit c286b6c47f19e364f4575c5865c38e6395d17025[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Mon Oct 28 20:48:24 2024 +0900
+
+    開始、終了日自動登録
+
+[33mcommit b422d308efc0166e99edc7cf6074dc68fedf1b44[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 27 14:55:55 2024 +0900
+
+    コース情報をコースIDでソートしてから表示
+
+[33mcommit 01ca10179672ee2dfe2748571660532f2c8f640c[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 27 13:14:16 2024 +0900
+
+    コメント追加
+
+[33mcommit 20744b5a7505efba85604c67d0a9b7e0c5add507[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Oct 26 21:24:48 2024 +0900
+
+    受講生のコース情報を登録する機能の追加
+
+[33mcommit d43aeda109e80a9865a21f5aa9a7282bb887bbee[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Oct 26 10:45:45 2024 +0900
+
+    入力エラー画面からの遷移先修正
+
+[33mcommit d03280aa55b78ca5e737f4db7374f37f8e7af64b[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Oct 26 08:54:47 2024 +0900
+
+    バリデーションエラー時の動作追加
+
+[33mcommit 85b64ccbde0bee54e252d59b783540dd2b3f45ef[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 24 21:18:17 2024 +0900
+
+    生徒情報の登録機能を追加
+
+[33mcommit 92e3ef3eab8d08cd2ab82f6f19165c41cdb84e93[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 20 21:46:47 2024 +0900
+
+    UIの実装
+
+[33mcommit e7216d25b8ac4b142ed7ca93e078946255926129[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 20 12:15:10 2024 +0900
+
+    htmlとコントローラーの紐づけができない
+
+[33mcommit 74b5be0e752589696b8d12b9a3733f92d93ec768[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 20 10:42:57 2024 +0900
+
+    受講生情報とコース情報をまとめて表示
+
+[33mcommit 84de2afcb7d0eef250e6a8b6b8b1a1b669977f6a[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Oct 19 16:09:39 2024 +0900
+
+    受講生情報とコース情報の検索条件変更
+
+[33mcommit a025c8dec01b0859546ef328e3a8c6c2c628d803[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Oct 18 21:36:34 2024 +0900
+
+    コントローラーとサービスの追加
+
+[33mcommit 4ae532660775d1f58de4c37f32a9346137a1e323[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Oct 18 20:41:10 2024 +0900
+
+    ファイル整理
+
+[33mcommit 7a3a9d80a4c15574ca1efd9019bdff0d3bdbc399[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Oct 18 20:24:57 2024 +0900
+
+    StudentCourseクラスの削除
+    
+    不要なStudentCourseクラスを削除します
+
+[33mcommit 1a0832ec26521ace3a87b4372de0cd46a3ad8d72[m
+Merge: cc07e7b 1a11452
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Oct 18 20:23:10 2024 +0900
+
+    Merge pull request #9 from NaritaKensuke/work
+    
+    受講生のコース情報の一覧表示
+
+[33mcommit 1a1145291af484db80e7f72435b5e434cc183a00[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 17 23:29:32 2024 +0900
+
+    受講生のコース情報を一覧表示する機能の追加
+
+[33mcommit 01e21c882d9d0631a4a23195aad0550b29ff151e[m
+Merge: 10bee11 cc07e7b
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 17 22:22:03 2024 +0900
+
+    Merge branch 'main' of https://github.com/NaritaKensuke/StudentManagement into demo
+
+[33mcommit 10bee114b3cf3dbb042203952ac52599593f5d35[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 17 22:02:50 2024 +0900
+
+    StudentCouseクラスを追加
+
+[33mcommit cc07e7b0c51ada07b85a05e8298b78ddcee8a8b2[m
+Merge: c66e7b9 5e953aa
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 17 21:53:05 2024 +0900
+
+    Merge pull request #8 from NaritaKensuke/test
+    
+    テーブル内の情報をすべて表示
+
+[33mcommit 5e953aa326888fbeaaa7388ac7f4d94394cc936e[m[33m ([m[1;31morigin/test[m[33m)[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 17 21:50:32 2024 +0900
+
+    受講生情報の一括取得
+
+[33mcommit d36654c14b8f590ada3e252b84d153b40523f745[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Mon Oct 14 19:03:35 2024 +0900
+
+    テーブル内の情報をすべて表示
+
+[33mcommit c66e7b906f3f1e524f087b289e7381391a8f06d2[m
+Merge: 96aa417 7318f9b
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Mon Oct 14 13:45:23 2024 +0900
+
+    Merge pull request #7 from NaritaKensuke/test
+    
+    講義動画に準拠
+
+[33mcommit 7318f9b9a0e2a5f9654ffece09465a24a43b9638[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Mon Oct 14 10:04:56 2024 +0900
+
+    講義動画に準拠
+
+[33mcommit 96aa417ed913b09a70c0864800ef0c338e59eb42[m
+Merge: 2656f1d 6136ec7
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 13 09:41:47 2024 +0900
+
+    Merge pull request #6 from NaritaKensuke/test
+    
+    Test
+
+[33mcommit 6136ec7ef58b582995d13b7d93dc5761b24a0d72[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sun Oct 13 09:38:28 2024 +0900
+
+    エラー確認
+
+[33mcommit 0ffee9789c86a946b86a7f154de194fe7c80e69d[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Oct 12 21:12:12 2024 +0900
+
+    構成要素の更新
+
+[33mcommit 2656f1dbc3805425ef26119ce578fa11aff2ae15[m
+Merge: e60f67d cc1b35a
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Sat Oct 12 20:45:25 2024 +0900
+
+    Merge pull request #5 from NaritaKensuke/test
+    
+    Mapの追加
+
+[33mcommit cc1b35a37ed343468420c09640f752c48a690418[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Fri Oct 11 21:00:35 2024 +0900
+
+    Mapの追加
+
+[33mcommit e60f67dfc833cecc61df16851d6048299d0549b3[m
+Merge: c465e00 11a9b6a
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 3 23:27:23 2024 +0900
+
+    Merge pull request #4 from NaritaKensuke/test
+    
+    生徒の名前と年齢を表示するシステム
+
+[33mcommit 11a9b6a1f2d54a79471acc42b85ec5d847ad8680[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 3 23:23:59 2024 +0900
+
+    生徒の名前と年齢を表示するシステム
+
+[33mcommit c465e009acec8dc0e859187ecbabf529fa3fde15[m
+Merge: 0c5b6b7 36f6bf6
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 3 21:23:57 2024 +0900
+
+    Merge pull request #3 from NaritaKensuke/test
+    
+    メソッドの削除
+
+[33mcommit 36f6bf653113b55e807454fcbc250e4196b52a6f[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 3 21:18:45 2024 +0900
+
+    メソッドの削除
+
+[33mcommit 0c5b6b717aed8a0544feb6308fce1eae937f1719[m
+Merge: 219f81b 3e5bf25
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Thu Oct 3 21:11:26 2024 +0900
+
+    Merge pull request #2 from NaritaKensuke/test
+    
+    構成要素の追加
+
+[33mcommit 3e5bf25efc1ff8c71f38adc287a9fed30cbd289f[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Wed Oct 2 23:20:46 2024 +0900
+
+    構成要素の追加
+
+[33mcommit 219f81b5052d8817759512e0e989182a567d4b9b[m
+Merge: abacefa ac991bb
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Tue Oct 1 23:33:57 2024 +0900
+
+    Merge pull request #1 from NaritaKensuke/test
+    
+    Hello,Worldを表示
+
+[33mcommit ac991bbee99d324fc33ffd908ca87d96a8d254f1[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Tue Oct 1 23:23:23 2024 +0900
+
+    Hello,Worldを表示
+
+[33mcommit abacefa1820ab2e13a97cb11ff49ddf71b9e8cf4[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Tue Oct 1 22:56:43 2024 +0900
+
+    demo commit
+
+[33mcommit 98e667a9d81c8686c8085584e64e436c8942a89b[m
+Author: Narita Kensuke <naritak2024@outlook.jp>
+Date:   Mon Sep 30 20:27:07 2024 +0900
+
+    Initial commit

@@ -62,7 +62,7 @@ public class StudentService {
    * @return 検索した受講生コース情報を返す
    */
   public StudentCourse searchStudentCourse(StudentDetail studentDetail) {
-    return repository.searchStudentCourse(studentDetail.getStudentCourse());
+    return repository.searchStudentCourse(studentDetail.getStudentCourseList().getFirst());
   }
 
   /**
@@ -79,16 +79,17 @@ public class StudentService {
   public void registerStudent(StudentDetail studentDetail) {
     repository.insertStudent(studentDetail.getStudent());
 
-    StudentCourse studentCourseDetail = studentDetail.getStudentCourse();
+    List<StudentCourse> studentCourseList = studentDetail.getStudentCourseList();
 
-    studentCourseDetail.setStudentId(
-        repository.searchStudents(false).getLast().getStudentId());
-    studentCourseDetail.setCourseId(
-        repository.searchCoursesName(studentCourseDetail).getCourseId());
-    studentCourseDetail.setStartedDate(LocalDate.now());
-    studentCourseDetail.setFinishDate(LocalDate.now().plusMonths(6));
-
-    repository.insertStudentCourse(studentCourseDetail);
+    studentCourseList.forEach(studentCourse -> {
+      studentCourse.setStudentId(
+          repository.searchStudents(false).getLast().getStudentId());
+      studentCourse.setCourseId(
+          repository.searchCoursesName(studentCourse).getCourseId());
+      studentCourse.setStartedDate(LocalDate.now());
+      studentCourse.setFinishDate(LocalDate.now().plusMonths(6));
+      repository.insertStudentCourse(studentCourse);
+    });
   }
 
   /**
@@ -134,23 +135,25 @@ public class StudentService {
    */
   @Transactional
   public void updateStudentCourse(StudentDetail studentDetail) {
-    StudentCourse studentCourse = studentDetail.getStudentCourse();
-    studentCourse.setCourseId(repository.searchCoursesName(studentCourse).getCourseId());
+    List<StudentCourse> studentCourseList = studentDetail.getStudentCourseList();
+    for (StudentCourse studentCourse : studentCourseList) {
+      studentCourse.setCourseId(repository.searchCoursesName(studentCourse).getCourseId());
 
-    if ((studentCourse.getStartedDate() == null) && (studentCourse.getFinishDate() == null)) {
-      studentCourse.setStartedDate(
-          repository.searchStudentCourse(studentCourse).getStartedDate());
-      studentCourse.setFinishDate(
-          repository.searchStudentCourse(studentCourse).getFinishDate());
-    } else if (studentCourse.getFinishDate() == null) {
-      studentCourse.setStartedDate(studentCourse.getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getStartedDate().plusMonths(6));
-    } else if (studentCourse.getStartedDate() == null) {
-      studentCourse.setFinishDate(studentCourse.getFinishDate());
-    } else {
-      studentCourse.setStartedDate(studentCourse.getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getFinishDate());
+      if ((studentCourse.getStartedDate() == null) && (studentCourse.getFinishDate() == null)) {
+        studentCourse.setStartedDate(
+            repository.searchStudentCourse(studentCourse).getStartedDate());
+        studentCourse.setFinishDate(
+            repository.searchStudentCourse(studentCourse).getFinishDate());
+      } else if (studentCourse.getFinishDate() == null) {
+        studentCourse.setStartedDate(studentCourse.getStartedDate());
+        studentCourse.setFinishDate(studentCourse.getStartedDate().plusMonths(6));
+      } else if (studentCourse.getStartedDate() == null) {
+        studentCourse.setFinishDate(studentCourse.getFinishDate());
+      } else {
+        studentCourse.setStartedDate(studentCourse.getStartedDate());
+        studentCourse.setFinishDate(studentCourse.getFinishDate());
+      }
+      repository.updateStudentCourse(studentCourse);
     }
-    repository.updateStudentCourse(studentCourse);
   }
 }
