@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.data;
 
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,7 +12,9 @@ public class StudentCourse {
   private String studentId;
   private String courseId;
   private String courseName;
+  @NotNull
   private LocalDate startedDate;
+  @NotNull
   private LocalDate finishDate;
   private String courseDetailId;
   private boolean deleted;
