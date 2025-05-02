@@ -1,9 +1,7 @@
 package raisetech.StudentManagement.repository;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
@@ -21,7 +19,6 @@ public interface StudentRepository {
    * @param deleted 論理削除の情報を受け取る
    * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
    */
-  @Select("SELECT * FROM students WHERE is_delete=#{deleted}")
   List<Student> searchStudentList(boolean deleted);
 
   /**
@@ -30,7 +27,6 @@ public interface StudentRepository {
    * @param deleted 論理削除の情報を受け取る
    * @return 論理削除がtrueの受講生コースリストもしくはfalseの受講生コースリストを返す
    */
-  @Select("SELECT * FROM students_courses WHERE is_delete=#{deleted} ORDER BY course_id")
   List<StudentCourse> searchAllStudentCourseList(boolean deleted);
 
   /**
@@ -39,7 +35,6 @@ public interface StudentRepository {
    * @param studentId 検索する受講生のコース情報を受け取る
    * @return 受け取ったコース情報で検索したコース情報を返す
    */
-  @Select("SELECT * FROM students_courses WHERE student_id=#{studentId}")
   List<StudentCourse> searchStudentCourseList(String studentId);
 
   /**
@@ -48,7 +43,6 @@ public interface StudentRepository {
    * @param studentCourse 検索する受講生コース情報を受け取る
    * @return 検索した受講生コース情報を返す
    */
-  @Select("SELECT * FROM students_courses WHERE course_detail_id=#{courseDetailId}")
   StudentCourse searchStudentCourse(StudentCourse studentCourse);
 
   /**
@@ -57,7 +51,6 @@ public interface StudentRepository {
    * @param studentCourse 検索するコース情報を受け取る
    * @return 検索したコース情報を返す
    */
-  @Select("SELECT * FROM course_id_name WHERE course_name=#{courseName}")
   StudentCourse searchCourseName(StudentCourse studentCourse);
 
   /**
@@ -65,8 +58,6 @@ public interface StudentRepository {
    *
    * @param student 登録する受講生の基本情報を受け取る
    */
-  @Insert("INSERT students values(#{studentId},#{name},#{nameReading},#{nickname},"
-      + "#{mailAddress},#{city},#{age},#{gender},#{remark},false)")
   void insertStudent(Student student);
 
   /**
@@ -74,8 +65,6 @@ public interface StudentRepository {
    *
    * @param studentCourse 登録する受講生のコース情報を受け取る
    */
-  @Insert("INSERT students_courses values(#{courseDetailId}, #{studentId}, #{courseId},"
-      + " #{courseName}, #{startedDate}, #{finishDate}, false)")
   void insertStudentCourse(StudentCourse studentCourse);
 
   /**
