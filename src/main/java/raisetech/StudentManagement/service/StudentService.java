@@ -128,8 +128,6 @@ public class StudentService {
    *
    * 更新されたコース情報でコースIDを検索し登録する
    *
-   * 更新されたコース情報に合わせて開始日、終了日を登録する
-   *
    * @param studentDetail 更新するコース情報を受け取る
    */
   @Transactional
@@ -137,44 +135,7 @@ public class StudentService {
     List<StudentCourse> studentCourseList = studentDetail.getStudentCourseList();
     studentCourseList.forEach(studentCourse -> {
       studentCourse.setCourseId(repository.searchCourseName(studentCourse).getCourseId());
-      setCourseDate(studentCourse);
       repository.updateStudentCourse(studentCourse);
     });
-  }
-
-  /**
-   * コース情報を更新する際に開始日、終了日の入力状態に合わせて開始日、終了日を更新する
-   *
-   * コース開始日と終了日の更新情報によって処理を場合分けする
-   *  開始日と終了日の情報がnullで更新された場合
-   *    更新前の開始日と終了日で登録する
-   *  開始日のみ更新された場合
-   *    開始日は更新された情報で登録する
-   *    終了日は更新前の情報で登録する
-   *  終了日のみ更新された場合
-   *    開始日は更新前の情報で登録する
-   *    終了日は更新された情報で登録する
-   *  開始日と終了日の両方が更新された場合
-   *    更新されたの開始日と終了日で登録する
-   *
-   * @param studentCourse
-   */
-  private void setCourseDate(StudentCourse studentCourse) {
-    if ((studentCourse.getStartedDate() == null) && (studentCourse.getFinishDate() == null)) {
-      studentCourse.setStartedDate(
-          repository.searchStudentCourse(studentCourse).getStartedDate());
-      studentCourse.setFinishDate(
-          repository.searchStudentCourse(studentCourse).getFinishDate());
-    } else if (studentCourse.getFinishDate() == null) {
-      studentCourse.setStartedDate(studentCourse.getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getStartedDate().plusMonths(6));
-    } else if (studentCourse.getStartedDate() == null) {
-      studentCourse.setStartedDate(
-        repository.searchStudentCourse(studentCourse).getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getFinishDate());
-    } else {
-      studentCourse.setStartedDate(studentCourse.getStartedDate());
-      studentCourse.setFinishDate(studentCourse.getFinishDate());
-    }
   }
 }

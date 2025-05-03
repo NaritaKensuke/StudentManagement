@@ -1,8 +1,11 @@
 package raisetech.StudentManagement.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,6 +21,7 @@ import raisetech.StudentManagement.service.StudentService;
 /**
  * 受講生の検索や登録、更新などを行うREST APIとして実行されるController
  */
+@Validated
 @RestController
 public class StudentController {
 
@@ -61,7 +65,7 @@ public class StudentController {
    */
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList(
-      @RequestParam("studentId") String studentId){
+      @RequestParam("studentId") @Size(min = 1,max = 3) String studentId){
     return service.searchStudentCourseList(studentId);
   }
 
@@ -97,7 +101,7 @@ public class StudentController {
    * @return 正常に処理された場合、更新した受講生のコース情報を受け取る
    */
   @PutMapping("/updateStudentCourse")
-  public StudentCourse updateStudentCourse(@RequestBody StudentDetail studentDetail){
+  public StudentCourse updateStudentCourse(@RequestBody @Valid StudentDetail studentDetail){
     service.updateStudentCourse(studentDetail);
     return service.searchStudentCourse(studentDetail);
   }
