@@ -16,6 +16,7 @@ import raisetech.StudentManagement.controller.converter.StudentConverter;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
+import raisetech.StudentManagement.exception.TestException;
 import raisetech.StudentManagement.service.StudentService;
 
 /**
@@ -41,8 +42,20 @@ public class StudentController {
    * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
    */
   @GetMapping("/studentList")
-  public List<Student> getStudentList(@RequestParam("deleted") boolean deleted) {
-    return service.searchStudentList(deleted);
+  public List<Student> getStudentList(@RequestParam("deleted") boolean deleted){
+      return service.searchStudentList(deleted);
+  }
+
+  /**
+   * 未使用のAPI
+   * エラー文を返す
+   *
+   * @return
+   * @throws TestException エラーを返す
+   */
+  @GetMapping("/students")
+  public List<Student> getStudents() throws TestException {
+    throw new TestException("こちらのAPIは現在使用することができません。URLをご確認ください。");
   }
 
   /**
