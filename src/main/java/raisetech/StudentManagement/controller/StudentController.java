@@ -119,7 +119,7 @@ public class StudentController {
   @Operation(summary = "受講生基本情報更新",description = "受講生の基本情報を更新する")
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "更新する受講生情報")
   @PutMapping("/updateStudent")
-  public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
+  public ResponseEntity<Student> updateStudent(@RequestBody @Valid StudentDetail studentDetail){
     service.updateStudent(studentDetail);
     return ResponseEntity.ok(studentDetail.getStudent());
   }
