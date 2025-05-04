@@ -5,14 +5,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import raisetech.StudentManagement.exception.ExceptionMessage;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler{
 
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<Object> handlerValidationException(){
-    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-        .body("クエリパラメータの入力エラーです。1~3桁の数字を指定してください。");
+  public ResponseEntity<Object> handlerValidationException(ConstraintViolationException ex){
+    ExceptionMessage exceptionMessage =
+        new ExceptionMessage(ex.getMessage());
+    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionMessage);
   }
 
 }
