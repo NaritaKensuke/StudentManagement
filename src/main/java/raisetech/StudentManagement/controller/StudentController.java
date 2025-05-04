@@ -102,7 +102,7 @@ public class StudentController {
    * @return 正常に処理された場合、更新した受講生の基本情報を返す
    */
   @PutMapping("/updateStudent")
-  public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
+  public ResponseEntity<Student> updateStudent(@RequestBody @Valid StudentDetail studentDetail){
     service.updateStudent(studentDetail);
     return ResponseEntity.ok(studentDetail.getStudent());
   }
