@@ -1,22 +1,20 @@
 package raisetech.StudentManagement.data;
 
-import jakarta.validation.constraints.NotBlank;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDate;
 import lombok.Getter;
 import lombok.Setter;
 
+@Schema(description = "受講生コース情報")
 @Getter
 @Setter
 public class StudentCourse {
 
-  @NotBlank
   private String studentId;
 
-  @NotBlank
   private String courseId;
 
-  @NotBlank
   private String courseName;
 
   @NotNull
@@ -25,7 +23,6 @@ public class StudentCourse {
   @NotNull
   private LocalDate finishDate;
 
-  @NotBlank
   private String courseDetailId;
 
   private boolean deleted;
