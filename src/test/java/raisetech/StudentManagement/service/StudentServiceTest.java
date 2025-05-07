@@ -1,5 +1,6 @@
 package raisetech.StudentManagement.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -47,60 +48,71 @@ class StudentServiceTest {
   }
 
   @Test
-  void すべての受講生の基本情報一覧検索_false_リポジトリの処理が適切に呼び出せていること(){
+  void すべての受講生の基本情報一覧検索_false_リポジトリの処理_戻り値(){
     boolean deleted = false;
+    List<Student> expected = new ArrayList<>();
 
-    sut.searchStudentList(deleted);
+    List<Student> actual = sut.searchStudentList(deleted);
 
     verify(repository, times(1)).searchStudentList(deleted);
-
+    assertEquals(expected,actual);
   }
 
   @Test
-  void すべての受講生の基本情報一覧検索_true_リポジトリの処理が適切に呼び出せていること(){
+  void すべての受講生の基本情報一覧検索_true_リポジトリの処理_戻り値(){
     boolean deleted = true;
+    List<Student> expected = new ArrayList<>();
 
-    sut.searchStudentList(deleted);
+    List<Student> actual = sut.searchStudentList(deleted);
 
     verify(repository,times(1)).searchStudentList(deleted);
+    assertEquals(expected,actual);
   }
 
   @Test
-  void すべての受講生のコース情報一覧検索_false_リポジトリの処理が適切に呼び出せていること(){
+  void すべての受講生のコース情報一覧検索_false_リポジトリの処理_戻り値(){
     boolean deleted = false;
+    List<StudentCourse> expected = new ArrayList<>();
 
-    sut.searchAllStudentCourseList(deleted);
+    List<StudentCourse> actual = sut.searchAllStudentCourseList(deleted);
 
     verify(repository,times(1)).searchAllStudentCourseList(deleted);
+    assertEquals(expected,actual);
   }
 
   @Test
-  void すべての受講生のコース情報一覧検索_true_リポジトリの処理が適切に呼び出せていること(){
+  void すべての受講生のコース情報一覧検索_true_リポジトリの処理_戻り値(){
     boolean deleted = true;
+    List<StudentCourse> expected = new ArrayList<>();
 
-    sut.searchAllStudentCourseList(deleted);
+    List<StudentCourse> actual = sut.searchAllStudentCourseList(deleted);
 
     verify(repository,times(1)).searchAllStudentCourseList(deleted);
+    assertEquals(expected,actual);
   }
 
   @Test
-  void 指定の受講生のコース情報一覧検索_リポジトリの処理が適切に呼び出せていること(){
+  void 指定の受講生のコース情報一覧検索_リポジトリの処理_戻り値(){
     String studentId = "1";
+    List<StudentCourse> expected = new ArrayList<>();
 
-    sut.searchStudentCourseList(studentId);
+    List<StudentCourse> actual = sut.searchStudentCourseList(studentId);
 
     verify(repository,times(1)).searchStudentCourseList(studentId);
+    assertEquals(expected,actual);
   }
 
   @Test
-  void 単一の受講生コース情報検索_リポジトリの処理が適切に呼び出せていること(){
+  void 単一の受講生コース情報検索_リポジトリの処理_戻り値(){
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
+    StudentCourse expected = new StudentCourse();
 
-    sut.searchStudentCourse(studentDetail);
+    StudentCourse actual = sut.searchStudentCourse(studentDetail);
 
     verify(repository,times(1))
         .searchStudentCourse(studentDetail.getStudentCourseList().getFirst());
+    assertEquals(expected,actual);
   }
 
   @Test
@@ -122,7 +134,6 @@ class StudentServiceTest {
         .insertStudent(studentDetail.getStudent());
     verify(repository,times(1))
         .insertStudentCourse(studentDetail.getStudentCourseList().getFirst());
-
   }
 
   @Test
@@ -142,7 +153,6 @@ class StudentServiceTest {
 
     verify(repository,times(studentDetail.getStudentCourseList().size()))
         .insertStudentCourse(any(StudentCourse.class));
-
   }
 
   @Test
