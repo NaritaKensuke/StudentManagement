@@ -107,6 +107,9 @@ class StudentServiceTest {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
     StudentCourse expected = new StudentCourse();
+    StudentCourse studentCourse = new StudentCourse();
+    when(repository.searchStudentCourse(studentDetail.getStudentCourseList().getFirst()))
+        .thenReturn(expected);
 
     StudentCourse actual = sut.searchStudentCourse(studentDetail);
 
