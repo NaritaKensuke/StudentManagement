@@ -13,6 +13,7 @@ import raisetech.StudentManagement.data.StudentCourse;
 @Setter
 public class StudentDetail {
 
+  @Valid
   private Student student;
   @Valid
   private List<StudentCourse> studentCourseList;

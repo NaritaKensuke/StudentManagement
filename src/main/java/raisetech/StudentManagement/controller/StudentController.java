@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,7 @@ public class StudentController {
   @ApiResponse(responseCode = "400",description = "クエリパラメータの入力エラー")
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList(
-      @RequestParam("studentId") @Size(min = 1,max = 3) String studentId){
+      @RequestParam("studentId") @Size(min = 1,max = 3) @Pattern(regexp = "^\\d+$") String studentId){
     return service.searchStudentCourseList(studentId);
   }
 
@@ -119,7 +120,7 @@ public class StudentController {
   @Operation(summary = "受講生基本情報更新",description = "受講生の基本情報を更新する")
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "更新する受講生情報")
   @PutMapping("/updateStudent")
-  public ResponseEntity<Student> updateStudent(@RequestBody StudentDetail studentDetail){
+  public ResponseEntity<Student> updateStudent(@RequestBody @Valid StudentDetail studentDetail){
     service.updateStudent(studentDetail);
     return ResponseEntity.ok(studentDetail.getStudent());
   }
