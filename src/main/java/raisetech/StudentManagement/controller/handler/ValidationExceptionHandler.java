@@ -11,7 +11,8 @@ import raisetech.StudentManagement.exception.ExceptionMessage;
 public class ValidationExceptionHandler{
 
   @ExceptionHandler(ConstraintViolationException.class)
-  public ResponseEntity<Object> handlerValidationException(ConstraintViolationException ex){
+  public ResponseEntity<ExceptionMessage> handlerConstraintViolationException(
+      ConstraintViolationException ex){
     ExceptionMessage exceptionMessage =
         new ExceptionMessage(ex.getMessage());
     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exceptionMessage);

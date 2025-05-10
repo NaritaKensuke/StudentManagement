@@ -15,6 +15,7 @@ public class StudentDetail {
 
   @Valid
   private Student student;
+
   @Valid
   private List<StudentCourse> studentCourseList;
 
