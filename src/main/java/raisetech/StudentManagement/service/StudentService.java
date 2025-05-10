@@ -113,13 +113,16 @@ public class StudentService {
   public void updateStudent(StudentDetail studentDetail) {
     if (studentDetail.getStudent().isDeleted()){
       List<StudentCourse> studentCourseList;
+
       studentCourseList = repository.searchStudentCourseList(
           studentDetail.getStudent().getStudentId());
       studentCourseList.forEach(studentCourse -> {
         studentCourse.setDeleted(true);
         repository.updateStudentCourse(studentCourse);
       });
+
     }
+
     repository.updateStudent(studentDetail.getStudent());
   }
 
