@@ -13,7 +13,6 @@ import lombok.Setter;
 @Setter
 public class Student {
 
-  @NotBlank
   @Pattern(regexp = "^[0-9]{1,3}")
   private String studentId;
 
