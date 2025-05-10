@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,7 @@ public class StudentController {
   @ApiResponse(responseCode = "400",description = "クエリパラメータの入力エラー")
   @GetMapping("/studentCourseList")
   public List<StudentCourse> getStudentCourseList(
-      @RequestParam("studentId") @Size(min = 1,max = 3) String studentId){
+      @RequestParam("studentId") @Size(min = 1,max = 3) @Pattern(regexp = "^\\d+$") String studentId){
     return service.searchStudentCourseList(studentId);
   }
 
