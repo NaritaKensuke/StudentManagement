@@ -92,7 +92,7 @@ public class StudentService {
    * 
    * @param studentCourse 登録するコース名をもつコース情報を受け取る
    */
-  private void setCourseDetail(StudentCourse studentCourse) {
+  void setCourseDetail(StudentCourse studentCourse) {
     studentCourse.setStudentId(
         repository.searchStudentList(false).getLast().getStudentId());
     studentCourse.setCourseId(

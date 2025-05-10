@@ -6,6 +6,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -93,7 +94,7 @@ class StudentServiceTest {
 
   @Test
   void 指定の受講生のコース情報一覧検索_リポジトリの処理_戻り値(){
-    String studentId = "1";
+    String studentId = "テストID";
     List<StudentCourse> expected = new ArrayList<>();
 
     List<StudentCourse> actual = sut.searchStudentCourseList(studentId);
@@ -156,6 +157,32 @@ class StudentServiceTest {
 
     verify(repository,times(studentDetail.getStudentCourseList().size()))
         .insertStudentCourse(any(StudentCourse.class));
+  }
+
+  @Test
+  void コースID_開始日_終了日の自動登録_リポジトリの処理_適切な自動登録(){
+    Student student = new Student();
+    List<Student> studentList = new ArrayList<>();
+    studentList.add(student);
+    StudentCourse studentCourse = new StudentCourse();
+    String testCourseId = "テストID";
+    studentCourse.setCourseId(testCourseId);
+    List<StudentCourse> studentCourseList = new ArrayList<>();
+    studentCourseList.add(studentCourse);
+
+    when(repository.searchStudentList(false)).thenReturn(studentList);
+    when(repository.searchCourseName(studentCourse)).thenReturn(studentCourse);
+
+    sut.setCourseDetail(studentCourse);
+
+    verify(repository,times(1)).searchStudentList(false);
+    verify(repository,times(1))
+        .searchCourseName(studentCourse);
+    assertEquals(testCourseId,studentCourse.getCourseId());
+    assertEquals(LocalDate.now(),
+        studentCourse.getStartedDate());
+    assertEquals(LocalDate.now().plusMonths(6),
+        studentCourse.getFinishDate());
   }
 
   @Test
