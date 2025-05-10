@@ -28,11 +28,11 @@ class StudentServiceTest {
   private StudentService sut;
 
   @BeforeEach
-  void before(){
+  void before() {
     sut = new StudentService(repository);
   }
 
-  void setStudentDetail(StudentDetail studentDetail){
+  void setStudentDetail(StudentDetail studentDetail) {
     Student student = new Student();
     StudentCourse studentCourse = new StudentCourse();
     List<StudentCourse> studentCourseList = new ArrayList<>();
@@ -41,7 +41,7 @@ class StudentServiceTest {
     studentDetail.setStudent(student);
   }
 
-  void setStudentCourseList(StudentDetail studentDetail){
+  void setStudentCourseList(StudentDetail studentDetail) {
     StudentCourse studentCourse1 = new StudentCourse();
     StudentCourse studentCourse2 = new StudentCourse();
     studentDetail.getStudentCourseList().add(studentCourse1);
@@ -49,62 +49,62 @@ class StudentServiceTest {
   }
 
   @Test
-  void すべての受講生の基本情報一覧検索_false_リポジトリの処理_戻り値(){
+  void すべての受講生の基本情報一覧検索_false_リポジトリの処理_戻り値() {
     boolean deleted = false;
     List<Student> expected = new ArrayList<>();
 
     List<Student> actual = sut.searchStudentList(deleted);
 
     verify(repository, times(1)).searchStudentList(deleted);
-    assertEquals(expected,actual);
+    assertEquals(expected, actual);
   }
 
   @Test
-  void すべての受講生の基本情報一覧検索_true_リポジトリの処理_戻り値(){
+  void すべての受講生の基本情報一覧検索_true_リポジトリの処理_戻り値() {
     boolean deleted = true;
     List<Student> expected = new ArrayList<>();
 
     List<Student> actual = sut.searchStudentList(deleted);
 
-    verify(repository,times(1)).searchStudentList(deleted);
-    assertEquals(expected,actual);
+    verify(repository, times(1)).searchStudentList(deleted);
+    assertEquals(expected, actual);
   }
 
   @Test
-  void すべての受講生のコース情報一覧検索_false_リポジトリの処理_戻り値(){
+  void すべての受講生のコース情報一覧検索_false_リポジトリの処理_戻り値() {
     boolean deleted = false;
     List<StudentCourse> expected = new ArrayList<>();
 
     List<StudentCourse> actual = sut.searchAllStudentCourseList(deleted);
 
-    verify(repository,times(1)).searchAllStudentCourseList(deleted);
-    assertEquals(expected,actual);
+    verify(repository, times(1)).searchAllStudentCourseList(deleted);
+    assertEquals(expected, actual);
   }
 
   @Test
-  void すべての受講生のコース情報一覧検索_true_リポジトリの処理_戻り値(){
+  void すべての受講生のコース情報一覧検索_true_リポジトリの処理_戻り値() {
     boolean deleted = true;
     List<StudentCourse> expected = new ArrayList<>();
 
     List<StudentCourse> actual = sut.searchAllStudentCourseList(deleted);
 
-    verify(repository,times(1)).searchAllStudentCourseList(deleted);
-    assertEquals(expected,actual);
+    verify(repository, times(1)).searchAllStudentCourseList(deleted);
+    assertEquals(expected, actual);
   }
 
   @Test
-  void 指定の受講生のコース情報一覧検索_リポジトリの処理_戻り値(){
+  void 指定の受講生のコース情報一覧検索_リポジトリの処理_戻り値() {
     String studentId = "テストID";
     List<StudentCourse> expected = new ArrayList<>();
 
     List<StudentCourse> actual = sut.searchStudentCourseList(studentId);
 
-    verify(repository,times(1)).searchStudentCourseList(studentId);
-    assertEquals(expected,actual);
+    verify(repository, times(1)).searchStudentCourseList(studentId);
+    assertEquals(expected, actual);
   }
 
   @Test
-  void 単一の受講生コース情報検索_リポジトリの処理_戻り値(){
+  void 単一の受講生コース情報検索_リポジトリの処理_戻り値() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
     StudentCourse expected = new StudentCourse();
@@ -114,13 +114,13 @@ class StudentServiceTest {
 
     StudentCourse actual = sut.searchStudentCourse(studentDetail);
 
-    verify(repository,times(1))
+    verify(repository, times(1))
         .searchStudentCourse(studentDetail.getStudentCourseList().getFirst());
-    assertEquals(expected,actual);
+    assertEquals(expected, actual);
   }
 
   @Test
-  void 受講生情報の登録_リポジトリの処理が適切に呼び出せていること(){
+  void 受講生情報の登録_リポジトリの処理が適切に呼び出せていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
 
@@ -134,14 +134,14 @@ class StudentServiceTest {
 
     sut.registerStudent(studentDetail);
 
-    verify(repository,times(1))
+    verify(repository, times(1))
         .insertStudent(studentDetail.getStudent());
-    verify(repository,times(1))
+    verify(repository, times(1))
         .insertStudentCourse(studentDetail.getStudentCourseList().getFirst());
   }
 
   @Test
-  void 受講生情報の登録_ループ処理が適切に実行されていること(){
+  void 受講生情報の登録_ループ処理が適切に実行されていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
     setStudentCourseList(studentDetail);
@@ -155,12 +155,12 @@ class StudentServiceTest {
 
     sut.registerStudent(studentDetail);
 
-    verify(repository,times(studentDetail.getStudentCourseList().size()))
+    verify(repository, times(studentDetail.getStudentCourseList().size()))
         .insertStudentCourse(any(StudentCourse.class));
   }
 
   @Test
-  void コースID_開始日_終了日の自動登録_リポジトリの処理_適切な自動登録(){
+  void コースID_開始日_終了日の自動登録_リポジトリの処理_適切な自動登録() {
     Student student = new Student();
     List<Student> studentList = new ArrayList<>();
     studentList.add(student);
@@ -175,10 +175,10 @@ class StudentServiceTest {
 
     sut.setCourseDetail(studentCourse);
 
-    verify(repository,times(1)).searchStudentList(false);
-    verify(repository,times(1))
+    verify(repository, times(1)).searchStudentList(false);
+    verify(repository, times(1))
         .searchCourseName(studentCourse);
-    assertEquals(testCourseId,studentCourse.getCourseId());
+    assertEquals(testCourseId, studentCourse.getCourseId());
     assertEquals(LocalDate.now(),
         studentCourse.getStartedDate());
     assertEquals(LocalDate.now().plusMonths(6),
@@ -186,18 +186,18 @@ class StudentServiceTest {
   }
 
   @Test
-  void 受講生の基本情報更新_リポジトリの処理が適切に呼び出せていること(){
+  void 受講生の基本情報更新_リポジトリの処理が適切に呼び出せていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
 
     sut.updateStudent(studentDetail);
 
-    verify(repository,times(1))
+    verify(repository, times(1))
         .updateStudent(studentDetail.getStudent());
   }
 
   @Test
-  void 受講生の基本情報更新_ループ処理が適切に実行されていること(){
+  void 受講生の基本情報更新_ループ処理が適切に実行されていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
     setStudentCourseList(studentDetail);
@@ -207,12 +207,12 @@ class StudentServiceTest {
 
     sut.updateStudent(studentDetail);
 
-    verify(repository,times(studentDetail.getStudentCourseList().size()))
+    verify(repository, times(studentDetail.getStudentCourseList().size()))
         .updateStudentCourse(any(StudentCourse.class));
   }
 
   @Test
-  void 受講生のコース情報更新_リポジトリの処理が適切に呼び出せていること(){
+  void 受講生のコース情報更新_リポジトリの処理が適切に呼び出せていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
     when(repository
@@ -221,14 +221,14 @@ class StudentServiceTest {
 
     sut.updateStudentCourse(studentDetail);
 
-    verify(repository,times(1))
+    verify(repository, times(1))
         .searchCourseName(studentDetail.getStudentCourseList().getFirst());
-    verify(repository,times(1))
+    verify(repository, times(1))
         .updateStudentCourse(studentDetail.getStudentCourseList().getFirst());
   }
 
   @Test
-  void 受講生のコース情報更新_ループ処理が適切に実行されていること(){
+  void 受講生のコース情報更新_ループ処理が適切に実行されていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
     setStudentCourseList(studentDetail);
@@ -237,9 +237,9 @@ class StudentServiceTest {
 
     sut.updateStudentCourse(studentDetail);
 
-    verify(repository,times(studentDetail.getStudentCourseList().size()))
+    verify(repository, times(studentDetail.getStudentCourseList().size()))
         .searchCourseName(any(StudentCourse.class));
-    verify(repository,times(studentDetail.getStudentCourseList().size()))
+    verify(repository, times(studentDetail.getStudentCourseList().size()))
         .updateStudentCourse(any(StudentCourse.class));
   }
 
