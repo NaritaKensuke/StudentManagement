@@ -179,15 +179,10 @@ class StudentControllerTest {
 
   @Test
   void 受講生情報の基本情報で受講生IDに数字以外を用いた場合に入力チェックにかかること() {
-    Student student = new Student();
-    student.setStudentId("テストID");
-    student.setName("山田太郎");
-    student.setNameReading("やまだたろう");
-    student.setNickname("たろう");
-    student.setMailAddress("testmail@sample.com");
-    student.setCity("東京都千代田区");
-    student.setAge(99);
-    student.setGender("男");
+    Student student =
+        new Student("テストID", "山田太郎", "やまだたろう",
+            "たろう", "testmail@sample.com", "東京都千代田区", 99,
+            "男", "", false);
 
     Set<ConstraintViolation<Student>> validations = validator.validate(student);
 
@@ -196,15 +191,10 @@ class StudentControllerTest {
 
   @Test
   void 受講生の基本情報でメールアドレスにメールアドレスの形式以外を用いた場合に入力チェックにかかること() {
-    Student student = new Student();
-    student.setStudentId("999");
-    student.setName("山田太郎");
-    student.setNameReading("やまだたろう");
-    student.setNickname("たろう");
-    student.setMailAddress("testmail.sample.com");
-    student.setCity("東京都千代田区");
-    student.setAge(99);
-    student.setGender("男");
+    Student student =
+        new Student("999", "山田太郎", "やまだたろう",
+            "たろう", "testmail.sample.com", "東京都千代田区", 99,
+            "男", "", false);
 
     Set<ConstraintViolation<Student>> validations = validator.validate(student);
 
@@ -213,13 +203,9 @@ class StudentControllerTest {
 
   @Test
   void 受講生のコース情報で受講生IDに数字以外を用いた場合に入力チェックにかかること() {
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setStudentId("テストID");
-    studentCourse.setCourseId("C9");
-    studentCourse.setCourseName("テストコース");
-    studentCourse.setStartedDate(LocalDate.now());
-    studentCourse.setFinishDate(LocalDate.now().plusMonths(6));
-    studentCourse.setCourseDetailId("999");
+    StudentCourse studentCourse = new StudentCourse(
+        "テストID", "C9", "テストコース"
+        , LocalDate.now(), LocalDate.now().plusMonths(6), "999", false);
 
     Set<ConstraintViolation<StudentCourse>> validations = validator.validate(studentCourse);
 
@@ -228,13 +214,9 @@ class StudentControllerTest {
 
   @Test
   void 受講生のコース情報でコースIDに適する形式を用いなかった場合に入力チェックにかかること() {
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setStudentId("999");
-    studentCourse.setCourseId("A9");
-    studentCourse.setCourseName("テストコース");
-    studentCourse.setStartedDate(LocalDate.now());
-    studentCourse.setFinishDate(LocalDate.now().plusMonths(6));
-    studentCourse.setCourseDetailId("999");
+    StudentCourse studentCourse = new StudentCourse(
+        "999", "A10", "テストコース"
+        , LocalDate.now(), LocalDate.now().plusMonths(6), "999", false);
 
     Set<ConstraintViolation<StudentCourse>> validations = validator.validate(studentCourse);
 
