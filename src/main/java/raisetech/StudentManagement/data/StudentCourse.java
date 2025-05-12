@@ -5,12 +5,16 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Schema(description = "受講生コース情報")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StudentCourse {
 
   @NotBlank

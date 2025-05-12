@@ -11,13 +11,12 @@ import raisetech.StudentManagement.domain.StudentDetail;
 import raisetech.StudentManagement.repository.StudentRepository;
 
 /**
- * 受講生情報を取り扱うService
- * 受講生の検索や登録・更新処理を行う
+ * 受講生情報を取り扱うService 受講生の検索や登録・更新処理を行う
  */
 @Service
 public class StudentService {
 
-  private StudentRepository repository;
+  private final StudentRepository repository;
 
   @Autowired
 
@@ -84,12 +83,10 @@ public class StudentService {
 
   /**
    * コースID、開始日、終了日を自動で登録する
-   * 
-   * 受講生一覧を検索し、最後に登録した受講生の受講生IDを登録するコース情報に登録する
-   * 登録するコースのコースIDを検索し登録する
-   * コース開始日をコース情報を登録する日付で登録する
+   * <p>
+   * 受講生一覧を検索し、最後に登録した受講生の受講生IDを登録するコース情報に登録する 登録するコースのコースIDを検索し登録する コース開始日をコース情報を登録する日付で登録する
    * コース終了日をコース情報を登録する日付の6か月後で登録する
-   * 
+   *
    * @param studentCourse 登録するコース名をもつコース情報を受け取る
    */
   void setCourseDetail(StudentCourse studentCourse) {
@@ -103,15 +100,14 @@ public class StudentService {
 
   /**
    * 受講生の基本情報を更新する
-   *
-   * 更新する受講生情報の論理削除がtureだった場合、
-   * 該当の受講生の受講生IDをもつコース情報の論理削除をtrueに更新する
+   * <p>
+   * 更新する受講生情報の論理削除がtureだった場合、 該当の受講生の受講生IDをもつコース情報の論理削除をtrueに更新する
    *
    * @param studentDetail 更新する基本情報を受け取る
    */
   @Transactional
   public void updateStudent(StudentDetail studentDetail) {
-    if (studentDetail.getStudent().isDeleted()){
+    if (studentDetail.getStudent().isDeleted()) {
       List<StudentCourse> studentCourseList;
 
       studentCourseList = repository.searchStudentCourseList(
@@ -128,7 +124,7 @@ public class StudentService {
 
   /**
    * 受講生のコース情報を更新する
-   *
+   * <p>
    * 更新されたコース情報でコースIDを検索し登録する
    *
    * @param studentDetail 更新するコース情報を受け取る
