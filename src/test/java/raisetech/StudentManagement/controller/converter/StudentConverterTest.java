@@ -3,6 +3,7 @@ package raisetech.StudentManagement.controller.converter;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,14 +42,21 @@ class StudentConverterTest {
     List<StudentCourse> studentCourseList1 = List.of(testStudentCourse1);
     List<StudentCourse> studentCourseList2 = List.of(testStudentCourse2, testStudentCourse3);
 
-    StudentDetail expected1 = new StudentDetail(testStudent1, studentCourseList1);
-    StudentDetail expected2 = new StudentDetail(testStudent2, studentCourseList2);
+    StudentDetail studentDetail1 = new StudentDetail(testStudent1, studentCourseList1);
+    StudentDetail studentDetail2 = new StudentDetail(testStudent2, studentCourseList2);
+    List<StudentDetail> expected = new ArrayList<>();
+    expected.add(studentDetail1);
+    expected.add(studentDetail2);
 
     List<StudentDetail> actual = sut.convertStudentDetails(studentList, studentCourseList);
 
-    assertThat(actual.getFirst().getStudentCourseList()).isEqualTo(
-        expected1.getStudentCourseList());
-    assertThat(actual.get(1).getStudentCourseList()).isEqualTo(expected2.getStudentCourseList());
+    System.out.println("Expected: " + expected);
+    System.out.println("Actual: " + actual);
+
+    System.out.println("Expected: " + expected.hashCode());
+    System.out.println("Actual: " + actual.hashCode());
+
+    assertThat(actual).containsExactlyElementsOf(expected);
   }
 
 }
