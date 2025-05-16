@@ -49,14 +49,8 @@ class StudentConverterTest {
     expected.add(studentDetail2);
 
     List<StudentDetail> actual = sut.convertStudentDetails(studentList, studentCourseList);
-
-    System.out.println("Expected: " + expected);
-    System.out.println("Actual: " + actual);
-
-    System.out.println("Expected: " + expected.hashCode());
-    System.out.println("Actual: " + actual.hashCode());
-
-    assertThat(actual).containsExactlyElementsOf(expected);
+    
+    assertThat(actual).isEqualTo(expected);
   }
 
 }
