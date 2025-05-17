@@ -1,9 +1,9 @@
-INSERT INTO students (name,name_reading,nickname,mail_address,city,age,gender,is_delete)
-VALUES ('山田太郎', 'やまだたろう', 'たろう', 'taro@sample.jp', '愛知県名古屋市', 20, '男',false),
-       ('田中翔太', 'たなかしょうた', 'しょう', 'shota@sample.jp', '岐阜県恵那市', 30, '男',false),
-       ('山本美咲', 'やまもとみさき', 'みさみさ', 'misaki@sample.jp', '福岡県仙台市', 40, '女',false),
-       ('佐藤健一', 'さとうけんいち', 'けんちゃん', 'kennichi@sample.jp', '石川県金沢市', 20, '男',true),
-       ('鈴木真理', 'すずきまり', 'まりこ', 'mariko@sample.jp', '愛知県碧南市', 45, 'その他',true);
+INSERT INTO students (name,name_reading,nickname,mail_address,city,age,gender,remark,is_delete)
+VALUES ('山田太郎', 'やまだたろう', 'たろう', 'taro@sample.jp', '愛知県名古屋市', 20, '男','',false),
+       ('田中翔太', 'たなかしょうた', 'しょう', 'shota@sample.jp', '岐阜県恵那市', 30, '男','',false),
+       ('山本美咲', 'やまもとみさき', 'みさみさ', 'misaki@sample.jp', '福岡県仙台市', 40, '女','',false),
+       ('佐藤健一', 'さとうけんいち', 'けんちゃん', 'kennichi@sample.jp', '石川県金沢市', 20, '男','',true),
+       ('鈴木真理', 'すずきまり', 'まりこ', 'mariko@sample.jp', '愛知県碧南市', 45, 'その他','',true);
 
 INSERT INTO course_id_name (course_id,course_name)
 VALUES ('C1', 'Java'),
