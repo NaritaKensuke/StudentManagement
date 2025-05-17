@@ -49,12 +49,12 @@ class StudentRepositoryTest {
   @Test
   void 単一のコース情報検索ができること() {
     StudentCourse expected = new StudentCourse(
-        "1", "C1", "Java", LocalDate.ofEpochDay(2024 - 8 - 23),
-        LocalDate.ofEpochDay(2025 - 2 - 23), "1", false);
+        "1", "C1", "Java", LocalDate.of(2024, 8, 23),
+        LocalDate.of(2025, 2, 23), "1", false);
 
     StudentCourse actual = sut.searchStudentCourse(expected);
 
-    assertThat(actual.getCourseDetailId()).isEqualTo(expected.getCourseDetailId());
+    assertThat(actual).isEqualTo(expected);
   }
 
   @ParameterizedTest
@@ -70,34 +70,32 @@ class StudentRepositoryTest {
 
   @Test
   void 受講生の基本情報を登録できること() {
-    Student student = new Student();
-    student.setName("石橋敬之");
-    student.setNameReading("いしばしのりゆき");
-    student.setNickname("のり");
-    student.setMailAddress("ishibasshi@sample.jp");
-    student.setCity("愛知県豊橋市");
-    student.setAge(21);
-    student.setGender("男");
+    Student student =
+        new Student("", "石橋敬之", "いしばしのりゆき", "のり",
+            "ishibasshi@sample.jp", "愛知県豊橋市", 21, "男", "", false);
 
     sut.insertStudent(student);
     List<Student> actual = sut.searchStudentList(false);
 
-    assertThat(actual).isEqualTo(4);
+    student.setStudentId("6");
+
+    assertThat(actual.size()).isEqualTo(4);
+    assertThat(actual.getLast()).isEqualTo(student);
   }
 
   @Test
   void 受講生のコース情報を登録できること() {
-    StudentCourse studentCourse = new StudentCourse();
-    studentCourse.setStudentId("1");
-    studentCourse.setCourseId("C2");
-    studentCourse.setCourseName("英会話");
-    studentCourse.setStartedDate(LocalDate.now());
-    studentCourse.setFinishDate(LocalDate.now().plusMonths(6));
+    StudentCourse studentCourse =
+        new StudentCourse("1", "C2", "英会話",
+            LocalDate.now(), LocalDate.now().plusMonths(6), "", false);
 
     sut.insertStudentCourse(studentCourse);
     List<StudentCourse> actual = sut.searchAllStudentCourseList(false);
 
+    studentCourse.setCourseDetailId("10");
+
     assertThat(actual.size()).isEqualTo(7);
+    assertThat(actual.get(3)).isEqualTo(studentCourse);
   }
 
   @Test
@@ -108,18 +106,20 @@ class StudentRepositoryTest {
     sut.updateStudent(student);
     List<Student> actual = sut.searchStudentList(false);
 
-    assertThat(actual.getFirst().getNickname()).isEqualTo(student.getNickname());
+    assertThat(actual.getFirst()).isEqualTo(student);
   }
 
   @Test
   void 受講生のコース情報更新ができること() {
-    StudentCourse studentCourse = new StudentCourse("1", "C1", "Java",
-        LocalDate.ofEpochDay(2024 - 8 - 23), LocalDate.ofEpochDay(2025 - 3 - 23), "1", false);
+    StudentCourse studentCourse =
+        new StudentCourse("1", "C1", "Java",
+            LocalDate.of(2024, 8, 23), LocalDate.of(2025, 3, 23),
+            "1", false);
 
     sut.updateStudentCourse(studentCourse);
     StudentCourse actual = sut.searchStudentCourse(studentCourse);
 
-    assertThat(actual.getFinishDate()).isEqualTo(studentCourse.getFinishDate());
+    assertThat(actual).isEqualTo(studentCourse);
   }
 
 }
