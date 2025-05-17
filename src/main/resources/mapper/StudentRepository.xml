@@ -42,16 +42,33 @@
 
   <!-- 受講生の基本情報登録 -->
   <insert id="insertStudent">
-    INSERT students
-    values(#{studentId},#{name},#{nameReading},#{nickname},
+    INSERT INTO students (name,name_reading,nickname,mail_address,city,age,gender,remark,is_delete)
+    values(#{name},#{nameReading},#{nickname},
     #{mailAddress},#{city},#{age},#{gender},#{remark},false)
   </insert>
 
   <!-- 受講生のコース情報登録 -->
   <insert id="insertStudentCourse">
-    INSERT students_courses
-    values(#{courseDetailId},#{studentId},#{courseId},#{courseName},
+    INSERT INTO students_courses
+    (student_id,course_id,course_name,started_date,finish_date,is_delete)
+    values(#{studentId},#{courseId},#{courseName},
     #{startedDate},#{finishDate}, false)
   </insert>
+
+  <!-- 受講生の基本情報更新 -->
+  <update id="updateStudent">
+    Update students
+    SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname}, mail_address=#{mailAddress},
+    city=#{city}, age=#{age}, gender=#{gender}, remark=#{remark}, is_delete=#{deleted}
+    WHERE student_id=#{studentId}
+  </update>
+
+  <!-- 受講生のコース情報更新 -->
+  <update id="updateStudentCourse">
+    UPDATE students_courses
+    SET course_id=#{courseId}, course_name=#{courseName}, started_date=#{startedDate},
+    finish_date=#{finishDate}, is_delete=#{deleted}
+    WHERE course_detail_id=#{courseDetailId}
+  </update>
 
 </mapper>
