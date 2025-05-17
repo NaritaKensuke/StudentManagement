@@ -2,7 +2,6 @@ package raisetech.StudentManagement.repository;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Update;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 
@@ -71,9 +70,6 @@ public interface StudentRepository {
    *
    * @param student 更新する受講生の基本情報を受け取る
    */
-  @Update("Update students SET name=#{name}, name_reading=#{nameReading},nickname=#{nickname},"
-      + "mail_address=#{mailAddress}, city=#{city}, age=#{age}, gender=#{gender},"
-      + "remark=#{remark}, is_delete=#{deleted} WHERE student_id=#{studentId}")
   void updateStudent(Student student);
 
   /**
@@ -81,9 +77,6 @@ public interface StudentRepository {
    *
    * @param studentCourse 更新する受講生のコース情報を受け取る
    */
-  @Update("UPDATE students_courses SET course_id=#{courseId}, course_name=#{courseName},"
-      + " started_date=#{startedDate}, finish_date=#{finishDate}, is_delete=#{deleted}"
-      + " WHERE course_detail_id=#{courseDetailId}")
   void updateStudentCourse(StudentCourse studentCourse);
 
 }
