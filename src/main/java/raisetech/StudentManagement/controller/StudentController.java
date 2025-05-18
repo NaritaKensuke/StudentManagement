@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.data.CourseState;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -53,9 +54,24 @@ public class StudentController {
   }
 
   /**
+   * 指定した条件で受講生の基本情報を一覧検索する
+   *
+   * @param filter 条件名を受け取る
+   * @param value  条件の値を受け取る
+   * @return 検索した受講生の基本情報一覧を返す
+   */
+  @Operation(summary = "受講生一覧", description = "指定した条件で受講生の基本情報一覧を検索する")
+  @Parameter(description = "条件名")
+  @Parameter(description = "条件の値")
+  @GetMapping("/filterStudentList")
+  public List<Student> getFilterStudentList(@RequestParam String filter,
+      @RequestParam String value) {
+    return service.searchFilterStudentList(filter, value);
+  }
+
+  /**
    * 未使用のAPI エラー文を返す
    *
-   * @return
    * @throws TestException エラーを返す
    */
   @Operation(summary = "未使用", description = "未使用のAPI")
@@ -93,6 +109,33 @@ public class StudentController {
   public List<StudentCourse> getStudentCourseList(
       @RequestParam("studentId") @Size(min = 1, max = 3) @Pattern(regexp = "^\\d+$") String studentId) {
     return service.searchStudentCourseList(studentId);
+  }
+
+  /**
+   * すべてのコースの申込状況一覧を検索する
+   *
+   * @return 申込状況リストを返す
+   */
+  @Operation(summary = "申込状況一覧", description = "すべてのコースの申込状況一覧を検索する")
+  @GetMapping("/courseStateList")
+  public List<CourseState> getCourseState() {
+    return service.searchCourseStateList();
+  }
+
+  /**
+   * 指定のコースの申込状況を検索する
+   *
+   * @param courseDetailId コース情報固有ID
+   * @return 検索した申込状況を返す
+   */
+  @Operation(summary = "申込状況", description = "指定のコースの申込状況を検索する")
+  @Parameter(description = "コース情報固有ID")
+  @ApiResponse(responseCode = "200", description = "成功")
+  @ApiResponse(responseCode = "400", description = "クエリパラメータの入力エラーです")
+  @GetMapping("/courseState")
+  public CourseState courseState(@RequestParam("courseDetailId") @Pattern(regexp = "^\\d+$")
+  String courseDetailId) {
+    return service.searchCourseState(courseDetailId);
   }
 
   /**
@@ -138,6 +181,22 @@ public class StudentController {
   public StudentCourse updateStudentCourse(@RequestBody @Valid StudentDetail studentDetail) {
     service.updateStudentCourse(studentDetail);
     return service.searchStudentCourse(studentDetail);
+  }
+
+  /**
+   * コースの申込状況を更新する
+   *
+   * @param courseState 更新する申込状況を受け取る
+   * @return 正常に処理された場合、更新した受講背のコース情報を受け取る
+   */
+  @Operation(summary = "申し込み状況更新")
+  @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "更新する申込状況")
+  @ApiResponse(responseCode = "200", description = "成功")
+  @ApiResponse(responseCode = "400", description = "更新情報の入力エラーです")
+  @PutMapping("/updateCourseState")
+  public CourseState updateCourseState(@RequestBody @Valid CourseState courseState) {
+    service.updateCourseState(courseState);
+    return service.searchCourseState(courseState.getCourseDetailId());
   }
 
 }

@@ -10,6 +10,37 @@
     WHERE is_delete=#{deleted}
   </select>
 
+  <!-- 受講生IDで受講生の基本情報検索 -->
+  <select id="searchStudentListWhereStudentId"
+    resultType="raisetech.StudentManagement.data.Student">
+    SELECT *
+    FROM students
+    WHERE student_id=#{studentId}
+  </select>
+
+  <!-- ふりがなで受講生の基本情報一覧検索 -->
+  <select id="searchStudentListWhereNameReading"
+    resultType="raisetech.StudentManagement.data.Student">
+    SELECT *
+    FROM students
+    WHERE name_reading=#{nameReading}
+  </select>
+
+  <!-- 性別で受講生の基本情報検索 -->
+  <select id="searchStudentListWhereGender"
+    resultType="raisetech.StudentManagement.data.Student">
+    SELECT *
+    FROM students
+    WHERE gender=#{gender}
+  </select>
+
+  <!-- 年齢で受講生の基本情報一覧検索 -->
+  <select id="searchStudentListWhereAge" resultType="raisetech.StudentManagement.data.Student">
+    SELECT *
+    FROM students
+    WHERE age BETWEEN #{age} AND #{age}+9
+  </select>
+
   <!-- すべての受講生のコース情報検索 -->
   <select id="searchAllStudentCourseList"
     resultType="raisetech.StudentManagement.data.StudentCourse">
@@ -17,6 +48,14 @@
     FROM students_courses
     WHERE is_delete=#{deleted}
     ORDER BY course_id
+  </select>
+
+  <!-- コースIDでコース情報一覧検索 -->
+  <select id="searchAllStudentCourseListWhereCourseId"
+    resultType="raisetech.StudentManagement.data.StudentCourse">
+    SELECT *
+    FROM students_courses
+    WHERE course_id=#{courseId}
   </select>
 
   <!-- 指定の受講生コース情報検索 -->
@@ -40,6 +79,19 @@
     WHERE course_name=#{courseName}
   </select>
 
+  <!-- すべてのコースの申込状況検索 -->
+  <select id="searchCourseStateList" resultType="raisetech.StudentManagement.data.CourseState">
+    SELECT *
+    FROM courses_state
+  </select>
+
+  <!-- 指定のコースの申込状況検索 -->
+  <select id="searchCourseState" resultType="raisetech.StudentManagement.data.CourseState">
+    SELECT *
+    FROM courses_state
+    WHERE course_detail_id=#{courseDetailId}
+  </select>
+
   <!-- 受講生の基本情報登録 -->
   <insert id="insertStudent">
     INSERT INTO students (name,name_reading,nickname,mail_address,city,age,gender,remark,is_delete)
@@ -53,6 +105,13 @@
     (student_id,course_id,course_name,started_date,finish_date,is_delete)
     values(#{studentId},#{courseId},#{courseName},
     #{startedDate},#{finishDate}, false)
+  </insert>
+
+  <!-- コースの申込状況登録 -->
+  <insert id="insertCourseState">
+    INSERT INTO courses_state
+    (course_detail_id,state)
+    values(#{courseDetailId}, '仮登録')
   </insert>
 
   <!-- 受講生の基本情報更新 -->
@@ -69,6 +128,13 @@
     SET course_id=#{courseId}, course_name=#{courseName}, started_date=#{startedDate},
     finish_date=#{finishDate}, is_delete=#{deleted}
     WHERE course_detail_id=#{courseDetailId}
+  </update>
+
+  <!-- コースの申込状況更新 -->
+  <update id="updateCourseState">
+    UPDATE courses_state
+    SET state_id=#{stateId}, course_detail_id=#{courseDetailId}, state=#{state}
+    WHERE state_id=#{stateId}
   </update>
 
 </mapper>

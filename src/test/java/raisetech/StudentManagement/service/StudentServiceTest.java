@@ -12,8 +12,11 @@ import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import raisetech.StudentManagement.data.CourseState;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -70,6 +73,17 @@ class StudentServiceTest {
     assertEquals(expected, actual);
   }
 
+  @ParameterizedTest
+  @CsvSource({"受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
+  void 指定した条件で受講生の基本情報を一覧検索_戻り値(String filter,
+      String value) {
+    List<Student> expected = new ArrayList<>();
+
+    List<Student> actual = sut.searchFilterStudentList(filter, value);
+
+    assertEquals(expected, actual);
+  }
+
   @Test
   void すべての受講生のコース情報一覧検索_false_リポジトリの処理_戻り値() {
     boolean deleted = false;
@@ -120,6 +134,28 @@ class StudentServiceTest {
   }
 
   @Test
+  void すべてのコースの申込状況一覧検索_リポジトリの処理_戻り値() {
+    List<CourseState> expected = new ArrayList<>();
+
+    List<CourseState> actual = sut.searchCourseStateList();
+
+    verify(repository, times(1)).searchCourseStateList();
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 単一のコースの申し込み状況一覧検索_リポジトリの処理_戻り値() {
+    String courseDetailId = "999";
+    CourseState expected = new CourseState();
+    when(repository.searchCourseState(courseDetailId)).thenReturn(new CourseState());
+
+    CourseState actual = sut.searchCourseState(courseDetailId);
+
+    verify(repository, times(1)).searchCourseState(courseDetailId);
+    assertEquals(expected, actual);
+  }
+
+  @Test
   void 受講生情報の登録_リポジトリの処理が適切に呼び出せていること() {
     StudentDetail studentDetail = new StudentDetail();
     setStudentDetail(studentDetail);
@@ -132,12 +168,20 @@ class StudentServiceTest {
         .searchCourseName(any(StudentCourse.class)))
         .thenReturn(new StudentCourse());
 
+    studentDetail.getStudentCourseList().getLast().setCourseDetailId("999");
+
+    when(repository
+        .searchAllStudentCourseListWhereCourseId(null))
+        .thenReturn(studentDetail.getStudentCourseList());
+
     sut.registerStudent(studentDetail);
 
     verify(repository, times(1))
         .insertStudent(studentDetail.getStudent());
     verify(repository, times(1))
         .insertStudentCourse(studentDetail.getStudentCourseList().getFirst());
+    verify(repository, times(1))
+        .insertCourseState(studentDetail.getStudentCourseList().getLast().getCourseDetailId());
   }
 
   @Test
@@ -153,10 +197,15 @@ class StudentServiceTest {
     when(repository.searchCourseName(any(StudentCourse.class)))
         .thenReturn(new StudentCourse());
 
+    when(repository.searchAllStudentCourseListWhereCourseId(null))
+        .thenReturn(studentDetail.getStudentCourseList());
+
     sut.registerStudent(studentDetail);
 
     verify(repository, times(studentDetail.getStudentCourseList().size()))
         .insertStudentCourse(any(StudentCourse.class));
+    verify(repository, times(studentDetail.getStudentCourseList().size()))
+        .insertCourseState(null);
   }
 
   @Test
@@ -241,6 +290,15 @@ class StudentServiceTest {
         .searchCourseName(any(StudentCourse.class));
     verify(repository, times(studentDetail.getStudentCourseList().size()))
         .updateStudentCourse(any(StudentCourse.class));
+  }
+
+  @Test
+  void コースの申込状況更新_リポジトリの処理が適切に呼び出せていること() {
+    CourseState courseState = new CourseState();
+
+    sut.updateCourseState(courseState);
+
+    verify(repository, times(1)).updateCourseState(courseState);
   }
 
 }

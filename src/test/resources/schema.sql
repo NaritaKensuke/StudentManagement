@@ -32,3 +32,11 @@ CREATE TABLE students_courses
   FOREIGN KEY (course_id) REFERENCES course_id_name (course_id)
 );
 
+CREATE TABLE courses_state
+(
+state_id INT AUTO_INCREMENT PRIMARY KEY,
+course_detail_id INT,
+state VARCHAR(4) DEFAULT '仮登録',
+FOREIGN KEY (course_detail_id) REFERENCES students_courses (course_detail_id)
+);
+
