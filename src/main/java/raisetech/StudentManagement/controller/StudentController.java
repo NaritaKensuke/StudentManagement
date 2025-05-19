@@ -43,30 +43,22 @@ public class StudentController {
   /**
    * すべての受講生の基本情報一覧を検索する
    *
-   * @param deleted 論理削除の情報を受け取る
-   * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
-   */
-  @Operation(summary = "受講生一覧", description = "すべての受講生の基本情報一覧を検索する")
-  @Parameter(description = "論理削除")
-  @GetMapping("/studentList")
-  public List<Student> getStudentList(@RequestParam("deleted") boolean deleted) {
-    return service.searchStudentList(deleted);
-  }
-
-  /**
-   * 指定した条件で受講生の基本情報を一覧検索する
-   *
    * @param filter 条件名を受け取る
    * @param value  条件の値を受け取る
-   * @return 検索した受講生の基本情報一覧を返す
+   * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
    */
-  @Operation(summary = "受講生一覧", description = "指定した条件で受講生の基本情報一覧を検索する")
+  @Operation(summary = "受講生一覧",
+      description = "すべての受講生の基本情報一覧を検索する・条件を指定して検索することも可能")
   @Parameter(description = "条件名")
   @Parameter(description = "条件の値")
-  @GetMapping("/filterStudentList")
-  public List<Student> getFilterStudentList(@RequestParam String filter,
-      @RequestParam String value) {
-    return service.searchFilterStudentList(filter, value);
+  @GetMapping("/studentList")
+  public List<Student> getStudentList(
+      @RequestParam(required = false, value = "filter") String filter,
+      @RequestParam(required = false, value = "value") String value) {
+    if (filter != null) {
+      return service.searchFilterStudentList(filter, value);
+    }
+    return service.searchStudentList();
   }
 
   /**
@@ -142,7 +134,7 @@ public class StudentController {
    * 受講生情報を登録する
    *
    * @param studentDetail 登録する受講生情報を受け取る
-   * @return 正常に処理された場合、論理削除がfalseの受講生情報リストを返す
+   * @return 正常に処理された場合、すべての受講生情報リストを返す
    */
   @Operation(summary = "受講生登録", description = "受講生情報を登録する")
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "受講生情報")
@@ -150,7 +142,7 @@ public class StudentController {
   public ResponseEntity<List> registerStudent(
       @RequestBody StudentDetail studentDetail) {
     service.registerStudent(studentDetail);
-    return ResponseEntity.ok(service.searchStudentList(false));
+    return ResponseEntity.ok(service.searchStudentList());
   }
 
   /**
@@ -194,7 +186,7 @@ public class StudentController {
   @ApiResponse(responseCode = "200", description = "成功")
   @ApiResponse(responseCode = "400", description = "更新情報の入力エラーです")
   @PutMapping("/updateCourseState")
-  public CourseState updateCourseState(@RequestBody @Valid CourseState courseState) {
+  public CourseState renewalCourseState(@RequestBody @Valid CourseState courseState) {
     service.updateCourseState(courseState);
     return service.searchCourseState(courseState.getCourseDetailId());
   }

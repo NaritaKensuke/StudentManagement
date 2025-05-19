@@ -26,14 +26,8 @@ public class StudentService {
     this.repository = repository;
   }
 
-  /**
-   * すべての受講生の基本情報一覧を検索する
-   *
-   * @param deleted 論理削除の情報を受け取る
-   * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
-   */
-  public List<Student> searchStudentList(boolean deleted) {
-    return repository.searchStudentList(deleted);
+  public List<Student> searchStudentList() {
+    return repository.searchStudentList();
   }
 
   /**
@@ -46,10 +40,13 @@ public class StudentService {
   public List<Student> searchFilterStudentList(String filter, String value) {
     List<List<Student>> studentList = new ArrayList<>();
     switch (filter) {
+      case "削除" -> studentList.add(repository.searchStudentListWhereDeleted(
+          Boolean.parseBoolean(value)));
       case "受講生ID" -> studentList.add(repository.searchStudentListWhereStudentId(value));
       case "なまえ" -> studentList.add(repository.searchStudentListWhereNameReading(value));
       case "性別" -> studentList.add(repository.searchStudentListWhereGender(value));
       case "年齢" -> studentList.add(repository.searchStudentListWhereAge(Integer.parseInt(value)));
+      default -> studentList.add(new ArrayList<>());
     }
     return studentList.getFirst();
   }
@@ -134,7 +131,7 @@ public class StudentService {
    */
   void setCourseDetail(StudentCourse studentCourse) {
     studentCourse.setStudentId(
-        repository.searchStudentList(false).getLast().getStudentId());
+        repository.searchStudentListWhereDeleted(false).getLast().getStudentId());
     studentCourse.setCourseId(
         repository.searchCourseName(studentCourse).getCourseId());
     studentCourse.setStartedDate(LocalDate.now());

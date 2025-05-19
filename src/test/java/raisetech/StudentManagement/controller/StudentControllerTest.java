@@ -44,22 +44,20 @@ class StudentControllerTest {
 
   private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-  @ParameterizedTest
-  @ValueSource(strings = {"false", "true"})
-  void すべての受講生の基本情報一覧検索_正常に実行できること(boolean deleted)
+  @Test
+  void すべての受講生の基本情報一覧検索_適切なメソッドを呼び出していること_正常に実行できること()
       throws Exception {
-    mockMvc.perform(get("/studentList")
-            .param("deleted", String.valueOf(deleted)))
+    mockMvc.perform(get("/studentList"))
         .andExpect(status().isOk());
 
-    verify(service, times(1)).searchStudentList(deleted);
+    verify(service, times(1)).searchStudentList();
   }
 
   @ParameterizedTest
-  @CsvSource({"受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
-  void 指定した条件で受講生の基本情報を一覧検索_正常に実行できること(String filter, String value)
-      throws Exception {
-    mockMvc.perform(get("/filterStudentList")
+  @CsvSource({"削除,false", "受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
+  void すべての受講生の基本情報一覧検索_適切なメソッドを呼び出していること_正常に実行できること(
+      String filter, String value) throws Exception {
+    mockMvc.perform(get("/studentList")
             .param("filter", filter)
             .param("value", value))
         .andExpect(status().isOk());
@@ -139,7 +137,7 @@ class StudentControllerTest {
         .andExpect(status().isOk());
 
     verify(service, times(1)).registerStudent(any(StudentDetail.class));
-    verify(service, times(1)).searchStudentList(false);
+    verify(service, times(1)).searchStudentList();
   }
 
   @Test

@@ -13,12 +13,19 @@ import raisetech.StudentManagement.data.StudentCourse;
 public interface StudentRepository {
 
   /**
-   * すべての受講生の基本情報一覧を検索する 検索条件として論理削除の情報を使用する
+   * すべての受講生の基本情報一覧を検索する
+   *
+   * @return 検索した基本情報一覧を返す
+   */
+  List<Student> searchStudentList();
+
+  /**
+   * 論理削除情報で受講生の基本情報一覧を検索する
    *
    * @param deleted 論理削除の情報を受け取る
-   * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
+   * @return 論理削除情報で検索した受講生の基本情報を返す
    */
-  List<Student> searchStudentList(boolean deleted);
+  List<Student> searchStudentListWhereDeleted(boolean deleted);
 
   /**
    * 受講生IDで受講生の基本情報を検索する

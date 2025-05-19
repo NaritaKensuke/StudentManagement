@@ -52,31 +52,29 @@ class StudentServiceTest {
   }
 
   @Test
-  void すべての受講生の基本情報一覧検索_false_リポジトリの処理_戻り値() {
-    boolean deleted = false;
+  void すべての受講生の基本情報一覧検索_リポジトリの処理_戻り値() {
     List<Student> expected = new ArrayList<>();
 
-    List<Student> actual = sut.searchStudentList(deleted);
+    List<Student> actual = sut.searchStudentList();
 
-    verify(repository, times(1)).searchStudentList(deleted);
-    assertEquals(expected, actual);
-  }
-
-  @Test
-  void すべての受講生の基本情報一覧検索_true_リポジトリの処理_戻り値() {
-    boolean deleted = true;
-    List<Student> expected = new ArrayList<>();
-
-    List<Student> actual = sut.searchStudentList(deleted);
-
-    verify(repository, times(1)).searchStudentList(deleted);
+    verify(repository, times(1)).searchStudentList();
     assertEquals(expected, actual);
   }
 
   @ParameterizedTest
   @CsvSource({"受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
-  void 指定した条件で受講生の基本情報を一覧検索_戻り値(String filter,
-      String value) {
+  void 指定した条件で受講生の基本情報を一覧検索_戻り値(String filter, String value) {
+    List<Student> expected = new ArrayList<>();
+
+    List<Student> actual = sut.searchFilterStudentList(filter, value);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 条件名が不適切の場合空のリストを返すこと() {
+    String filter = "テスト";
+    String value = "テスト";
     List<Student> expected = new ArrayList<>();
 
     List<Student> actual = sut.searchFilterStudentList(filter, value);
@@ -162,7 +160,7 @@ class StudentServiceTest {
 
     List<Student> studentList = new ArrayList<>();
     studentList.add(studentDetail.getStudent());
-    when(repository.searchStudentList(false)).thenReturn(studentList);
+    when(repository.searchStudentListWhereDeleted(false)).thenReturn(studentList);
 
     when(repository
         .searchCourseName(any(StudentCourse.class)))
@@ -192,7 +190,7 @@ class StudentServiceTest {
 
     List<Student> studentList = new ArrayList<>();
     studentList.add(studentDetail.getStudent());
-    when(repository.searchStudentList(false)).thenReturn(studentList);
+    when(repository.searchStudentListWhereDeleted(false)).thenReturn(studentList);
 
     when(repository.searchCourseName(any(StudentCourse.class)))
         .thenReturn(new StudentCourse());
@@ -219,12 +217,12 @@ class StudentServiceTest {
     List<StudentCourse> studentCourseList = new ArrayList<>();
     studentCourseList.add(studentCourse);
 
-    when(repository.searchStudentList(false)).thenReturn(studentList);
+    when(repository.searchStudentListWhereDeleted(false)).thenReturn(studentList);
     when(repository.searchCourseName(studentCourse)).thenReturn(studentCourse);
 
     sut.setCourseDetail(studentCourse);
 
-    verify(repository, times(1)).searchStudentList(false);
+    verify(repository, times(1)).searchStudentListWhereDeleted(false);
     verify(repository, times(1))
         .searchCourseName(studentCourse);
     assertEquals(testCourseId, studentCourse.getCourseId());

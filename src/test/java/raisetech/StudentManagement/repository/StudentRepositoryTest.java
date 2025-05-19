@@ -21,13 +21,36 @@ class StudentRepositoryTest {
   @Autowired
   StudentRepository sut;
 
+  @Test
+  void すべての受講生の基本情報一覧検索ができること() {
+    List<Student> expected = new ArrayList<>();
+    Student student = new Student("1", "山田太郎", "やまだたろう", "たろう",
+        "taro@sample.jp", "愛知県名古屋市", 20, "男", "", false);
+    Student student1 = new Student("2", "田中翔太", "たなかしょうた", "しょう",
+        "shota@sample.jp", "岐阜県恵那市", 30, "男", "", false);
+    Student student2 = new Student("3", "山本美咲", "やまもとみさき", "みさみさ",
+        "misaki@sample.jp", "福岡県仙台市", 40, "女", "", false);
+    Student student3 = new Student("4", "佐藤健一", "さとうけんいち", "けんちゃん",
+        "kennichi@sample.jp", "石川県金沢市", 20, "男", "", false);
+    Student student4 = new Student("5", "鈴木真理", "すずきまり", "まりこ",
+        "mariko@sample.jp", "愛知県碧南市", 45, "その他", "", false);
+    expected.add(student);
+    expected.add(student1);
+    expected.add(student2);
+    expected.add(student3);
+    expected.add(student4);
+
+    List<Student> actual = sut.searchStudentList();
+
+    assertThat(actual.size()).isEqualTo(5);
+    assertThat(actual).isEqualTo(expected);
+  }
+
   @ParameterizedTest
   @CsvSource({
       "false,3",
       "true,2"})
-  void すべての受講生の基本情報一覧検索ができること(boolean deleted, int size) {
-    List<Student> actual = sut.searchStudentList(deleted);
-
+  void 指定の論理削除情報の受講生基本情報一覧検索ができること(boolean deleted, int size) {
     List<Student> expected = new ArrayList<>();
     if (!deleted) {
       Student student = new Student("1", "山田太郎", "やまだたろう", "たろう",
@@ -47,6 +70,8 @@ class StudentRepositoryTest {
       expected.add(student);
       expected.add(student1);
     }
+
+    List<Student> actual = sut.searchStudentListWhereDeleted(deleted);
 
     assertThat(actual.size()).isEqualTo(size);
     assertThat(actual).isEqualTo(expected);
@@ -363,7 +388,7 @@ class StudentRepositoryTest {
             "ishibasshi@sample.jp", "愛知県豊橋市", 21, "男", "", false);
 
     sut.insertStudent(student);
-    List<Student> actual = sut.searchStudentList(false);
+    List<Student> actual = sut.searchStudentListWhereDeleted(false);
 
     student.setStudentId("6");
 
@@ -407,7 +432,7 @@ class StudentRepositoryTest {
         "taro@sample.jp", "愛知県名古屋市", 20, "男", "", false);
 
     sut.updateStudent(student);
-    List<Student> actual = sut.searchStudentList(false);
+    List<Student> actual = sut.searchStudentListWhereDeleted(false);
 
     assertThat(actual.getFirst()).isEqualTo(student);
   }
