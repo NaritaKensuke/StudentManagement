@@ -185,8 +185,8 @@ public class StudentController {
   @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "更新する申込状況")
   @ApiResponse(responseCode = "200", description = "成功")
   @ApiResponse(responseCode = "400", description = "更新情報の入力エラーです")
-  @PutMapping("/updateCourseState")
-  public CourseState renewalCourseState(@RequestBody @Valid CourseState courseState) {
+  @PutMapping("/courseState")
+  public CourseState updateCourseState(@RequestBody @Valid CourseState courseState) {
     service.updateCourseState(courseState);
     return service.searchCourseState(courseState.getCourseDetailId());
   }

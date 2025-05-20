@@ -227,7 +227,7 @@ class StudentControllerTest {
           "state" : "受講中"
         }
         """;
-    mockMvc.perform(put("/updateCourseState")
+    mockMvc.perform(put("/courseState")
             .contentType(MediaType.APPLICATION_JSON)
             .content(courseStateJson))
         .andExpect(status().isOk());
