@@ -16,6 +16,7 @@ import java.time.LocalDate;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import raisetech.StudentManagement.controller.converter.StudentConverter;
+import raisetech.StudentManagement.data.CourseState;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -42,15 +44,25 @@ class StudentControllerTest {
 
   private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-  @ParameterizedTest
-  @ValueSource(strings = {"false", "true"})
-  void すべての受講生の基本情報一覧検索_正常に実行できること(boolean deleted)
+  @Test
+  void すべての受講生の基本情報一覧検索_適切なメソッドを呼び出していること_正常に実行できること()
       throws Exception {
-    mockMvc.perform(get("/studentList")
-            .param("deleted", String.valueOf(deleted)))
+    mockMvc.perform(get("/studentList"))
         .andExpect(status().isOk());
 
-    verify(service, times(1)).searchStudentList(deleted);
+    verify(service, times(1)).searchStudentList();
+  }
+
+  @ParameterizedTest
+  @CsvSource({"削除,false", "受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
+  void すべての受講生の基本情報一覧検索_適切なメソッドを呼び出していること_正常に実行できること(
+      String filter, String value) throws Exception {
+    mockMvc.perform(get("/studentList")
+            .param("filter", filter)
+            .param("value", value))
+        .andExpect(status().isOk());
+
+    verify(service, times(1)).searchFilterStudentList(filter, value);
   }
 
   @ParameterizedTest
@@ -82,6 +94,35 @@ class StudentControllerTest {
   }
 
   @Test
+  void すべてのコースの申込状況一覧検索_正常に実行できること() throws Exception {
+    mockMvc.perform(get("/courseStateList"))
+        .andExpect(status().isOk());
+
+    verify(service, times(1)).searchCourseStateList();
+  }
+
+  @Test
+  void 単一のコースの申込状況検索_正常に実行できること() throws Exception {
+    String courseDetailId = "999";
+
+    mockMvc.perform(get("/courseState")
+            .param("courseDetailId", courseDetailId))
+        .andExpect(status().isOk());
+
+    verify(service, times(1)).searchCourseState(courseDetailId);
+  }
+
+  @Test
+  void 単一のコースの申し込み状況検索_クエリパラメータを数字以外で指定した時に400エラーとなること()
+      throws Exception {
+    String courseDetailId = "テストID";
+
+    mockMvc.perform(get("/courseState")
+            .param("courseDetailId", courseDetailId))
+        .andExpect(status().is(400));
+  }
+
+  @Test
   void 受講生情報の登録_正常に実行できること() throws Exception {
     String studentDetail = """
         {
@@ -96,7 +137,7 @@ class StudentControllerTest {
         .andExpect(status().isOk());
 
     verify(service, times(1)).registerStudent(any(StudentDetail.class));
-    verify(service, times(1)).searchStudentList(false);
+    verify(service, times(1)).searchStudentList();
   }
 
   @Test
@@ -178,6 +219,24 @@ class StudentControllerTest {
   }
 
   @Test
+  void コースの申込状況更新_正常に実行できていること() throws Exception {
+    String courseStateJson = """
+        {
+          "stateId" : "1",
+          "courseDetailId" : "1",
+          "state" : "受講中"
+        }
+        """;
+    mockMvc.perform(put("/courseState")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(courseStateJson))
+        .andExpect(status().isOk());
+
+    verify(service, times(1)).updateCourseState(any(CourseState.class));
+    verify(service, times(1)).searchCourseState(any(String.class));
+  }
+
+  @Test
   void 受講生情報の基本情報で受講生IDに数字以外を用いた場合に入力チェックにかかること() {
     Student student =
         new Student("テストID", "山田太郎", "やまだたろう",
@@ -223,4 +282,57 @@ class StudentControllerTest {
     assertThat(validations.size()).isEqualTo(1);
   }
 
+  @Test
+  void コースの申込状況で申し込み状況IDが空白の場合に入力チェックにかかること() {
+    CourseState courseState = new CourseState("", "999", "仮登録");
+
+    Set<ConstraintViolation<CourseState>> validations = validator.validate(courseState);
+
+    assertThat(validations.size()).isEqualTo(2);
+  }
+
+  @Test
+  void コースの申込状況で申し込み状況IDに数字以外を用いた場合に入力チェックにかかること() {
+    CourseState courseState = new CourseState("テストID", "999", "仮登録");
+
+    Set<ConstraintViolation<CourseState>> validations = validator.validate(courseState);
+
+    assertThat(validations.size()).isEqualTo(1);
+  }
+
+  @Test
+  void コースの申込状況でコース情報固有IDが空白の場合に入力チェックにかかること() {
+    CourseState courseState = new CourseState("999", "", "仮登録");
+
+    Set<ConstraintViolation<CourseState>> validations = validator.validate(courseState);
+
+    assertThat(validations.size()).isEqualTo(2);
+  }
+
+  @Test
+  void コースの申込状況でコース情報固有IDに数字以外を用いた場合に入力チェックにかかること() {
+    CourseState courseState = new CourseState("999", "テストID", "仮登録");
+
+    Set<ConstraintViolation<CourseState>> validations = validator.validate(courseState);
+
+    assertThat(validations.size()).isEqualTo(1);
+  }
+
+  @Test
+  void コースの申込状況で申込状況が空白の場合に入力チェックにかかること() {
+    CourseState courseState = new CourseState("999", "999", "");
+
+    Set<ConstraintViolation<CourseState>> validations = validator.validate(courseState);
+
+    assertThat(validations.size()).isEqualTo(3);
+  }
+
+  @Test
+  void コースの申込状況で申込状況に適する形式を用いなかった場合に入力チェックにかかること() {
+    CourseState courseState = new CourseState("999", "999", "テスト状況");
+
+    Set<ConstraintViolation<CourseState>> validations = validator.validate(courseState);
+
+    assertThat(validations.size()).isEqualTo(2);
+  }
 }

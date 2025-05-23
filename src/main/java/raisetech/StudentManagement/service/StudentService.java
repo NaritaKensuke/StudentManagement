@@ -1,10 +1,12 @@
 package raisetech.StudentManagement.service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import raisetech.StudentManagement.data.CourseState;
 import raisetech.StudentManagement.data.Student;
 import raisetech.StudentManagement.data.StudentCourse;
 import raisetech.StudentManagement.domain.StudentDetail;
@@ -24,14 +26,29 @@ public class StudentService {
     this.repository = repository;
   }
 
+  public List<Student> searchStudentList() {
+    return repository.searchStudentList();
+  }
+
   /**
-   * すべての受講生の基本情報一覧を検索する
+   * 指定した条件で受講生の基本情報を一覧検索する
    *
-   * @param deleted 論理削除の情報を受け取る
-   * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
+   * @param filter 条件名を受け取る
+   * @param value  条件の値を受け取る
+   * @return 検索した受講生の基本情報一覧を返す
    */
-  public List<Student> searchStudentList(boolean deleted) {
-    return repository.searchStudentList(deleted);
+  public List<Student> searchFilterStudentList(String filter, String value) {
+    List<List<Student>> studentList = new ArrayList<>();
+    switch (filter) {
+      case "削除" -> studentList.add(repository.searchStudentListWhereDeleted(
+          Boolean.parseBoolean(value)));
+      case "受講生ID" -> studentList.add(repository.searchStudentListWhereStudentId(value));
+      case "なまえ" -> studentList.add(repository.searchStudentListWhereNameReading(value));
+      case "性別" -> studentList.add(repository.searchStudentListWhereGender(value));
+      case "年齢" -> studentList.add(repository.searchStudentListWhereAge(Integer.parseInt(value)));
+      default -> studentList.add(new ArrayList<>());
+    }
+    return studentList.getFirst();
   }
 
   /**
@@ -65,7 +82,26 @@ public class StudentService {
   }
 
   /**
-   * 受講生の基本情報とコース情報を登録する
+   * すべてのコースの申込状況一覧を検索する
+   *
+   * @return 検索した申し込み状況一覧を返す
+   */
+  public List<CourseState> searchCourseStateList() {
+    return repository.searchCourseStateList();
+  }
+
+  /**
+   * 指定のコースの申込状況を検索する
+   *
+   * @param courseDetailId コース情報固有IDを受け取る
+   * @return 検索した申込状況を返す
+   */
+  public CourseState searchCourseState(String courseDetailId) {
+    return repository.searchCourseState(courseDetailId);
+  }
+
+  /**
+   * 受講生の基本情報とコース情報を登録する コースの申込状況を登録する
    *
    * @param studentDetail 登録する受講生情報を受け取る
    */
@@ -78,6 +114,10 @@ public class StudentService {
     studentCourseList.forEach(studentCourse -> {
       setCourseDetail(studentCourse);
       repository.insertStudentCourse(studentCourse);
+
+      List<StudentCourse> studentCourses =
+          repository.searchAllStudentCourseListWhereCourseId(studentCourse.getCourseId());
+      repository.insertCourseState(studentCourses.getLast().getCourseDetailId());
     });
   }
 
@@ -91,7 +131,7 @@ public class StudentService {
    */
   void setCourseDetail(StudentCourse studentCourse) {
     studentCourse.setStudentId(
-        repository.searchStudentList(false).getLast().getStudentId());
+        repository.searchStudentListWhereDeleted(false).getLast().getStudentId());
     studentCourse.setCourseId(
         repository.searchCourseName(studentCourse).getCourseId());
     studentCourse.setStartedDate(LocalDate.now());
@@ -116,9 +156,7 @@ public class StudentService {
         studentCourse.setDeleted(true);
         repository.updateStudentCourse(studentCourse);
       });
-
     }
-
     repository.updateStudent(studentDetail.getStudent());
   }
 
@@ -137,4 +175,16 @@ public class StudentService {
       repository.updateStudentCourse(studentCourse);
     });
   }
+
+  /**
+   * コースの申込状況を更新する
+   *
+   * @param courseState 更新する申込状況を受け取る
+   */
+  @Transactional
+  public void updateCourseState(CourseState courseState) {
+    repository.updateCourseState(courseState);
+  }
+
 }
+
