@@ -43,8 +43,8 @@ public class StudentController {
   /**
    * すべての受講生の基本情報一覧を検索する
    *
-   * @param filter 条件名を受け取る
-   * @param value  条件の値を受け取る
+   * @param filter1 条件名を受け取る
+   * @param value1  条件の値を受け取る
    * @return 論理削除がtrueの受講生リストもしくはfalseの受講生リストを返す
    */
   @Operation(summary = "受講生一覧",
@@ -53,10 +53,16 @@ public class StudentController {
   @Parameter(description = "条件の値")
   @GetMapping("/studentList")
   public List<Student> getStudentList(
-      @RequestParam(required = false, value = "filter") String filter,
-      @RequestParam(required = false, value = "value") String value) {
-    if (filter != null) {
-      return service.searchFilterStudentList(filter, value);
+      @RequestParam(required = false, value = "filter1") String filter1,
+      @RequestParam(required = false, value = "value1") String value1,
+      @RequestParam(required = false, value = "filter2") String filter2,
+      @RequestParam(required = false, value = "value2") String value2) {
+    if (filter1 != null) {
+      if (filter2 == null) {
+        return service.searchFilterStudentList(filter1, value1);
+      } else {
+        return service.searchFilterStudentList2(filter1, value1, filter2, value2);
+      }
     }
     return service.searchStudentList();
   }

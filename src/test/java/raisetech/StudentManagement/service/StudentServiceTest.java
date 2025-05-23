@@ -62,25 +62,116 @@ class StudentServiceTest {
   }
 
   @ParameterizedTest
-  @CsvSource({"受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
-  void 指定した条件で受講生の基本情報を一覧検索_戻り値(String filter, String value) {
+  @CsvSource({"削除,false", "受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
+  void 指定した条件で受講生の基本情報を一覧検索_1つの条件_戻り値(String filter1, String value1) {
     List<Student> expected = new ArrayList<>();
 
-    List<Student> actual = sut.searchFilterStudentList(filter, value);
+    List<Student> actual = sut.searchFilterStudentList(filter1, value1);
 
     assertEquals(expected, actual);
   }
 
   @Test
-  void 条件名が不適切の場合空のリストを返すこと() {
-    String filter = "テスト";
-    String value = "テスト";
+  void 指定した条件で受講生の基本情報を一覧検索_条件名が不適切の場合空のリストを返すこと() {
+    String filter1 = "テスト";
+    String value1 = "テスト";
     List<Student> expected = new ArrayList<>();
 
-    List<Student> actual = sut.searchFilterStudentList(filter, value);
+    List<Student> actual = sut.searchFilterStudentList(filter1, value1);
 
     assertEquals(expected, actual);
   }
+
+  @ParameterizedTest
+  @CsvSource({"削除,false,性別,男", "受講生ID,999,性別,男", "なまえ,テスト,性別,男",
+      "性別,男,年齢,999", "年齢,999,削除,false"})
+  void 指定した条件で受講生の基本情報を一覧検索_2つの条件_戻り値(String filter1, String value1,
+      String filter2, String value2) {
+    List<Student> expected = new ArrayList<>();
+
+    List<Student> actual = sut.searchFilterStudentList2(filter1, value1, filter2, value2);
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 指定した条件で受講生の基本情報を一覧検索_2つ目の条件名が不適切の場合空のリストを返すこと() {
+    String filter1 = "削除";
+    String value1 = "false";
+    String filter2 = "テスト";
+    String value2 = "テスト";
+    List<Student> expected = new ArrayList<>();
+
+    List<Student> actual = sut.searchFilterStudentList2(filter1, value1, filter2, value2);
+
+    assertEquals(expected, actual);
+  }
+
+  List<Student> setStudentList(List<Student> studentList) {
+    Student student = new Student("1", "山田太郎", "やまだたろう", "たろう",
+        "taro@sample.jp", "愛知県名古屋市", 20, "男", "", false);
+    Student student1 = new Student("2", "田中翔太", "たなかしょうた", "しょう",
+        "shota@sample.jp", "岐阜県恵那市", 32, "男", "", false);
+    Student student2 = new Student("3", "山本美咲", "やまもとみさき", "みさみさ",
+        "misaki@sample.jp", "福岡県仙台市", 40, "女", "", false);
+    Student student3 = new Student("4", "佐藤健一", "さとうけんいち", "けんちゃん",
+        "kennichi@sample.jp", "石川県金沢市", 27, "男", "", true);
+    Student student4 = new Student("5", "鈴木真理", "すずきまり", "まりこ",
+        "mariko@sample.jp", "愛知県碧南市", 45, "その他", "", true);
+
+    studentList.add(student);
+    studentList.add(student1);
+    studentList.add(student2);
+    studentList.add(student3);
+    studentList.add(student4);
+
+    return studentList;
+  }
+
+  @Test
+  void 論理削除情報でフィルター処理_valueの値でフィルターできていること() {
+    List<Student> studentList = new ArrayList<>();
+    setStudentList(studentList);
+
+    List<Student> expected = new ArrayList<>();
+    expected.add(studentList.getFirst());
+    expected.add(studentList.get(1));
+    expected.add(studentList.get(2));
+
+    List<Student> actual = sut.filterStudentListByDeleted(studentList, "false");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 年齢でフィルター処理_valueの値でフィルターできていること() {
+    List<Student> studentList = new ArrayList<>();
+    setStudentList(studentList);
+
+    List<Student> expected = new ArrayList<>();
+    expected.add(studentList.getFirst());
+    expected.add(studentList.get(3));
+
+    List<Student> actual = sut.filterStudentListByAge(studentList, "20");
+
+    assertEquals(expected, actual);
+  }
+
+  @Test
+  void 性別でフィルター処理_valueの値でフィルターできていること() {
+    List<Student> studentList = new ArrayList<>();
+    setStudentList(studentList);
+
+    List<Student> expected = new ArrayList<>();
+    expected.add(studentList.getFirst());
+    expected.add(studentList.get(1));
+    expected.add(studentList.get(3));
+
+    List<Student> actual = sut.filterStudentListByGender(studentList, "男");
+
+    assertEquals(expected, actual);
+  }
+
 
   @Test
   void すべての受講生のコース情報一覧検索_false_リポジトリの処理_戻り値() {
