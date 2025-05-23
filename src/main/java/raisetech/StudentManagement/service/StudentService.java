@@ -3,6 +3,7 @@ package raisetech.StudentManagement.service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,22 +34,86 @@ public class StudentService {
   /**
    * 指定した条件で受講生の基本情報を一覧検索する
    *
-   * @param filter 条件名を受け取る
-   * @param value  条件の値を受け取る
+   * @param filter1 条件名を受け取る
+   * @param value1  条件の値を受け取る
    * @return 検索した受講生の基本情報一覧を返す
    */
-  public List<Student> searchFilterStudentList(String filter, String value) {
+  public List<Student> searchFilterStudentList(String filter1, String value1) {
     List<List<Student>> studentList = new ArrayList<>();
-    switch (filter) {
-      case "削除" -> studentList.add(repository.searchStudentListWhereDeleted(
-          Boolean.parseBoolean(value)));
-      case "受講生ID" -> studentList.add(repository.searchStudentListWhereStudentId(value));
-      case "なまえ" -> studentList.add(repository.searchStudentListWhereNameReading(value));
-      case "性別" -> studentList.add(repository.searchStudentListWhereGender(value));
-      case "年齢" -> studentList.add(repository.searchStudentListWhereAge(Integer.parseInt(value)));
-      default -> studentList.add(new ArrayList<>());
-    }
+    studentList.add(switch (filter1) {
+      case "削除" -> repository.searchStudentListWhereDeleted(Boolean.parseBoolean(value1));
+      case "受講生ID" -> repository.searchStudentListWhereStudentId(value1);
+      case "なまえ" -> repository.searchStudentListWhereNameReading(value1);
+      case "性別" -> repository.searchStudentListWhereGender(value1);
+      case "年齢" -> repository.searchStudentListWhereAge(Integer.parseInt(value1));
+      default -> new ArrayList<>();
+    });
+
     return studentList.getFirst();
+  }
+
+  /**
+   * 指定した2つの条件で受講生の基本情報を一覧検索する
+   *
+   * @param filter1 １つ目の条件名を受け取る
+   * @param value1  1つ目の条件の値を受け取る
+   * @param filter2 2つ目の条件名を受け取る
+   * @param value2  2つ目の条件の値を受け取る
+   * @return 2つの条件で検索した基本情報一覧を返す
+   */
+  public List<Student> searchFilterStudentList2(String filter1, String value1,
+      String filter2, String value2) {
+    List<List<Student>> studentList = new ArrayList<>();
+    studentList.add(searchFilterStudentList(filter1, value1));
+
+    studentList.set(0, switch (filter2) {
+      case "削除" -> filterStudentListByDeleted(studentList.getFirst(), value2);
+      case "性別" -> filterStudentListByGender(studentList.getFirst(), value2);
+      case "年齢" -> filterStudentListByAge(studentList.getFirst(), value2);
+      default -> studentList.getFirst();
+    });
+
+    return studentList.getFirst();
+  }
+
+  /**
+   * 論理削除情報でフィルター処理する
+   *
+   * @param studentList 受講生の基本情報一覧を受け取る
+   * @param value       フィルターする条件を受け取る
+   * @return valueの値でフィルターした受講生の基本情報一覧を受け取る
+   */
+  List<Student> filterStudentListByDeleted(List<Student> studentList, String value) {
+    return studentList.stream()
+        .filter(student -> Boolean.parseBoolean(value) == student.isDeleted())
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * 年齢でフィルター処理する valueで受け取った年齢から受け取った年齢より9歳上までの年齢情報でフィルター処理する
+   *
+   * @param studentList 受講生の基本情報一覧を受け取る
+   * @param value       フィルターする条件を受け取る
+   * @return valueの値でフィルターした受講生の基本情報一覧を受け取る
+   */
+  List<Student> filterStudentListByAge(List<Student> studentList, String value) {
+    int age = Integer.parseInt(value);
+    return studentList.stream()
+        .filter(student -> age <= student.getAge() && student.getAge() < (age + 9))
+        .collect(Collectors.toList());
+  }
+
+  /**
+   * 性別でフィルター処理する
+   *
+   * @param studentList 受講生の基本情報一覧を受け取る
+   * @param value       フィルターする条件を受け取る
+   * @return valueの値でフィルターした受講生の基本情報一覧を受け取る
+   */
+  List<Student> filterStudentListByGender(List<Student> studentList, String value) {
+    return studentList.stream()
+        .filter(student -> value.equals(student.getGender()))
+        .collect(Collectors.toList());
   }
 
   /**

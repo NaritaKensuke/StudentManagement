@@ -56,13 +56,27 @@ class StudentControllerTest {
   @ParameterizedTest
   @CsvSource({"削除,false", "受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
   void すべての受講生の基本情報一覧検索_適切なメソッドを呼び出していること_正常に実行できること(
-      String filter, String value) throws Exception {
+      String filter1, String value1) throws Exception {
     mockMvc.perform(get("/studentList")
-            .param("filter", filter)
-            .param("value", value))
+            .param("filter1", filter1)
+            .param("value1", value1))
         .andExpect(status().isOk());
 
-    verify(service, times(1)).searchFilterStudentList(filter, value);
+    verify(service, times(1))
+        .searchFilterStudentList(filter1, value1);
+  }
+
+  @ParameterizedTest
+  @CsvSource({"削除,false", "受講生ID,999", "なまえ,テスト", "性別,男", "年齢,999"})
+  void すべての受講生の基本情報一覧検索_クエリパラメータを渡さない(String filter1, String value1)
+      throws Exception {
+    mockMvc.perform(get("/studentList")
+            .param("filter1", filter1)
+            .param("value1", value1))
+        .andExpect(status().isOk());
+
+    verify(service, times(1))
+        .searchFilterStudentList(filter1, value1);
   }
 
   @ParameterizedTest
